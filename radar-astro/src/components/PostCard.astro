@@ -34,7 +34,7 @@ const date = post.publishedAt ? formatDateShort(post.publishedAt) : '';
     )}
     <div class="p-6 flex flex-col justify-between">
       <div>
-        {post.category && <span class={tagClass}>{post.category.title}</span>}
+        {post.category && <span class={tagClass}>{post.category.name}</span>}
         {post.importance === 'urgente' && <span class="rt-tag rt-tag-red ml-1">Urgente</span>}
         <a href={href}>
           <h2 class="mt-3 text-xl font-bold text-rt-navy leading-snug group-hover:text-rt-red transition-colors" style="font-family:'Rubik',sans-serif">
@@ -60,7 +60,7 @@ const date = post.publishedAt ? formatDateShort(post.publishedAt) : '';
     )}
     <div class="p-4 flex flex-col flex-1">
       <div class="flex-1">
-        {post.category && <span class={tagClass}>{post.category.title}</span>}
+        {post.category && <span class={tagClass}>{post.category.name}</span>}
         <a href={href}>
           <h3 class="mt-2 text-base font-bold text-rt-navy leading-snug group-hover:text-rt-red transition-colors line-clamp-3" style="font-family:'Rubik',sans-serif">
             {post.title}
@@ -80,7 +80,7 @@ const date = post.publishedAt ? formatDateShort(post.publishedAt) : '';
   <article class="group grid grid-cols-[1fr_auto] gap-3 py-3.5 border-b border-rt-border hover:bg-white hover:-mx-2 hover:px-2 transition-all">
     <div>
       <div class="flex items-center gap-2 mb-1">
-        {post.category && <span class={tagClass}>{post.category.title}</span>}
+        {post.category && <span class={tagClass}>{post.category.name}</span>}
         {post.importance === 'urgente' && <span class="rt-tag rt-tag-red">Urgente</span>}
       </div>
       <a href={href}>

@@ -7,9 +7,9 @@ const postFields = `
   importance,
   featured,
   coverImage,
-  "category": category->{_id, title, slug, color},
+  "category": category->{_id, name, slug, color},
   "author": author->{_id, name, slug, photo},
-  "tags": tags[]->{_id, title, slug}
+  "tags": tags[]->{_id, name, slug}
 `;
 
 export const homeFeaturedQuery = `*[_type == "post" && status == "publicado" && featured == true] | order(publishedAt desc)[0...3] {
@@ -33,15 +33,15 @@ export const postBySlugQuery = `*[_type == "post" && slug.current == $slug && st
 }`;
 
 export const categoryBySlugQuery = `*[_type == "category" && slug.current == $slug][0] {
-  _id, title, slug, description, color
+  _id, name, slug, description, color
 }`;
 
 export const postsByCategoryQuery = `*[_type == "post" && status == "publicado" && category->slug.current == $slug] | order(publishedAt desc) {
   ${postFields}
 }`;
 
-export const allCategoriesQuery = `*[_type == "category"] | order(title asc) {
-  _id, title, slug, color
+export const allCategoriesQuery = `*[_type == "category"] | order(name asc) {
+  _id, name, slug, color
 }`;
 
 export const allPublishedSlugsQuery = `*[_type == "post" && status == "publicado"] {

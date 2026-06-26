@@ -20,12 +20,12 @@ const colorClass = category.color === 'rt-tag-red' ? 'rt-tag-red' : category.col
 ---
 
 <BaseLayout
-  title={`${category.title} | Radar Tributario`}
-  description={category.description ?? `Artículos sobre ${category.title} en Radar Tributario.`}
+  title={`${category.name} | Radar Tributario`}
+  description={category.description ?? `Artículos sobre ${category.name} en Radar Tributario.`}
 >
   <div class="max-w-7xl mx-auto px-4 py-8">
     <div class="mb-6">
-      <span class={`rt-tag rt-tag-${colorClass} text-base px-3 py-1`}>{category.title}</span>
+      <span class={`rt-tag rt-tag-${colorClass} text-base px-3 py-1`}>{category.name}</span>
       {category.description && (
         <p class="mt-3 text-rt-muted text-sm max-w-2xl">{category.description}</p>
       )}

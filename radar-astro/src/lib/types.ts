@@ -17,7 +17,7 @@ export interface Author {
 
 export interface Category {
   _id: string;
-  title: string;
+  name: string;
   slug: { current: string };
   color?: 'rt-tag-red' | 'rt-tag-teal' | 'rt-tag-navy';
   description?: string;
@@ -25,7 +25,7 @@ export interface Category {
 
 export interface Tag {
   _id: string;
-  title: string;
+  name: string;
   slug: { current: string };
 }
 
