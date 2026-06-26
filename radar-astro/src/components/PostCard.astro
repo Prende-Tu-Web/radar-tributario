@@ -1,0 +1,100 @@
+---
+import type { Post } from '../lib/types';
+import { urlFor } from '../lib/urlFor';
+import { formatDateShort } from '../lib/formatDate';
+
+interface Props {
+  post: Post;
+  variant?: 'card' | 'dense' | 'featured';
+}
+
+const { post, variant = 'card' } = Astro.props;
+
+const categoryColorMap: Record<string, string> = {
+  'rt-tag-red': 'rt-tag rt-tag-red',
+  'rt-tag-teal': 'rt-tag rt-tag-teal',
+  'rt-tag-navy': 'rt-tag rt-tag-navy',
+};
+const tagClass = categoryColorMap[post.category?.color ?? ''] ?? 'rt-tag rt-tag-navy';
+
+const imgUrl = post.coverImage
+  ? urlFor(post.coverImage).width(variant === 'featured' ? 800 : 400).height(variant === 'featured' ? 480 : 260).fit('crop').url()
+  : null;
+
+const href = `/noticias/${post.slug.current}/`;
+const date = post.publishedAt ? formatDateShort(post.publishedAt) : '';
+---
+
+{variant === 'featured' && (
+  <article class="group grid md:grid-cols-2 gap-0 border border-rt-border bg-white overflow-hidden">
+    {imgUrl && (
+      <a href={href} class="block overflow-hidden">
+        <img src={imgUrl} alt={post.coverImage?.alt ?? post.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 min-h-[260px]" loading="lazy" />
+      </a>
+    )}
+    <div class="p-6 flex flex-col justify-between">
+      <div>
+        {post.category && <span class={tagClass}>{post.category.title}</span>}
+        {post.importance === 'urgente' && <span class="rt-tag rt-tag-red ml-1">Urgente</span>}
+        <a href={href}>
+          <h2 class="mt-3 text-xl font-bold text-rt-navy leading-snug group-hover:text-rt-red transition-colors" style="font-family:'Rubik',sans-serif">
+            {post.title}
+          </h2>
+        </a>
+        {post.summary && <p class="mt-2 text-sm text-rt-muted leading-relaxed line-clamp-3">{post.summary}</p>}
+      </div>
+      <div class="mt-4 flex items-center gap-3 text-xs text-rt-muted" style="font-family:'Montserrat',sans-serif">
+        {post.author && <span class="font-medium text-rt-text">{post.author.name}</span>}
+        {date && <span>{date}</span>}
+      </div>
+    </div>
+  </article>
+)}
+
+{variant === 'card' && (
+  <article class="group bg-white border border-rt-border overflow-hidden flex flex-col hover:shadow-md transition-shadow">
+    {imgUrl && (
+      <a href={href} class="block overflow-hidden aspect-[16/9]">
+        <img src={imgUrl} alt={post.coverImage?.alt ?? post.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+      </a>
+    )}
+    <div class="p-4 flex flex-col flex-1">
+      <div class="flex-1">
+        {post.category && <span class={tagClass}>{post.category.title}</span>}
+        <a href={href}>
+          <h3 class="mt-2 text-base font-bold text-rt-navy leading-snug group-hover:text-rt-red transition-colors line-clamp-3" style="font-family:'Rubik',sans-serif">
+            {post.title}
+          </h3>
+        </a>
+        {post.summary && <p class="mt-1.5 text-xs text-rt-muted leading-relaxed line-clamp-2">{post.summary}</p>}
+      </div>
+      <div class="mt-3 flex items-center gap-2 text-[11px] text-rt-muted border-t border-rt-border pt-3" style="font-family:'Montserrat',sans-serif">
+        {post.author && <span class="font-medium text-rt-text">{post.author.name}</span>}
+        {date && <span class="ml-auto">{date}</span>}
+      </div>
+    </div>
+  </article>
+)}
+
+{variant === 'dense' && (
+  <article class="group grid grid-cols-[1fr_auto] gap-3 py-3.5 border-b border-rt-border hover:bg-white hover:-mx-2 hover:px-2 transition-all">
+    <div>
+      <div class="flex items-center gap-2 mb-1">
+        {post.category && <span class={tagClass}>{post.category.title}</span>}
+        {post.importance === 'urgente' && <span class="rt-tag rt-tag-red">Urgente</span>}
+      </div>
+      <a href={href}>
+        <h3 class="text-sm font-semibold text-rt-navy leading-snug group-hover:text-rt-red transition-colors" style="font-family:'Rubik',sans-serif">
+          {post.title}
+        </h3>
+      </a>
+      <div class="flex items-center gap-2 mt-1 text-[11px] text-rt-muted" style="font-family:'Montserrat',sans-serif">
+        {post.author && <span>{post.author.name}</span>}
+        {date && <span>{date}</span>}
+      </div>
+    </div>
+    <div class="text-[10px] font-semibold text-rt-muted whitespace-nowrap mt-1 text-right" style="font-family:'Montserrat',sans-serif">
+      5 min
+    </div>
+  </article>
+)}

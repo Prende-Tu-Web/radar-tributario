@@ -1,0 +1,47 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-rt-navy text-white mt-16">
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+      <div>
+        <img src="/logo.png" alt="Radar Tributario" class="h-10 w-auto mb-4 brightness-0 invert" />
+        <p class="text-sm text-gray-300 leading-relaxed" style="font-family:'Montserrat',sans-serif">
+          El referente en análisis tributario para Chile. Información clara, oportuna y confiable para contadores, empresas e independientes.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-rt-teal mb-4" style="font-family:'Montserrat',sans-serif">Categorías</h4>
+        <ul class="space-y-2 text-sm text-gray-300" style="font-family:'Montserrat',sans-serif">
+          <li><a href="/categoria/sii-resoluciones/" class="hover:text-white transition-colors">SII · Resoluciones</a></li>
+          <li><a href="/categoria/impuesto-renta/" class="hover:text-white transition-colors">Impuesto a la Renta</a></li>
+          <li><a href="/categoria/iva/" class="hover:text-white transition-colors">IVA</a></li>
+          <li><a href="/categoria/pymes/" class="hover:text-white transition-colors">Pymes</a></li>
+          <li><a href="/categoria/laboral-tributario/" class="hover:text-white transition-colors">Laboral Tributario</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-rt-teal mb-4" style="font-family:'Montserrat',sans-serif">Legal</h4>
+        <ul class="space-y-2 text-sm text-gray-300" style="font-family:'Montserrat',sans-serif">
+          <li><a href="/sobre-nosotros/" class="hover:text-white transition-colors">Sobre nosotros</a></li>
+          <li><a href="/contacto/" class="hover:text-white transition-colors">Contacto</a></li>
+          <li><a href="/politica-privacidad/" class="hover:text-white transition-colors">Política de privacidad</a></li>
+          <li><a href="/terminos-uso/" class="hover:text-white transition-colors">Términos de uso</a></li>
+          <li><a href="/descargo-responsabilidad/" class="hover:text-white transition-colors">Descargo de responsabilidad</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-white/10 pt-6 flex flex-col md:flex-row items-center justify-between gap-3">
+      <p class="text-xs text-gray-400" style="font-family:'Montserrat',sans-serif">
+        &copy; {year} Radar Tributario. Todos los derechos reservados.
+      </p>
+      <p class="text-xs text-gray-500" style="font-family:'Montserrat',sans-serif">
+        La información publicada no constituye asesoría legal ni tributaria.
+      </p>
+    </div>
+  </div>
+</footer>

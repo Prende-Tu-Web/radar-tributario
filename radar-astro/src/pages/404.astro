@@ -1,0 +1,17 @@
+---
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Página no encontrada | Radar Tributario" noIndex={true}>
+  <div class="max-w-2xl mx-auto px-4 py-24 text-center">
+    <p class="text-rt-red font-bold text-6xl mb-4" style="font-family:'Rubik',sans-serif">404</p>
+    <h1 class="text-2xl font-bold text-rt-navy mb-4" style="font-family:'Rubik',sans-serif">
+      Esta página no existe
+    </h1>
+    <p class="text-rt-muted mb-8">El artículo que buscas fue movido, eliminado, o nunca existió.</p>
+    <a href="/" class="inline-block bg-rt-navy text-white text-sm font-semibold px-6 py-3 hover:bg-rt-red transition-colors" style="font-family:'Montserrat',sans-serif">
+      Volver al inicio
+    </a>
+  </div>
+</BaseLayout>

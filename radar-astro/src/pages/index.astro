@@ -1,0 +1,105 @@
+---
+export const prerender = false;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import { sanityClient } from '../lib/sanity';
+import { homeFeaturedQuery, homeLatestQuery, allCategoriesQuery } from '../lib/queries';
+import type { Post, Category } from '../lib/types';
+
+const [featured, latest, categories] = await Promise.all([
+  sanityClient.fetch<Post[]>(homeFeaturedQuery),
+  sanityClient.fetch<Post[]>(homeLatestQuery),
+  sanityClient.fetch<Category[]>(allCategoriesQuery),
+]);
+
+const topFeatured = featured[0];
+const sideFeatured = featured.slice(1, 3);
+const latestPosts = latest.slice(0, 6);
+const denseList = latest.slice(6, 12);
+---
+
+<BaseLayout
+  title="Radar Tributario — Análisis tributario para Chile"
+  description="El referente en análisis tributario para Chile. Novedades del SII, impuesto a la renta, IVA, pymes y más."
+>
+  <div class="max-w-7xl mx-auto px-4 py-8">
+
+    <!-- FEATURED HERO -->
+    {topFeatured && (
+      <section class="mb-8">
+        <div class="sec-rule">Destacado</div>
+        <PostCard post={topFeatured} variant="featured" />
+      </section>
+    )}
+
+    <!-- SIDE FEATURED + DENSE LIST -->
+    {(sideFeatured.length > 0 || denseList.length > 0) && (
+      <section class="mb-10 grid lg:grid-cols-3 gap-8">
+        <!-- 2 card posts -->
+        <div class="lg:col-span-2">
+          <div class="sec-rule">Lo último</div>
+          <div class="grid sm:grid-cols-2 gap-4">
+            {sideFeatured.map(post => <PostCard post={post} variant="card" />)}
+          </div>
+        </div>
+
+        <!-- Dense sidebar list -->
+        {denseList.length > 0 && (
+          <div>
+            <div class="sec-rule">También hoy</div>
+            <div>
+              {denseList.map(post => <PostCard post={post} variant="dense" />)}
+            </div>
+            <a href="/noticias/" class="mt-4 inline-block text-xs font-semibold text-rt-navy underline underline-offset-2 hover:text-rt-red transition-colors" style="font-family:'Montserrat',sans-serif">
+              Ver todas las noticias →
+            </a>
+          </div>
+        )}
+      </section>
+    )}
+
+    <!-- LATEST GRID -->
+    {latestPosts.length > 0 && (
+      <section class="mb-10">
+        <div class="sec-rule">Publicaciones recientes</div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {latestPosts.map(post => <PostCard post={post} variant="card" />)}
+        </div>
+        <div class="mt-6 text-center">
+          <a href="/noticias/" class="inline-block bg-rt-navy text-white text-sm font-semibold px-6 py-3 hover:bg-rt-red transition-colors" style="font-family:'Montserrat',sans-serif">
+            Ver todas las publicaciones
+          </a>
+        </div>
+      </section>
+    )}
+
+    <!-- CATEGORIES -->
+    {categories.length > 0 && (
+      <section class="mb-10 bg-white border border-rt-border p-6">
+        <div class="sec-rule">Explorar por área</div>
+        <div class="flex flex-wrap gap-2 mt-2">
+          {categories.map(cat => {
+            const colorClass = cat.color === 'rt-tag-red' ? 'bg-rt-red text-white' : cat.color === 'rt-tag-teal' ? 'bg-rt-teal text-rt-navy' : 'bg-rt-navy text-white';
+            return (
+              <a
+                href={`/categoria/${cat.slug.current}/`}
+                class={`rt-tag ${colorClass} hover:opacity-90 transition-opacity`}
+              >
+                {cat.title}
+              </a>
+            );
+          })}
+        </div>
+      </section>
+    )}
+
+    <!-- EMPTY STATE -->
+    {!topFeatured && latest.length === 0 && (
+      <div class="py-20 text-center text-rt-muted">
+        <p class="text-lg font-medium" style="font-family:'Rubik',sans-serif">Pronto habrá contenido aquí.</p>
+        <p class="text-sm mt-2">Estamos cargando los primeros artículos de Radar Tributario.</p>
+      </div>
+    )}
+
+  </div>
+</BaseLayout>

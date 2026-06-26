@@ -1,0 +1,20 @@
+---
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Contacto | Radar Tributario"
+  description="Contáctate con el equipo de Radar Tributario."
+>
+  <div class="max-w-2xl mx-auto px-4 py-12">
+    <div class="sec-rule">Contacto</div>
+    <h1 class="text-3xl font-bold text-rt-navy mb-6" style="font-family:'Rubik',sans-serif">
+      ¿Tienes algo que contarnos?
+    </h1>
+    <p class="text-rt-muted mb-8">Formulario de contacto próximamente.</p>
+    <a href="mailto:hola@radartributario.cl" class="inline-block bg-rt-navy text-white text-sm font-semibold px-6 py-3 hover:bg-rt-red transition-colors" style="font-family:'Montserrat',sans-serif">
+      Escríbenos directo →
+    </a>
+  </div>
+</BaseLayout>

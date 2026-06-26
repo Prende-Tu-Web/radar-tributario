@@ -1,0 +1,44 @@
+---
+export const prerender = false;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { sanityClient } from '../../lib/sanity';
+import { categoryBySlugQuery, postsByCategoryQuery } from '../../lib/queries';
+import type { Category, Post } from '../../lib/types';
+
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect('/404');
+
+const [category, posts] = await Promise.all([
+  sanityClient.fetch<Category | null>(categoryBySlugQuery, { slug }),
+  sanityClient.fetch<Post[]>(postsByCategoryQuery, { slug }),
+]);
+
+if (!category) return Astro.redirect('/404');
+
+const colorClass = category.color === 'rt-tag-red' ? 'rt-tag-red' : category.color === 'rt-tag-teal' ? 'rt-tag-teal' : 'rt-tag-navy';
+---
+
+<BaseLayout
+  title={`${category.title} | Radar Tributario`}
+  description={category.description ?? `Artículos sobre ${category.title} en Radar Tributario.`}
+>
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="mb-6">
+      <span class={`rt-tag rt-tag-${colorClass} text-base px-3 py-1`}>{category.title}</span>
+      {category.description && (
+        <p class="mt-3 text-rt-muted text-sm max-w-2xl">{category.description}</p>
+      )}
+    </div>
+
+    <div class="sec-rule">{posts.length} artículo{posts.length !== 1 ? 's' : ''}</div>
+
+    {posts.length === 0 && (
+      <p class="text-rt-muted py-16 text-center">Aún no hay artículos en esta categoría.</p>
+    )}
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {posts.map(post => <PostCard post={post} variant="card" />)}
+    </div>
+  </div>
+</BaseLayout>

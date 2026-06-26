@@ -1,0 +1,91 @@
+---
+export const prerender = false;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { sanityClient } from '../../lib/sanity';
+import { postBySlugQuery, allPublishedSlugsQuery } from '../../lib/queries';
+import { urlFor } from '../../lib/urlFor';
+import { formatDate } from '../../lib/formatDate';
+import type { Post } from '../../lib/types';
+import { PortableText } from '@portabletext/react';
+
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect('/404');
+
+const post = await sanityClient.fetch<Post | null>(postBySlugQuery, { slug });
+if (!post) return Astro.redirect('/404');
+
+const imgUrl = post.coverImage
+  ? urlFor(post.coverImage).width(1200).height(630).fit('crop').url()
+  : undefined;
+
+const categoryColorMap: Record<string, string> = {
+  'rt-tag-red': 'rt-tag rt-tag-red',
+  'rt-tag-teal': 'rt-tag rt-tag-teal',
+  'rt-tag-navy': 'rt-tag rt-tag-navy',
+};
+const tagClass = categoryColorMap[post.category?.color ?? ''] ?? 'rt-tag rt-tag-navy';
+---
+
+<BaseLayout
+  title={post.seo?.metaTitle ?? post.title}
+  description={post.seo?.metaDescription ?? post.summary}
+  canonical={post.seo?.canonical}
+  noIndex={post.seo?.noIndex}
+  ogImage={imgUrl}
+>
+  <article class="max-w-3xl mx-auto px-4 py-10">
+    <!-- Category + importance -->
+    <div class="flex items-center gap-2 mb-4">
+      {post.category && (
+        <a href={`/categoria/${post.category.slug.current}/`} class={tagClass}>
+          {post.category.title}
+        </a>
+      )}
+      {post.importance === 'urgente' && <span class="rt-tag rt-tag-red">Urgente</span>}
+      {post.importance === 'destacado' && <span class="rt-tag rt-tag-teal">Destacado</span>}
+    </div>
+
+    <h1 class="text-3xl md:text-4xl font-bold text-rt-navy leading-tight mb-4" style="font-family:'Rubik',sans-serif">
+      {post.title}
+    </h1>
+
+    {post.summary && (
+      <p class="text-lg text-rt-muted leading-relaxed mb-6 border-l-4 border-rt-teal pl-4">
+        {post.summary}
+      </p>
+    )}
+
+    <div class="flex items-center gap-4 text-sm text-rt-muted mb-8 pb-6 border-b border-rt-border" style="font-family:'Montserrat',sans-serif">
+      {post.author && (
+        <span class="font-medium text-rt-text">{post.author.name}</span>
+      )}
+      {post.publishedAt && (
+        <time datetime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
+      )}
+    </div>
+
+    {imgUrl && (
+      <figure class="mb-8 -mx-4 md:mx-0">
+        <img src={imgUrl} alt={post.coverImage?.alt ?? post.title} class="w-full object-cover max-h-[460px]" />
+      </figure>
+    )}
+
+    {post.body && (
+      <div class="prose prose-slate max-w-none prose-headings:font-heading prose-headings:text-rt-navy prose-a:text-rt-red prose-a:no-underline hover:prose-a:underline">
+        <PortableText value={post.body} client:load />
+      </div>
+    )}
+
+    <!-- Tags -->
+    {post.tags && post.tags.length > 0 && (
+      <div class="mt-10 pt-6 border-t border-rt-border">
+        <p class="text-xs font-semibold uppercase tracking-widest text-rt-muted mb-3" style="font-family:'Montserrat',sans-serif">Temas</p>
+        <div class="flex flex-wrap gap-2">
+          {post.tags.map(tag => (
+            <span class="rt-tag bg-rt-bg text-rt-muted border border-rt-border">{tag.title}</span>
+          ))}
+        </div>
+      </div>
+    )}
+  </article>
+</BaseLayout>

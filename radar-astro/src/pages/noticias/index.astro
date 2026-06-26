@@ -1,0 +1,66 @@
+---
+export const prerender = false;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { sanityClient } from '../../lib/sanity';
+import { newsListQuery, newsCountQuery } from '../../lib/queries';
+import type { Post } from '../../lib/types';
+
+const PAGE_SIZE = 20;
+const page = Number(Astro.url.searchParams.get('p') ?? 1);
+const start = (page - 1) * PAGE_SIZE;
+const end = start + PAGE_SIZE;
+
+const [posts, total] = await Promise.all([
+  sanityClient.fetch<Post[]>(newsListQuery, { start, end }),
+  sanityClient.fetch<number>(newsCountQuery),
+]);
+
+const totalPages = Math.ceil(total / PAGE_SIZE);
+const topPost = posts[0];
+const restPosts = posts.slice(1);
+---
+
+<BaseLayout
+  title={`Noticias${page > 1 ? ` — Página ${page}` : ''} | Radar Tributario`}
+  description="Todas las noticias tributarias de Chile. Novedades del SII, IVA, renta, pymes y más."
+>
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="sec-rule">Sala de Noticias</div>
+
+    {posts.length === 0 && (
+      <p class="text-rt-muted py-16 text-center">No hay publicaciones aún.</p>
+    )}
+
+    {topPost && (
+      <div class="mb-6">
+        <PostCard post={topPost} variant="featured" />
+      </div>
+    )}
+
+    {restPosts.length > 0 && (
+      <div class="bg-white border border-rt-border p-4">
+        {restPosts.map(post => <PostCard post={post} variant="dense" />)}
+      </div>
+    )}
+
+    <!-- Pagination -->
+    {totalPages > 1 && (
+      <div class="mt-8 flex items-center justify-center gap-2">
+        {page > 1 && (
+          <a href={`/noticias/?p=${page - 1}`} class="px-4 py-2 border border-rt-border text-sm text-rt-navy hover:bg-rt-navy hover:text-white transition-colors" style="font-family:'Montserrat',sans-serif">
+            ← Anterior
+          </a>
+        )}
+        <span class="px-4 py-2 text-sm text-rt-muted" style="font-family:'Montserrat',sans-serif">
+          Página {page} de {totalPages}
+        </span>
+        {page < totalPages && (
+          <a href={`/noticias/?p=${page + 1}`} class="px-4 py-2 border border-rt-border text-sm text-rt-navy hover:bg-rt-navy hover:text-white transition-colors" style="font-family:'Montserrat',sans-serif">
+            Siguiente →
+          </a>
+        )}
+      </div>
+    )}
+  </div>
+</BaseLayout>

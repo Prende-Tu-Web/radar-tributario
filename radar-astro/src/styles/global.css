@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Montserrat:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --rt-navy: #0f2547;
+  --rt-red: #c0392b;
+  --rt-teal: #22E0C4;
+  --rt-warn: #f59e0b;
+  --rt-bg: #f5f4f0;
+  --rt-border: #d4cfc8;
+  --rt-text: #1e293b;
+  --rt-muted: #64748b;
+}
+
+@layer base {
+  body {
+    @apply bg-rt-bg text-rt-text;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Rubik', sans-serif;
+  }
+}
+
+@layer components {
+  .rt-tag {
+    @apply inline-block text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded;
+    font-family: 'Montserrat', sans-serif;
+  }
+  .rt-tag-red {
+    @apply bg-rt-red text-white;
+  }
+  .rt-tag-teal {
+    @apply bg-rt-teal text-rt-navy;
+  }
+  .rt-tag-navy {
+    @apply bg-rt-navy text-white;
+  }
+
+  .sec-rule {
+    @apply border-t-2 border-rt-navy pt-3 mb-4;
+    font-family: 'Rubik', sans-serif;
+    @apply text-xs font-semibold uppercase tracking-widest text-rt-navy;
+  }
+
+  .dept {
+    @apply text-[10px] font-semibold uppercase tracking-widest;
+    font-family: 'Montserrat', sans-serif;
+  }
+}
+
+/* Economic ticker animation */
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.economic-slider {
+  display: flex;
+  animation: ticker-scroll 30s linear infinite;
+  white-space: nowrap;
+}
+
+.economic-slider:hover {
+  animation-play-state: paused;
+}

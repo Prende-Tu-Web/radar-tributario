@@ -1,0 +1,14 @@
+---
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Descargo de responsabilidad | Radar Tributario" noIndex={true}>
+  <div class="max-w-3xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold text-rt-navy mb-6" style="font-family:'Rubik',sans-serif">Descargo de responsabilidad</h1>
+    <div class="prose prose-slate max-w-none">
+      <p>La información publicada en Radar Tributario tiene carácter informativo y divulgativo. No constituye asesoría legal ni tributaria y no reemplaza la opinión de un profesional calificado.</p>
+      <p>Los autores no se hacen responsables por decisiones tomadas con base en el contenido de este sitio. Consulte siempre a un contador o abogado tributario para su situación particular.</p>
+    </div>
+  </div>
+</BaseLayout>
