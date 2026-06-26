@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radar Tributario — Portal Tributario de Chile</title>
+    <meta name="description" content="El portal tributario de Chile. Calendario de vencimientos, noticias del SII, análisis de IVA, renta, pymes y más. Para contadores, abogados y empresarios.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/tailwind.config.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <style>
+        /* ── INDEX 5: Dashboard Tributario ── */
+
+        /* Sub-nav de categorías temáticas */
+        .topic-nav {
+            background: #0a1d36;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .topic-nav a {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            padding: 10px 14px;
+            display: inline-block;
+            transition: color 200ms, border-bottom 200ms;
+            border-bottom: 2px solid transparent;
+        }
+        .topic-nav a:hover,
+        .topic-nav a.active {
+            color: var(--color-accent);
+            border-bottom-color: var(--color-accent);
+        }
+
+        /* Buscador inline en header */
+        .search-bar {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            transition: border-color 200ms;
+        }
+        .search-bar:focus-within {
+            border-color: var(--color-accent);
+        }
+        .search-bar input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: white;
+            font-size: 0.8rem;
+            width: 180px;
+        }
+        .search-bar input::placeholder { color: rgba(255,255,255,0.35); }
+
+        /* Calendario de vencimientos */
+        .calendar-card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+        .calendar-header {
+            background: #0f2547;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .deadline-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 11px 20px;
+            border-bottom: 1px solid #f1f5f9;
+            transition: background 150ms;
+        }
+        .deadline-row:last-child { border-bottom: none; }
+        .deadline-row:hover { background: #f8fafc; }
+        .deadline-date {
+            font-family: 'Rubik', sans-serif;
+            font-weight: 700;
+            font-size: 1.35rem;
+            color: #0f2547;
+            line-height: 1;
+            min-width: 2.8rem;
+        }
+        .deadline-date-unit {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.58rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #94a3b8;
+            display: block;
+        }
+        .deadline-badge {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.58rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 2px 8px;
+            border-radius: 3px;
+        }
+        .badge-urgent {
+            background: rgba(192,57,43,0.1);
+            color: #c0392b;
+        }
+        .badge-normal {
+            background: rgba(34,224,196,0.1);
+            color: #22E0C4;
+        }
+        .deadline-name {
+            font-family: 'Rubik', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #1e293b;
+            flex: 1;
+            line-height: 1.3;
+        }
+        .deadline-who {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.6rem;
+            color: #94a3b8;
+            flex-shrink: 0;
+        }
+
+        /* Category tiles */
+        .cat-tile {
+            display: block;
+            padding: 20px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 200ms ease;
+            text-decoration: none;
+        }
+        .cat-tile:hover {
+            border-color: var(--color-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+        .cat-tile-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+        }
+        .cat-tile-name {
+            font-family: 'Rubik', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #0f2547;
+            display: block;
+        }
+        .cat-tile-count {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.6rem;
+            color: #94a3b8;
+            display: block;
+            margin-top: 3px;
+        }
+
+        /* SII al día — resoluciones recientes */
+        .resolution-item {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            padding: 14px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .resolution-item:last-child { border-bottom: none; }
+        .resolution-num {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: var(--color-accent);
+            background: rgba(34,224,196,0.08);
+            padding: 3px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .resolution-title {
+            font-family: 'Rubik', sans-serif;
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: #0f2547;
+            line-height: 1.35;
+            transition: color 180ms;
+        }
+        .resolution-item:hover .resolution-title { color: var(--color-accent); }
+
+        /* Herramienta CTA card */
+        .tool-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 18px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-left: 3px solid var(--color-accent);
+            border-radius: 8px;
+            transition: all 200ms;
+            text-decoration: none;
+        }
+        .tool-card:hover {
+            background: #f8fafc;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .tool-card-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(34,224,196,0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* Dept label */
+        .dept {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        /* Section header con línea */
+        .sec-head {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 1.5rem;
+        }
+        .sec-head::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+        /* Hero artículo principal */
+        .hero-main-img {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px 12px 0 0;
+            height: 280px;
+        }
+        .hero-main-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Social proof bar */
+        .proof-item {
+            text-align: center;
+            padding: 0 24px;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+        .proof-item:last-child { border-right: none; }
+        .proof-num {
+            font-family: 'Rubik', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            color: var(--color-accent);
+            line-height: 1;
+        }
+        .proof-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.62rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.5);
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-montserrat" style="background: #f5f4f0;">
+
+    <!-- INDICADORES ECONÓMICOS -->
+    <div class="economic-slider py-2">
+        <div class="economic-slider-content">
+            <div class="economic-item"><strong>UF:</strong> $39.145,76</div>
+            <div class="economic-item"><strong>UTM:</strong> $68.306</div>
+            <div class="economic-item"><strong>UTA:</strong> $819.672</div>
+            <div class="economic-item"><strong>DÓLAR:</strong> $950,30</div>
+            <div class="economic-item"><strong>EURO:</strong> $1.021,45</div>
+            <div class="economic-item"><strong>IPC:</strong> +0,3%</div>
+            <div class="economic-item"><strong>UF:</strong> $39.145,76</div>
+            <div class="economic-item"><strong>UTM:</strong> $68.306</div>
+            <div class="economic-item"><strong>UTA:</strong> $819.672</div>
+            <div class="economic-item"><strong>DÓLAR:</strong> $950,30</div>
+            <div class="economic-item"><strong>EURO:</strong> $1.021,45</div>
+            <div class="economic-item"><strong>IPC:</strong> +0,3%</div>
+        </div>
+    </div>
+
+    <!-- HEADER con buscador -->
+    <header class="bg-primary-dark border-b border-white/10 sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-6 lg:px-8 py-3.5">
+            <div class="flex items-center justify-between gap-6">
+                <a href="index5.html" class="flex-shrink-0">
+                    <img src="../wordpress-bkp/wp-content/themes/radar-tributario/img/logo-radar-tributario.svg"
+                         alt="Radar Tributario" class="h-9 w-auto">
+                </a>
+
+                <div class="hidden md:flex items-center space-x-7 flex-1 justify-center">
+                    <a href="index5.html"        class="text-accent font-medium nav-link is-active text-sm">Inicio</a>
+                    <a href="noticias.html"       class="text-white hover:text-accent transition-colors font-medium nav-link text-sm">Noticias</a>
+                    <a href="sobre-nosotros.html" class="text-white hover:text-accent transition-colors font-medium nav-link text-sm">Nosotros</a>
+                    <a href="categoria.html"      class="text-white hover:text-accent transition-colors font-medium nav-link text-sm">Blog</a>
+                    <a href="contacto.html"       class="text-white hover:text-accent transition-colors font-medium nav-link text-sm">Contacto</a>
+                </div>
+
+                <!-- Buscador -->
+                <div class="hidden lg:flex items-center">
+                    <div class="search-bar">
+                        <svg class="w-4 h-4 text-white/40 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        <input type="text" placeholder="Buscar: IVA, F29, pymes...">
+                    </div>
+                </div>
+
+                <button id="mobile-menu-btn" class="md:hidden text-white hover:text-accent">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4 border-t border-white/10">
+                <div class="flex flex-col space-y-4 pt-4">
+                    <a href="index5.html"        class="text-accent font-medium">Inicio</a>
+                    <a href="noticias.html"       class="text-white font-medium">Noticias</a>
+                    <a href="sobre-nosotros.html" class="text-white font-medium">Nosotros</a>
+                    <a href="contacto.html"       class="text-white font-medium">Contacto</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Sub-nav de temas -->
+        <div class="topic-nav hidden lg:block">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 flex items-center gap-0 overflow-x-auto">
+                <a href="categoria.html" class="active">IVA</a>
+                <a href="categoria.html">Renta</a>
+                <a href="categoria.html">Pymes</a>
+                <a href="categoria.html">SII</a>
+                <a href="categoria.html">Fiscalización</a>
+                <a href="categoria.html">Internacional</a>
+                <a href="categoria.html">Contabilidad</a>
+                <a href="categoria.html">Reforma Tributaria</a>
+                <a href="categoria.html">Honorarios</a>
+                <a href="categoria.html">Impuesto a la Renta</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- HERO: Artículo principal + Calendario de vencimientos -->
+        <section class="py-10 lg:py-14" style="background: #f5f4f0;">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="grid lg:grid-cols-5 gap-8">
+
+                    <!-- Artículo principal (60%) -->
+                    <div class="lg:col-span-3 reveal">
+                        <article class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-100 card-enhanced">
+                            <div class="hero-main-img">
+                                <img src="../wordpress-bkp/wp-content/themes/radar-tributario/img/hero-post-image.jpg"
+                                     alt="Reforma tributaria 2026">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                                <div class="absolute top-4 left-4 flex gap-2">
+                                    <span class="text-xs font-bold px-3 py-1 rounded-full" style="background:#c0392b; color:white; font-family:'Montserrat',sans-serif; font-size:0.58rem; letter-spacing:0.1em; text-transform:uppercase;">Urgente</span>
+                                    <span class="text-xs font-bold px-3 py-1 rounded-full" style="background:rgba(0,0,0,0.5); color:#22E0C4; font-family:'Montserrat',sans-serif; font-size:0.58rem; letter-spacing:0.1em; text-transform:uppercase; border:1px solid rgba(34,224,196,0.4);">Reforma Tributaria</span>
+                                </div>
+                            </div>
+                            <div class="p-7">
+                                <div class="flex items-center text-gray-400 text-xs mb-3" style="font-family:'Montserrat',sans-serif;">
+                                    <span>24 de junio, 2026</span>
+                                    <span class="mx-2">·</span>
+                                    <span>8 min lectura</span>
+                                    <span class="mx-2">·</span>
+                                    <span>Por <strong class="text-gray-600">María Torres</strong></span>
+                                </div>
+                                <h1 class="font-rubik font-bold text-gray-900 leading-tight mb-3" style="font-size: clamp(1.4rem, 2.5vw, 2rem);">
+                                    Reforma tributaria 2026: qué cambia para pymes y contribuyentes
+                                </h1>
+                                <p class="text-gray-500 leading-relaxed mb-5 text-sm">
+                                    El Ministerio de Hacienda presentó el proyecto definitivo. Analizamos los puntos clave que afectarán a pequeñas empresas, trabajadores independientes y contribuyentes del régimen general en este año tributario.
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <a href="articulo.html" class="btn-primary" style="font-size:0.82rem; padding: 0.6rem 1.4rem;">
+                                        Leer artículo completo
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                        </svg>
+                                    </a>
+                                    <div class="flex items-center gap-3 text-gray-400">
+                                        <button class="flex items-center gap-1 hover:text-gray-600 transition-colors text-xs">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+                                            Compartir
+                                        </button>
+                                        <button class="flex items-center gap-1 hover:text-gray-600 transition-colors text-xs">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+                                            Guardar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Calendario de vencimientos (40%) -->
+                    <div class="lg:col-span-2 reveal reveal-d1">
+                        <div class="calendar-card">
+                            <div class="calendar-header">
+                                <div>
+                                    <div class="dept text-white/50 text-xs mb-1">Vencimientos Tributarios</div>
+                                    <div class="font-rubik font-bold text-white text-lg">Julio 2026</div>
+                                </div>
+                                <a href="#" class="text-xs font-semibold text-accent hover:text-accent/80 transition-colors" style="font-family:'Montserrat',sans-serif; letter-spacing:0.06em;">
+                                    Ver completo →
+                                </a>
+                            </div>
+
+                            <div class="deadline-row">
+                                <div>
+                                    <span class="deadline-date">12</span>
+                                    <span class="deadline-date-unit">Jul</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="deadline-name">Formulario 29 — IVA y PPM</div>
+                                    <div class="deadline-who">Pequeñas empresas y personas</div>
+                                </div>
+                                <span class="deadline-badge badge-urgent">Próximo</span>
+                            </div>
+
+                            <div class="deadline-row">
+                                <div>
+                                    <span class="deadline-date">20</span>
+                                    <span class="deadline-date-unit">Jul</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="deadline-name">Formulario 29 — IVA y PPM</div>
+                                    <div class="deadline-who">Medianas y grandes empresas</div>
+                                </div>
+                                <span class="deadline-badge badge-normal">Normal</span>
+                            </div>
+
+                            <div class="deadline-row">
+                                <div>
+                                    <span class="deadline-date">22</span>
+                                    <span class="deadline-date-unit">Jul</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="deadline-name">Formulario 50 — Retenciones</div>
+                                    <div class="deadline-who">Agentes retenedores</div>
+                                </div>
+                                <span class="deadline-badge badge-normal">Normal</span>
+                            </div>
+
+                            <div class="deadline-row">
+                                <div>
+                                    <span class="deadline-date">31</span>
+                                    <span class="deadline-date-unit">Jul</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="deadline-name">PPM Voluntario mensual</div>
+                                    <div class="deadline-who">Contribuyentes del art. 84</div>
+                                </div>
+                                <span class="deadline-badge badge-normal">Normal</span>
+                            </div>
+
+                            <div class="deadline-row" style="background:#fef9ec; border-top: 1px solid #fde68a;">
+                                <div>
+                                    <span class="deadline-date" style="color:#d97706;">15</span>
+                                    <span class="deadline-date-unit">Ago</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="deadline-name" style="color:#92400e;">F22 corrección — Cierre</div>
+                                    <div class="deadline-who">Último plazo corrección AT 2026</div>
+                                </div>
+                                <span class="deadline-badge" style="background:rgba(217,119,6,0.1); color:#d97706;">Especial</span>
+                            </div>
+
+                            <div class="p-4 bg-gray-50 text-center">
+                                <a href="categoria.html" class="text-xs font-semibold hover:text-accent transition-colors" style="color:var(--color-accent); font-family:'Montserrat',sans-serif; letter-spacing:0.08em; text-transform:uppercase;">
+                                    Descargar calendario completo 2026
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- CATEGORÍAS TEMÁTICAS -->
+        <section class="py-12 bg-white border-y border-gray-100">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="sec-head reveal">
+                    <span class="dept" style="color:var(--color-accent);">Explorar por tema</span>
+                </div>
+
+                <div class="grid grid-cols-3 md:grid-cols-6 gap-4 reveal">
+                    <a href="categoria.html" class="cat-tile">
+                        <div class="cat-tile-icon" style="background:#fef2f2;">
+                            <svg class="w-5 h-5" style="color:#dc2626;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"/>
+                            </svg>
+                        </div>
+                        <span class="cat-tile-name">IVA</span>
+                        <span class="cat-tile-count">142 artículos</span>
+                    </a>
+
+                    <a href="categoria.html" class="cat-tile">
+                        <div class="cat-tile-icon" style="background:#f0fdf4;">
+                            <svg class="w-5 h-5" style="color:#16a34a;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <span class="cat-tile-name">Renta</span>
+                        <span class="cat-tile-count">218 artículos</span>
+                    </a>
+
+                    <a href="categoria.html" class="cat-tile">
+                        <div class="cat-tile-icon" style="background:#eff6ff;">
+                            <svg class="w-5 h-5" style="color:#2563eb;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                            </svg>
+                        </div>
+                        <span class="cat-tile-name">Pymes</span>
+                        <span class="cat-tile-count">97 artículos</span>
+                    </a>
+
+                    <a href="categoria.html" class="cat-tile">
+                        <div class="cat-tile-icon" style="background:#fefce8;">
+                            <svg class="w-5 h-5" style="color:#ca8a04;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            </svg>
+                        </div>
+                        <span class="cat-tile-name">SII</span>
+                        <span class="cat-tile-count">183 artículos</span>
+                    </a>
+
+                    <a href="categoria.html" class="cat-tile">
+                        <div class="cat-tile-icon" style="background:#fdf4ff;">
+                            <svg class="w-5 h-5" style="color:#9333ea;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/>
+                            </svg>
+                        </div>
+                        <span class="cat-tile-name">Internacional</span>
+                        <span class="cat-tile-count">64 artículos</span>
+                    </a>
+
+                    <a href="categoria.html" class="cat-tile">
+                        <div class="cat-tile-icon" style="background:#fff7ed;">
+                            <svg class="w-5 h-5" style="color:#ea580c;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <span class="cat-tile-name">Contabilidad</span>
+                        <span class="cat-tile-count">112 artículos</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- NOTICIAS RECIENTES: 3 cards -->
+        <section class="py-14" style="background:#f5f4f0;">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="sec-head reveal">
+                    <span class="dept" style="color:var(--color-accent);">Últimas noticias</span>
+                    <a href="noticias.html" class="ml-auto text-xs font-semibold hover:opacity-80 transition-opacity" style="color:var(--color-accent); font-family:'Montserrat',sans-serif; letter-spacing:0.06em; margin-left:auto;">
+                        Ver todas →
+                    </a>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <article class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 group reveal card-enhanced">
+                        <div class="relative overflow-hidden" style="height:180px;">
+                            <img src="../wordpress-bkp/wp-content/themes/radar-tributario/img/news-1.jpg"
+                                 alt="SII actualiza plazos F29"
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute top-3 left-3">
+                                <span class="dept px-2 py-1 rounded text-xs" style="background:rgba(34,224,196,0.15); color:#22E0C4; border:1px solid rgba(34,224,196,0.3);">SII</span>
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <div class="text-gray-400 text-xs mb-2" style="font-family:'Montserrat',sans-serif;">23 jun · 5 min lectura</div>
+                            <h3 class="font-rubik font-semibold text-gray-900 text-base leading-snug mb-2 group-hover:text-accent transition-colors duration-200">
+                                SII actualiza plazos para declaración del F29 de junio 2026
+                            </h3>
+                            <p class="text-gray-500 text-xs leading-relaxed mb-3 line-clamp-2">
+                                El Servicio de Impuestos Internos publicó resolución que prorroga el plazo de declaración mensual para todos los contribuyentes.
+                            </p>
+                            <a href="articulo.html" class="text-xs font-semibold hover:opacity-80 transition-opacity inline-flex items-center gap-1" style="color:var(--color-accent); font-family:'Montserrat',sans-serif; letter-spacing:0.06em;">
+                                Leer más →
+                            </a>
+                        </div>
+                    </article>
+
+                    <article class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 group reveal reveal-d1 card-enhanced">
+                        <div class="relative overflow-hidden" style="height:180px;">
+                            <img src="../wordpress-bkp/wp-content/themes/radar-tributario/img/news-2.jpg"
+                                 alt="IVA servicios digitales"
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute top-3 left-3">
+                                <span class="dept px-2 py-1 rounded text-xs" style="background:rgba(34,224,196,0.15); color:#22E0C4; border:1px solid rgba(34,224,196,0.3);">IVA</span>
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <div class="text-gray-400 text-xs mb-2" style="font-family:'Montserrat',sans-serif;">22 jun · 6 min lectura</div>
+                            <h3 class="font-rubik font-semibold text-gray-900 text-base leading-snug mb-2 group-hover:text-accent transition-colors duration-200">
+                                IVA en servicios digitales: así tributan Netflix, Spotify y plataformas extranjeras
+                            </h3>
+                            <p class="text-gray-500 text-xs leading-relaxed mb-3 line-clamp-2">
+                                Revisamos el régimen simplificado que regula el impuesto al valor agregado para plataformas internacionales en Chile.
+                            </p>
+                            <a href="articulo.html" class="text-xs font-semibold hover:opacity-80 transition-opacity inline-flex items-center gap-1" style="color:var(--color-accent); font-family:'Montserrat',sans-serif; letter-spacing:0.06em;">
+                                Leer más →
+                            </a>
+                        </div>
+                    </article>
+
+                    <article class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 group reveal reveal-d2 card-enhanced">
+                        <div class="relative overflow-hidden" style="height:180px;">
+                            <img src="../wordpress-bkp/wp-content/themes/radar-tributario/img/news-3.jpg"
+                                 alt="Operación Renta 2026"
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute top-3 left-3">
+                                <span class="dept px-2 py-1 rounded text-xs" style="background:rgba(192,57,43,0.15); color:#c0392b; border:1px solid rgba(192,57,43,0.3);">Renta</span>
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <div class="text-gray-400 text-xs mb-2" style="font-family:'Montserrat',sans-serif;">20 jun · 10 min lectura</div>
+                            <h3 class="font-rubik font-semibold text-gray-900 text-base leading-snug mb-2 group-hover:text-accent transition-colors duration-200">
+                                Operación Renta 2026: novedades, plazos y cómo evitar errores comunes
+                            </h3>
+                            <p class="text-gray-500 text-xs leading-relaxed mb-3 line-clamp-2">
+                                El SII abrió la campaña de renta con nuevas funcionalidades y plazos extendidos para la declaración automática.
+                            </p>
+                            <a href="articulo.html" class="text-xs font-semibold hover:opacity-80 transition-opacity inline-flex items-center gap-1" style="color:var(--color-accent); font-family:'Montserrat',sans-serif; letter-spacing:0.06em;">
+                                Leer más →
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- SII AL DÍA + HERRAMIENTAS -->
+        <section class="py-14 bg-white border-y border-gray-100">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="grid lg:grid-cols-3 gap-10 lg:gap-16">
+
+                    <!-- SII al día (2/3) -->
+                    <div class="lg:col-span-2 reveal">
+                        <div class="sec-head">
+                            <span class="dept" style="color:#0f2547;">SII al día</span>
+                            <span class="text-gray-400 text-xs" style="font-family:'Montserrat',sans-serif;">Últimas resoluciones y circulares</span>
+                        </div>
+
+                        <div class="resolution-item">
+                            <span class="resolution-num">Res. 45/2026</span>
+                            <div>
+                                <div class="resolution-title"><a href="articulo.html">Modifica procedimiento para emisión de documentos electrónicos en plataforma Mi SII</a></div>
+                                <div class="text-gray-400 text-xs mt-1" style="font-family:'Montserrat',sans-serif;">24 jun 2026 · Documentos Tributarios Electrónicos</div>
+                            </div>
+                        </div>
+
+                        <div class="resolution-item">
+                            <span class="resolution-num">Circ. 23/2026</span>
+                            <div>
+                                <div class="resolution-title"><a href="articulo.html">Instrucciones sobre el tratamiento tributario de contratos de leasing financiero en el Régimen General</a></div>
+                                <div class="text-gray-400 text-xs mt-1" style="font-family:'Montserrat',sans-serif;">21 jun 2026 · Impuesto a la Renta</div>
+                            </div>
+                        </div>
+
+                        <div class="resolution-item">
+                            <span class="resolution-num">Res. 44/2026</span>
+                            <div>
+                                <div class="resolution-title"><a href="articulo.html">Actualización de valores de bienes raíces agrícolas para efectos del cálculo de contribuciones</a></div>
+                                <div class="text-gray-400 text-xs mt-1" style="font-family:'Montserrat',sans-serif;">18 jun 2026 · Bienes Raíces</div>
+                            </div>
+                        </div>
+
+                        <div class="resolution-item">
+                            <span class="resolution-num">Circ. 22/2026</span>
+                            <div>
+                                <div class="resolution-title"><a href="articulo.html">Nuevo criterio para la acreditación de gastos necesarios para producir la renta en trabajadores independientes</a></div>
+                                <div class="text-gray-400 text-xs mt-1" style="font-family:'Montserrat',sans-serif;">15 jun 2026 · Gastos Tributarios</div>
+                            </div>
+                        </div>
+
+                        <div class="resolution-item">
+                            <span class="resolution-num">Oficio 1.284</span>
+                            <div>
+                                <div class="resolution-title"><a href="articulo.html">Tratamiento del IVA en operaciones de factoring con descuento previo al vencimiento</a></div>
+                                <div class="text-gray-400 text-xs mt-1" style="font-family:'Montserrat',sans-serif;">10 jun 2026 · IVA</div>
+                            </div>
+                        </div>
+
+                        <a href="categoria.html" class="mt-4 inline-flex items-center gap-2 text-xs font-semibold hover:opacity-80 transition-opacity" style="color:var(--color-accent); font-family:'Montserrat',sans-serif; letter-spacing:0.08em; text-transform:uppercase;">
+                            Ver todas las resoluciones del SII
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <!-- Herramientas (1/3) -->
+                    <div class="reveal reveal-d1">
+                        <div class="sec-head">
+                            <span class="dept" style="color:#0f2547;">Herramientas</span>
+                        </div>
+
+                        <div class="space-y-3">
+                            <a href="#" class="tool-card">
+                                <div class="tool-card-icon">
+                                    <svg class="w-5 h-5" style="color:var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="font-rubik font-semibold text-gray-900 text-sm">Calculadora IVA 19%</div>
+                                    <div class="text-gray-400 text-xs" style="font-family:'Montserrat',sans-serif;">Neto → Bruto o viceversa</div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="tool-card">
+                                <div class="tool-card-icon">
+                                    <svg class="w-5 h-5" style="color:var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="font-rubik font-semibold text-gray-900 text-sm">Tabla de multas SII 2026</div>
+                                    <div class="text-gray-400 text-xs" style="font-family:'Montserrat',sans-serif;">Infracciones actualizadas en UTM</div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="tool-card">
+                                <div class="tool-card-icon">
+                                    <svg class="w-5 h-5" style="color:var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="font-rubik font-semibold text-gray-900 text-sm">Calculadora PPM</div>
+                                    <div class="text-gray-400 text-xs" style="font-family:'Montserrat',sans-serif;">Pago provisional mensual</div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="tool-card">
+                                <div class="tool-card-icon">
+                                    <svg class="w-5 h-5" style="color:var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="font-rubik font-semibold text-gray-900 text-sm">Calendario tributario 2026</div>
+                                    <div class="text-gray-400 text-xs" style="font-family:'Montserrat',sans-serif;">Descarga PDF con vencimientos</div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="tool-card">
+                                <div class="tool-card-icon">
+                                    <svg class="w-5 h-5" style="color:var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="font-rubik font-semibold text-gray-900 text-sm">Tramos impuesto único 2026</div>
+                                    <div class="text-gray-400 text-xs" style="font-family:'Montserrat',sans-serif;">Segunda categoría actualizado</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEWSLETTER con social proof -->
+        <section class="py-20 bg-primary-dark">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+                <!-- Social proof bar -->
+                <div class="flex flex-wrap items-center justify-center gap-0 mb-16 reveal">
+                    <div class="proof-item">
+                        <div class="proof-num">+3.200</div>
+                        <div class="proof-label">Suscriptores</div>
+                    </div>
+                    <div class="proof-item">
+                        <div class="proof-num">+800</div>
+                        <div class="proof-label">Artículos publicados</div>
+                    </div>
+                    <div class="proof-item">
+                        <div class="proof-num">96%</div>
+                        <div class="proof-label">Tasa de apertura</div>
+                    </div>
+                    <div class="proof-item">
+                        <div class="proof-num">6 años</div>
+                        <div class="proof-label">Cubriendo el SII</div>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="reveal">
+                        <div class="dept text-accent mb-4">Newsletter semanal — Gratis</div>
+                        <h2 class="font-rubik font-bold text-white leading-tight mb-4" style="font-size:clamp(1.6rem, 3vw, 2.5rem);">
+                            Cada lunes, lo que cambió<br>
+                            <span class="text-accent">en tributación chilena.</span>
+                        </h2>
+                        <p class="text-gray-400 leading-relaxed mb-6">
+                            Sin spam. Solo lo que vence, lo que cambió en el SII y lo que debes saber. Un email, cada lunes a las 8:00 AM.
+                        </p>
+                        <div class="flex flex-wrap gap-4">
+                            <div class="flex items-center gap-2 text-gray-400 text-sm">
+                                <div class="w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-3.5 h-3.5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                </div>
+                                Resumen semanal del SII
+                            </div>
+                            <div class="flex items-center gap-2 text-gray-400 text-sm">
+                                <div class="w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-3.5 h-3.5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                </div>
+                                Fechas clave del mes
+                            </div>
+                            <div class="flex items-center gap-2 text-gray-400 text-sm">
+                                <div class="w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-3.5 h-3.5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                </div>
+                                Análisis editorial semanal
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/5 border border-white/10 rounded-xl p-8 reveal reveal-d1">
+                        <div class="space-y-4 mb-5">
+                            <div>
+                                <label class="text-gray-400 text-xs font-semibold block mb-2" style="font-family:'Montserrat',sans-serif; letter-spacing:0.08em; text-transform:uppercase;">Nombre</label>
+                                <input type="text" placeholder="Tu nombre"
+                                       class="w-full px-4 py-3 rounded-lg text-white placeholder-gray-600 text-sm focus:outline-none focus:border-accent transition-colors"
+                                       style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12);">
+                            </div>
+                            <div>
+                                <label class="text-gray-400 text-xs font-semibold block mb-2" style="font-family:'Montserrat',sans-serif; letter-spacing:0.08em; text-transform:uppercase;">Correo electrónico</label>
+                                <input type="email" placeholder="tu@empresa.cl"
+                                       class="w-full px-4 py-3 rounded-lg text-white placeholder-gray-600 text-sm newsletter-input focus:outline-none focus:border-accent transition-colors"
+                                       style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12);">
+                            </div>
+                            <div>
+                                <label class="text-gray-400 text-xs font-semibold block mb-2" style="font-family:'Montserrat',sans-serif; letter-spacing:0.08em; text-transform:uppercase;">Soy principalmente</label>
+                                <select class="w-full px-4 py-3 rounded-lg text-white text-sm focus:outline-none focus:border-accent transition-colors"
+                                        style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#fff;">
+                                    <option style="background:#0f2547;" value="">Selecciona una opción</option>
+                                    <option style="background:#0f2547;" value="contador">Contador / Auditor</option>
+                                    <option style="background:#0f2547;" value="abogado">Abogado tributarista</option>
+                                    <option style="background:#0f2547;" value="empresa">Dueño de empresa / Pyme</option>
+                                    <option style="background:#0f2547;" value="independiente">Trabajador independiente</option>
+                                    <option style="background:#0f2547;" value="otro">Otro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="w-full btn-primary justify-center py-3.5 newsletter-btn">
+                            Suscribirme gratis
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </button>
+                        <p class="text-gray-600 text-xs text-center mt-3">Sin spam. Cancelás cuando quieras.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-primary-dark border-t border-white/8">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <img src="../wordpress-bkp/wp-content/themes/radar-tributario/img/logo-radar-tributario.svg"
+                         alt="Radar Tributario" class="h-8 w-auto mb-4">
+                    <p class="text-gray-400 text-sm leading-relaxed max-w-sm">
+                        El portal tributario de Chile. Información verificada para contadores, abogados y empresarios.
+                    </p>
+                    <div class="flex space-x-4 mt-5">
+                        <a href="#" class="text-gray-500 hover:text-accent transition-colors" title="X (Twitter)">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-accent transition-colors" title="LinkedIn">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="dept text-gray-400 mb-4">Temas</h3>
+                    <ul class="space-y-2.5">
+                        <li><a href="categoria.html" class="text-gray-400 hover:text-accent text-sm transition-colors">IVA</a></li>
+                        <li><a href="categoria.html" class="text-gray-400 hover:text-accent text-sm transition-colors">Renta</a></li>
+                        <li><a href="categoria.html" class="text-gray-400 hover:text-accent text-sm transition-colors">Pymes</a></li>
+                        <li><a href="categoria.html" class="text-gray-400 hover:text-accent text-sm transition-colors">SII</a></li>
+                        <li><a href="categoria.html" class="text-gray-400 hover:text-accent text-sm transition-colors">Internacional</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="dept text-gray-400 mb-4">Legal</h3>
+                    <ul class="space-y-2.5">
+                        <li><a href="descargo-responsabilidad.html" class="text-gray-400 hover:text-accent text-sm transition-colors">Descargo de Responsabilidad</a></li>
+                        <li><a href="politica-privacidad.html" class="text-gray-400 hover:text-accent text-sm transition-colors">Política de Privacidad</a></li>
+                        <li><a href="terminos-uso.html" class="text-gray-400 hover:text-accent text-sm transition-colors">Términos de Uso</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/8 mt-10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-gray-600 text-xs">© 2026 Radar Tributario. Información con fines informativos, no constituye asesoría legal o contable profesional.</p>
+                <p class="text-gray-600 text-xs">radartributario.cl</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

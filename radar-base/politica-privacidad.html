@@ -1,0 +1,229 @@
+﻿<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Privacidad — Radar Tributario</title>
+    <meta name="description" content="Política de privacidad de Radar Tributario. Cómo recopilamos, usamos y protegemos tus datos conforme a la Ley 19.628 de Chile.">
+    <meta name="robots" content="noindex, follow">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/tailwind.config.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <style>
+        :root {
+            --rt-navy:#0f2547; --rt-dark:#091a35; --rt-red:#c0392b;
+            --rt-teal:#22E0C4; --rt-warn:#f59e0b; --rt-bg:#f5f4f0;
+            --rt-border:#d4cfc8; --rt-text:#1e293b; --rt-muted:#64748b;
+        }
+        body { background:var(--rt-bg) !important; color:var(--rt-text); }
+        .dept { font-family:'Montserrat',sans-serif; font-size:.58rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; }
+        .sec-rule { display:flex; align-items:center; gap:12px; padding-bottom:10px; border-bottom:2px solid var(--rt-navy); margin-bottom:20px; }
+        .live-dot { display:inline-flex; align-items:center; gap:5px; font-family:'Montserrat',sans-serif; font-size:.58rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--rt-red); }
+        .live-dot::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--rt-red); animation:pulse-dot 1.5s ease-in-out infinite; }
+        @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
+        .legal-content h2 { font-family:'Rubik',sans-serif; font-size:1rem; font-weight:700; color:var(--rt-navy); margin:1.75rem 0 .5rem; padding-top:1.25rem; border-top:1px solid var(--rt-border); }
+        .legal-content h2:first-child { border-top:none; padding-top:0; margin-top:0; }
+        .legal-content p { font-size:.9rem; line-height:1.75; color:#4b5563; margin-bottom:.75rem; }
+        .legal-content ul { margin-bottom:.75rem; padding-left:0; list-style:none; }
+        .legal-content ul li { font-size:.9rem; line-height:1.7; color:#4b5563; padding:.2rem 0 .2rem 1.1rem; position:relative; }
+        .legal-content ul li::before { content:'·'; position:absolute; left:0; color:var(--rt-teal); font-weight:700; font-size:1.1rem; line-height:1.4; }
+        .legal-content strong { color:var(--rt-text); }
+    </style>
+</head>
+<body class="font-montserrat">
+
+    <!-- INDICADORES ECONÓMICOS -->
+    <div class="economic-slider py-2">
+        <div class="economic-slider-content">
+            <div class="economic-item"><strong>UF:</strong> $39.145,76</div>
+            <div class="economic-item"><strong>UTM:</strong> $68.306</div>
+            <div class="economic-item"><strong>UTA:</strong> $819.672</div>
+            <div class="economic-item"><strong>DÓLAR:</strong> $950,30</div>
+            <div class="economic-item"><strong>EURO:</strong> $1.021,45</div>
+            <div class="economic-item"><strong>IPC:</strong> +0,3%</div>
+            <div class="economic-item"><strong>UF:</strong> $39.145,76</div>
+            <div class="economic-item"><strong>UTM:</strong> $68.306</div>
+            <div class="economic-item"><strong>UTA:</strong> $819.672</div>
+            <div class="economic-item"><strong>DÓLAR:</strong> $950,30</div>
+            <div class="economic-item"><strong>EURO:</strong> $1.021,45</div>
+            <div class="economic-item"><strong>IPC:</strong> +0,3%</div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="bg-primary-dark border-b border-white/10 sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-6 lg:px-8 py-3.5">
+            <div class="flex items-center justify-between gap-6">
+                <a href="index.html" class="flex-shrink-0">
+                    <img src="assets/radar-tributario-logo.png"
+                         alt="Radar Tributario" class="h-9 w-auto">
+                </a>
+                <div class="hidden md:flex items-center space-x-7">
+                    <a href="index.html"         class="text-white hover:text-accent transition-colors font-medium text-sm">Inicio</a>
+                    <a href="noticias.html"       class="text-white hover:text-accent transition-colors font-medium text-sm">Noticias</a>
+                    <a href="sobre-nosotros.html" class="text-white hover:text-accent transition-colors font-medium text-sm">Nosotros</a>
+                    <a href="categoria.html"      class="text-white hover:text-accent transition-colors font-medium text-sm">Blog</a>
+                    <a href="contacto.html"       class="text-white hover:text-accent transition-colors font-medium text-sm">Contacto</a>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button id="mobile-menu-btn" class="md:hidden text-white hover:text-accent">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4 border-t border-white/10">
+                <div class="flex flex-col space-y-4 pt-4">
+                    <a href="index.html"    class="text-white font-medium">Inicio</a>
+                    <a href="noticias.html" class="text-white font-medium">Noticias</a>
+                    <a href="contacto.html" class="text-white font-medium">Contacto</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Breadcrumb -->
+        <div class="bg-white border-b py-3" style="border-color:var(--rt-border);">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <nav class="flex items-center gap-2 text-xs" style="font-family:'Montserrat',sans-serif; color:var(--rt-muted);">
+                    <a href="index.html" class="hover:text-accent transition-colors">Inicio</a>
+                    <span>/</span>
+                    <span style="color:var(--rt-text);">Política de Privacidad</span>
+                </nav>
+            </div>
+        </div>
+
+        <section class="py-12 bg-white border-b" style="border-color:var(--rt-border);">
+            <div class="max-w-3xl mx-auto px-6 lg:px-8">
+
+                <div class="sec-rule">
+                    <span class="dept" style="color:var(--rt-navy);">Legal</span>
+                    <span class="dept text-gray-400">Última actualización: 25 de junio de 2026</span>
+                </div>
+
+                <h1 class="font-rubik font-bold mb-6" style="font-size:1.8rem; color:var(--rt-navy);">
+                    Política de Privacidad
+                </h1>
+
+                <div class="mb-8 p-5" style="border-left:4px solid var(--rt-teal); background:rgba(34,224,196,.05);">
+                    <p class="text-sm leading-relaxed" style="color:var(--rt-text);">
+                        En Radar Tributario nos comprometemos a proteger tu privacidad. Esta política describe qué datos recopilamos, cómo los usamos y cuáles son tus derechos, conforme a la <strong>Ley N.° 19.628 sobre Protección de la Vida Privada</strong> de Chile y sus modificaciones.
+                    </p>
+                </div>
+
+                <div class="legal-content">
+
+                    <h2>1. Responsable del tratamiento</h2>
+                    <p>
+                        El responsable del tratamiento de datos personales es <strong>Radar Tributario</strong>, con correo de contacto:
+                        <a href="mailto:privacidad@radartributario.cl" class="text-accent hover:underline">privacidad@radartributario.cl</a>.
+                    </p>
+
+                    <h2>2. Datos que recopilamos</h2>
+                    <p>Recopilamos datos en las siguientes situaciones:</p>
+                    <ul>
+                        <li><strong>Suscripción al newsletter:</strong> nombre (opcional) y correo electrónico.</li>
+                        <li><strong>Formulario de contacto:</strong> nombre, correo electrónico y el contenido del mensaje.</li>
+                        <li><strong>Navegación:</strong> datos de uso anónimos mediante herramientas de analítica web (páginas visitadas, tiempo de sesión, dispositivo). No vinculamos estos datos a tu identidad.</li>
+                        <li><strong>Cookies:</strong> usamos cookies técnicas necesarias y cookies analíticas anónimas. No usamos cookies publicitarias de terceros sin tu consentimiento explícito.</li>
+                    </ul>
+
+                    <h2>3. Finalidad del tratamiento</h2>
+                    <ul>
+                        <li>Envío de nuestro newsletter periódico con información tributaria (solo si te suscribes).</li>
+                        <li>Responder consultas recibidas a través del formulario de contacto.</li>
+                        <li>Mejorar la experiencia de navegación y el contenido del sitio mediante analítica anónima.</li>
+                    </ul>
+
+                    <h2>4. Plazo de conservación</h2>
+                    <p>
+                        Los datos de suscripción al newsletter se conservan mientras mantengas la suscripción activa. Los datos del formulario de contacto se conservan por un plazo máximo de 12 meses, salvo obligación legal de conservarlos por más tiempo.
+                    </p>
+
+                    <h2>5. Cesión de datos a terceros</h2>
+                    <p>
+                        No vendemos ni cedemos tus datos personales a terceros con fines comerciales. Podemos compartir datos de forma anonimizada con proveedores de servicios que nos ayudan a operar el sitio (plataforma de envío de emails, analítica), siempre bajo acuerdo de confidencialidad.
+                    </p>
+
+                    <h2>6. Tus derechos</h2>
+                    <p>Conforme a la Ley 19.628, tienes derecho a:</p>
+                    <ul>
+                        <li><strong>Acceso:</strong> solicitar qué datos tuyos tenemos almacenados.</li>
+                        <li><strong>Rectificación:</strong> corregir datos incorrectos o desactualizados.</li>
+                        <li><strong>Cancelación:</strong> solicitar la eliminación de tus datos.</li>
+                        <li><strong>Oposición:</strong> oponerte al tratamiento de tus datos para determinados fines.</li>
+                    </ul>
+                    <p>
+                        Para ejercer estos derechos, escríbenos a <a href="mailto:privacidad@radartributario.cl" class="text-accent hover:underline">privacidad@radartributario.cl</a>. Responderemos en un plazo máximo de 10 días hábiles.
+                    </p>
+
+                    <h2>7. Seguridad</h2>
+                    <p>
+                        Aplicamos medidas técnicas y organizativas razonables para proteger tus datos contra acceso no autorizado, pérdida o divulgación. Sin embargo, ningún sistema es completamente infalible.
+                    </p>
+
+                    <h2>8. Cambios a esta política</h2>
+                    <p>
+                        Podemos actualizar esta política periódicamente. Publicaremos la fecha de última actualización al inicio de este documento. Si los cambios son sustanciales, lo comunicaremos a los suscriptores por correo electrónico.
+                    </p>
+                </div>
+
+                <div class="mt-8 p-5" style="background:var(--rt-navy); border-radius:3px;">
+                    <p class="text-sm text-gray-300">
+                        Consultas sobre privacidad:
+                        <a href="mailto:privacidad@radartributario.cl" class="text-accent hover:underline ml-1">privacidad@radartributario.cl</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-primary-dark border-t border-white/8">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <img src="assets/radar-tributario-logo.png"
+                         alt="Radar Tributario" class="h-8 w-auto mb-4">
+                    <p class="text-gray-400 text-sm leading-relaxed max-w-sm">Cobertura tributaria en tiempo real para Chile.</p>
+                </div>
+                <div>
+                    <h3 class="dept text-gray-400 mb-4">Navegación</h3>
+                    <ul class="space-y-2.5">
+                        <li><a href="index.html"    class="text-gray-400 hover:text-accent text-sm transition-colors">Inicio</a></li>
+                        <li><a href="noticias.html" class="text-gray-400 hover:text-accent text-sm transition-colors">Noticias</a></li>
+                        <li><a href="categoria.html" class="text-gray-400 hover:text-accent text-sm transition-colors">Blog</a></li>
+                        <li><a href="contacto.html" class="text-gray-400 hover:text-accent text-sm transition-colors">Contacto</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="dept text-gray-400 mb-4">Legal</h3>
+                    <ul class="space-y-2.5">
+                        <li><a href="descargo-responsabilidad.html" class="text-gray-400 hover:text-accent text-sm transition-colors">Descargo de Responsabilidad</a></li>
+                        <li><a href="politica-privacidad.html"       class="text-accent text-sm">Política de Privacidad</a></li>
+                        <li><a href="terminos-uso.html"              class="text-gray-400 hover:text-accent text-sm transition-colors">Términos de Uso</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/8 mt-10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-gray-600 text-xs">© 2026 Radar Tributario. Información con fines informativos, no constituye asesoría legal o contable profesional.</p>
+                <p class="text-gray-600 text-xs">radartributario.cl</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
+
+
+

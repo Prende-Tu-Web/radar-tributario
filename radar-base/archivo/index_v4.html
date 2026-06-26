@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radar Tributario — Análisis e información tributaria en Chile</title>
+    <meta name="description" content="Radar Tributario es tu fuente de análisis tributario en Chile. Noticias del SII, IVA, renta, reforma tributaria y más.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;900&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/tailwind.config.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <style>
+        /* ── Terminal Premium — dark editorial full ── */
+
+        :root {
+            --dk-page:    #061628;
+            --dk-card:    #0D2342;
+            --dk-surface: #091E34;
+            --dk-border:  rgba(255,255,255,0.07);
+            --dk-text:    #E2E8F0;
+            --dk-muted:   #64748B;
+            --tl:         #22E0C4;
+            --tl-dim:     rgba(34,224,196,0.12);
+        }
+
+        body {
+            background-color: var(--dk-page) !important;
+            color: var(--dk-text) !important;
+        }
+
+        /* Dept label (teal, sin fondo) */
+        .dept {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--tl);
+        }
+
+        /* Card oscura con borde superior teal */
+        .dark-card {
+            background: var(--dk-card);
+            border: 1px solid var(--dk-border);
+            border-top: 3px solid var(--tl);
+        }
+
+        /* Card oscura SIN borde teal top — para variaciones */
+        .dark-card-plain {
+            background: var(--dk-card);
+            border: 1px solid var(--dk-border);
+            border-top: 1px solid var(--dk-border);
+            transition: border-top-color 250ms ease;
+        }
+        .dark-card-plain:hover {
+            border-top: 3px solid var(--tl);
+        }
+
+        /* Mini card stat */
+        .stat-tile {
+            background: var(--dk-surface);
+            border: 1px solid var(--dk-border);
+            border-left: 3px solid var(--tl);
+        }
+
+        /* Valor numérico grande */
+        .stat-big {
+            font-family: 'Rubik', sans-serif;
+            font-weight: 700;
+            font-size: 1.9rem;
+            color: var(--tl);
+            letter-spacing: -0.02em;
+            line-height: 1;
+        }
+
+        /* Tag de categoría — teal text only */
+        .cat-tl {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.58rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--tl);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Rank number */
+        .rk {
+            font-family: 'Rubik', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--tl);
+            line-height: 1;
+            flex-shrink: 0;
+            min-width: 2.2rem;
+        }
+
+        /* Separador horizontal oscuro */
+        .dk-rule {
+            border: none;
+            border-top: 1px solid var(--dk-border);
+        }
+
+        /* Byline en dark */
+        .byline-dk {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            color: var(--dk-muted);
+        }
+
+        /* Titular en dark */
+        .dk-headline {
+            font-family: 'Rubik', sans-serif;
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -0.015em;
+            color: #FFFFFF;
+        }
+        .dk-headline:hover { color: var(--tl); }
+
+        /* List item row (Más Leídos) */
+        .rank-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.25rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--dk-border);
+            transition: background 150ms ease;
+        }
+        .rank-row:hover {
+            background: rgba(34,224,196,0.04);
+            margin: 0 -1rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        /* News mini card */
+        .mini-card {
+            background: var(--dk-card);
+            border: 1px solid var(--dk-border);
+            border-radius: 0;
+            padding: 1.25rem;
+            transition: border-color 200ms ease, background 200ms ease;
+        }
+        .mini-card:hover {
+            border-color: rgba(34,224,196,0.25);
+            background: rgba(34,224,196,0.04);
+        }
+        .mini-card-title {
+            font-family: 'Rubik', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #FFFFFF;
+            line-height: 1.3;
+            transition: color 180ms ease;
+        }
+        .mini-card:hover .mini-card-title { color: var(--tl); }
+
+        /* Chevron link */
+        .tl-link {
+            color: var(--tl);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: gap 180ms ease;
+        }
+        .tl-link:hover { gap: 8px; }
+
+        /* Section header line */
+        .section-bar {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 1.5rem;
+        }
+        .section-bar::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--dk-border);
+        }
+
+        /* Newsletter strip (aún más oscuro) */
+        .nl-dark {
+            background: var(--dk-surface);
+            border-top: 1px solid var(--dk-border);
+        }
+
+        /* Imagen feature */
+        .feature-img {
+            position: relative;
+            overflow: hidden;
+        }
+        .feature-img::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, rgba(13,35,66,0.85) 0%, transparent 50%);
+        }
+    </style>
+</head>
+<body class="font-montserrat">
+
+    <!-- ╔══ INDICADORES ══╗ -->
+    <div class="economic-slider py-2">
+        <div class="economic-slider-content">
+            <div class="economic-item"><strong>UF:</strong> $39.145,76</div>
+            <div class="economic-item"><strong>UTM:</strong> $68.306</div>
+            <div class="economic-item"><strong>UTA:</strong> $819.672</div>
+            <div class="economic-item"><strong>DÓLAR:</strong> $950,30</div>
+            <div class="economic-item"><strong>EURO:</strong> $1.021,45</div>
+            <div class="economic-item"><strong>IPC:</strong> +0,3%</div>
+            <div class="economic-item"><strong>UF:</strong> $39.145,76</div>
+            <div class="economic-item"><strong>UTM:</strong> $68.306</div>
+            <div class="economic-item"><strong>UTA:</strong> $819.672</div>
+            <div class="economic-item"><strong>DÓLAR:</strong> $950,30</div>
+            <div class="economic-item"><strong>EURO:</strong> $1.021,45</div>
+            <div class="economic-item"><strong>IPC:</strong> +0,3%</div>
+        </div>
+    </div>
+
+    <!-- ╔══ HEADER ══╗ -->
+    <header class="bg-primary-dark border-b border-white/10 sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-6 lg:px-8 py-4">
+            <div class="flex items-center justify-between">
+                <a href="index4.html">
+                    <img src="../wordpress-bkp/wp-content/themes/radar-tributario/img/logo-radar-tributario.svg"
+                         alt="Radar Tributario" class="h-9 w-auto">
+                </a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index4.html"        class="text-accent font-medium nav-link is-active">Inicio</a>
+                    <a href="noticias.html"       class="text-white hover:text-accent transition-colors font-medium nav-link">Noticias</a>
+                    <a href="sobre-nosotros.html" class="text-white hover:text-accent transition-colors font-medium nav-link">Nosotros</a>
+                    <a href="categoria.html"      class="text-white hover:text-accent transition-colors font-medium nav-link">Blog</a>
+                    <a href="contacto.html"       class="text-white hover:text-accent transition-colors font-medium nav-link">Contacto</a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-white hover:text-accent">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+            <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4 border-t border-white/10">
+                <div class="flex flex-col space-y-4 pt-4">
+                    <a href="index4.html"        class="text-accent font-medium">Inicio</a>
+                    <a href="noticias.html"       class="text-white font-medium">Noticias</a>
+                    <a href="sobre-nosotros.html" class="text-white font-medium">Nosotros</a>
+                    <a href="categoria.html"      class="text-white font-medium">Blog</a>
+                    <a href="contacto.html"       class="text-white font-medium">Contacto</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- ╔══ FEATURE — Card principal con borde teal ══╗ -->
+        <section class="py-8 lg:py-12" style="background: var(--dk-page);">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+                <div class="section-bar reveal">
+                    <span class="dept">Portada</span>
+                </div>
+
+                <div class="dark-card overflow-hidden reveal reveal-d1">
+                    <div class="grid lg:grid-cols-2">
+                        <!-- Texto izquierdo -->
+                        <div class="p-8 lg:p-12 flex flex-col justify-center">
+                            <span class="cat-tl">Reforma Tributaria · 24 jun 2026</span>
+
+                            <h1 class="dk-headline mb-5"
+                                style="font-size: clamp(1.8rem, 3.5vw, 3rem);">
+                                Reforma tributaria 2026: qué cambia para pymes y contribuyentes
+                            </h1>
+
+                            <div class="h-px mb-5" style="background: var(--dk-border);"></div>
+
+                            <p class="leading-relaxed mb-7" style="color: var(--dk-muted); font-size: 0.95rem;">
+                                El Ministerio de Hacienda presentó el proyecto definitivo. Analizamos los puntos clave que afectarán a pequeñas empresas, trabajadores independientes y al régimen general.
+                            </p>
+
+                            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+                                <span class="byline-dk">
+                                    Por <span style="color: var(--dk-text);" class="font-semibold">María Torres</span>
+                                    &nbsp;·&nbsp; 8 min lectura
+                                </span>
+                                <a href="articulo.html" class="btn-primary" style="font-size: 0.85rem; padding: 0.65rem 1.4rem;">
+                                    Leer artículo completo
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Imagen derecha -->
+                        <div class="feature-img hidden lg:block" style="min-height: 380px;">
+                            <img src="../wordpress-bkp/wp-content/themes/radar-tributario/img/hero-post-image.jpg"
+                                 alt="Reforma tributaria 2026"
+                                 class="w-full h-full object-cover object-center"
+                                 style="min-height: 380px;">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ╔══ MINI CARDS — 3 noticias recientes ══╗ -->
+        <section class="pb-12" style="background: var(--dk-page);">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+                <div class="section-bar reveal">
+                    <span class="dept">Últimas Noticias</span>
+                    <a href="noticias.html" class="tl-link">
+                        Ver todas
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-px" style="background: var(--dk-border);">
+                    <a href="articulo.html" class="mini-card reveal">
+                        <span class="cat-tl">SII · 23 jun</span>
+                        <h3 class="mini-card-title mb-3">
+                            SII actualiza plazos para declaración del F29 de junio 2026
+                        </h3>
+                        <span class="byline-dk">5 min lectura</span>
+                    </a>
+                    <a href="articulo.html" class="mini-card reveal reveal-d1">
+                        <span class="cat-tl">Renta · 20 jun</span>
+                        <h3 class="mini-card-title mb-3">
+                            Operación Renta 2026: novedades y plazos que no puedes perder
+                        </h3>
+                        <span class="byline-dk">10 min lectura</span>
+                    </a>
+                    <a href="articulo.html" class="mini-card reveal reveal-d2">
+                        <span class="cat-tl">IVA · 19 jun</span>
+                        <h3 class="mini-card-title mb-3">
+                            IVA en servicios digitales: así tributan Netflix, Spotify y plataformas
+                        </h3>
+                        <span class="byline-dk">6 min lectura</span>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ╔══ EN CIFRAS — Strip de datos ══╗ -->
+        <section class="py-10" style="background: var(--dk-surface); border-top: 1px solid var(--dk-border); border-bottom: 1px solid var(--dk-border);">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+                <div class="section-bar reveal">
+                    <span class="dept">En Cifras</span>
+                    <span class="byline-dk text-xs">Actualizado 25 jun 2026 · Fuente: SII / Banco Central / INE</span>
+                </div>
+
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="stat-tile p-5 reveal">
+                        <div class="byline-dk mb-2">Unidad de Fomento</div>
+                        <div class="stat-big">$39.145</div>
+                        <div class="byline-dk text-xs mt-1">,76 · jun 2026</div>
+                    </div>
+                    <div class="stat-tile p-5 reveal reveal-d1">
+                        <div class="byline-dk mb-2">UTM</div>
+                        <div class="stat-big">$68.306</div>
+                        <div class="byline-dk text-xs mt-1">junio 2026</div>
+                    </div>
+                    <div class="stat-tile p-5 reveal reveal-d2">
+                        <div class="byline-dk mb-2">Dólar observado</div>
+                        <div class="stat-big">$950,30</div>
+                        <div class="byline-dk text-xs mt-1">25 jun 2026</div>
+                    </div>
+                    <div class="stat-tile p-5 reveal reveal-d3">
+                        <div class="byline-dk mb-2">IPC acumulado</div>
+                        <div class="stat-big">+0,3%</div>
+                        <div class="byline-dk text-xs mt-1">mayo 2026 / 12 meses</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ╔══ MÁS LEÍDOS ══╗ -->
+        <section class="py-14" style="background: var(--dk-page);">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+                <div class="section-bar reveal">
+                    <span class="dept">Más Leídos</span>
+                    <a href="noticias.html" class="tl-link">
+                        Ver todos
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-x-14">
+
+                    <!-- Col A -->
+                    <div>
+                        <a href="articulo.html" class="rank-row group reveal">
+                            <span class="rk pt-0.5">01</span>
+                            <div class="flex-1 min-w-0">
+                                <span class="cat-tl mb-0 inline-block">Renta</span>
+                                <h3 class="font-rubik font-semibold text-white text-sm leading-snug group-hover:text-accent transition-colors mb-1">
+                                    Tabla de impuesto único de segunda categoría 2026: tramos actualizados
+                                </h3>
+                                <span class="byline-dk text-xs">18 jun · 7 min</span>
+                            </div>
+                            <svg class="w-4 h-4 flex-shrink-0 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" style="color:var(--tl);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        <a href="articulo.html" class="rank-row group reveal reveal-d1">
+                            <span class="rk pt-0.5">02</span>
+                            <div class="flex-1 min-w-0">
+                                <span class="cat-tl mb-0 inline-block">SII</span>
+                                <h3 class="font-rubik font-semibold text-white text-sm leading-snug group-hover:text-accent transition-colors mb-1">
+                                    ¿Cómo emitir boleta de honorarios electrónica? Guía 2026
+                                </h3>
+                                <span class="byline-dk text-xs">12 jun · 9 min</span>
+                            </div>
+                            <svg class="w-4 h-4 flex-shrink-0 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" style="color:var(--tl);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        <a href="articulo.html" class="rank-row group reveal reveal-d2">
+                            <span class="rk pt-0.5">03</span>
+                            <div class="flex-1 min-w-0">
+                                <span class="cat-tl mb-0 inline-block">Fiscalización</span>
+                                <h3 class="font-rubik font-semibold text-white text-sm leading-snug group-hover:text-accent transition-colors mb-1">
+                                    Multas SII 2026: montos actualizados y cómo evitarlas
+                                </h3>
+                                <span class="byline-dk text-xs">5 jun · 6 min</span>
+                            </div>
+                            <svg class="w-4 h-4 flex-shrink-0 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" style="color:var(--tl);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <!-- Col B -->
+                    <div>
+                        <a href="articulo.html" class="rank-row group reveal">
+                            <span class="rk pt-0.5">04</span>
+                            <div class="flex-1 min-w-0">
+                                <span class="cat-tl mb-0 inline-block">Pymes</span>
+                                <h3 class="font-rubik font-semibold text-white text-sm leading-snug group-hover:text-accent transition-colors mb-1">
+                                    Régimen Pyme 14D Letra A: quiénes pueden acogerse y qué beneficios tiene
+                                </h3>
+                                <span class="byline-dk text-xs">2 jun · 8 min</span>
+                            </div>
+                            <svg class="w-4 h-4 flex-shrink-0 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" style="color:var(--tl);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        <a href="articulo.html" class="rank-row group reveal reveal-d1">
+                            <span class="rk pt-0.5">05</span>
+                            <div class="flex-1 min-w-0">
+                                <span class="cat-tl mb-0 inline-block">Internacional</span>
+                                <h3 class="font-rubik font-semibold text-white text-sm leading-snug group-hover:text-accent transition-colors mb-1">
+                                    Convenios para evitar la doble tributación: Chile y sus 35 tratados vigentes
+                                </h3>
+                                <span class="byline-dk text-xs">28 may · 11 min</span>
+                            </div>
+                            <svg class="w-4 h-4 flex-shrink-0 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" style="color:var(--tl);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        <a href="articulo.html" class="rank-row group reveal reveal-d2">
+                            <span class="rk pt-0.5">06</span>
+                            <div class="flex-1 min-w-0">
+                                <span class="cat-tl mb-0 inline-block">Contabilidad</span>
+                                <h3 class="font-rubik font-semibold text-white text-sm leading-snug group-hover:text-accent transition-colors mb-1">
+                                    IFRS y contabilidad tributaria: diferencias clave para el contador
+                                </h3>
+                                <span class="byline-dk text-xs">21 may · 12 min</span>
+                            </div>
+                            <svg class="w-4 h-4 flex-shrink-0 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" style="color:var(--tl);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ╔══ NEWSLETTER — Ultra minimal dark ══╗ -->
+        <section class="nl-dark py-16">
+            <div class="max-w-3xl mx-auto px-6 text-center">
+                <div class="reveal">
+                    <span class="dept block mb-5">Newsletter · Cada lunes</span>
+                    <h2 class="font-rubik font-bold text-white leading-tight mb-3"
+                        style="font-size: clamp(1.5rem, 3vw, 2.2rem);">
+                        Lo que cambió en tributación chilena,<br>
+                        sin ruido, sin spam.
+                    </h2>
+                    <p class="mb-8 text-sm" style="color: var(--dk-muted);">
+                        +3.200 contadores, abogados y empresarios lo reciben cada semana.
+                    </p>
+                </div>
+
+                <div class="flex gap-3 max-w-md mx-auto reveal reveal-d1">
+                    <input type="email"
+                           placeholder="tu@empresa.cl"
+                           class="flex-1 px-4 py-3 rounded text-white placeholder-gray-600 text-sm
+                                  newsletter-input focus:outline-none transition-colors duration-200"
+                           style="background: var(--dk-card); border: 1px solid var(--dk-border);">
+                    <button class="btn-primary newsletter-btn whitespace-nowrap text-sm" style="padding: 0.75rem 1.5rem;">
+                        Suscribirme
+                    </button>
+                </div>
+
+                <p class="mt-4 text-xs" style="color: var(--dk-muted);">Sin spam. Cancelás cuando quieras.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ╔══ FOOTER ══╗ -->
+    <footer style="background: var(--dk-surface); border-top: 1px solid var(--dk-border);">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <img src="../wordpress-bkp/wp-content/themes/radar-tributario/img/logo-radar-tributario.svg"
+                         alt="Radar Tributario" class="h-8 w-auto mb-4">
+                    <p class="text-sm leading-relaxed max-w-sm" style="color: var(--dk-muted);">
+                        Medio digital especializado en tributación chilena. Información verificada para contadores, abogados y empresarios.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="dept block mb-4">Navegación</h3>
+                    <ul class="space-y-2.5">
+                        <li><a href="index4.html"        class="text-sm transition-colors hover:text-accent" style="color:var(--dk-muted);">Inicio</a></li>
+                        <li><a href="noticias.html"       class="text-sm transition-colors hover:text-accent" style="color:var(--dk-muted);">Noticias</a></li>
+                        <li><a href="categoria.html"      class="text-sm transition-colors hover:text-accent" style="color:var(--dk-muted);">Blog</a></li>
+                        <li><a href="sobre-nosotros.html" class="text-sm transition-colors hover:text-accent" style="color:var(--dk-muted);">Nosotros</a></li>
+                        <li><a href="contacto.html"       class="text-sm transition-colors hover:text-accent" style="color:var(--dk-muted);">Contacto</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="dept block mb-4">Legal</h3>
+                    <ul class="space-y-2.5">
+                        <li><a href="#" class="text-sm transition-colors hover:text-accent" style="color:var(--dk-muted);">Descargo de Responsabilidad</a></li>
+                        <li><a href="#" class="text-sm transition-colors hover:text-accent" style="color:var(--dk-muted);">Política de Privacidad</a></li>
+                        <li><a href="#" class="text-sm transition-colors hover:text-accent" style="color:var(--dk-muted);">Términos de Uso</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4" style="border-top: 1px solid var(--dk-border);">
+                <p class="text-xs" style="color:var(--dk-muted);">© 2026 Radar Tributario. Información con fines informativos, no constituye asesoría legal o contable profesional.</p>
+                <p class="text-xs" style="color:var(--dk-muted);">radartributario.cl</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

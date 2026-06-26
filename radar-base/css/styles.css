@@ -1,0 +1,441 @@
+/* Estilos personalizados para Radar Tributario */
+
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Montserrat:wght@400;500;600&display=swap');
+
+:root {
+  --color-primary-dark: #0E2E4F;
+  --color-primary: #0E2E4F;
+  --color-accent: #22E0C4;
+  --color-text-primary: #1A202C;
+  --color-text-secondary: #4A5568;
+  --color-border-subtle: #E2E8F0;
+  --color-card-dark: #F7FAFC;
+  --color-bg-primary: #F1EFF4;
+  --color-bg-secondary: #F8FAFC;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+}
+
+.font-rubik     { font-family: 'Rubik', sans-serif; }
+.font-montserrat{ font-family: 'Montserrat', sans-serif; }
+
+/* Tracking negativo en titulares Rubik */
+.font-rubik.font-bold,
+.font-rubik.font-semibold { letter-spacing: -0.01em; }
+
+a { text-decoration: none; transition: all 0.3s ease; }
+
+/* Botones */
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-accent), #1BC4A8);
+  color: var(--color-primary-dark);
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(34,224,196,0.3); }
+
+.btn-secondary {
+  border: 2px solid var(--color-accent);
+  color: var(--color-accent);
+  background: transparent;
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.btn-secondary:hover { background: var(--color-accent); color: var(--color-primary-dark); transform: translateY(-2px); }
+
+/* Cards */
+.card-hover { transition: all 0.3s ease; }
+.card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+
+/* Slider de indicadores económicos */
+.economic-slider {
+  background: var(--color-primary-dark);
+  color: white;
+  overflow: hidden;
+  position: relative;
+}
+
+.economic-slider-content {
+  display: flex;
+  animation: slideLeft 30s linear infinite;
+  white-space: nowrap;
+}
+
+.economic-item {
+  display: flex;
+  align-items: center;
+  margin-right: 5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0 1rem;
+}
+
+.economic-item strong {
+  color: var(--color-accent);
+  margin-right: 0.5rem;
+}
+
+@keyframes slideLeft {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge-accent {
+  background: rgba(34, 224, 196, 0.2);
+  color: var(--color-accent);
+}
+
+/* Paginación */
+.pagination-button { transition: all 0.3s ease; cursor: pointer; }
+.pagination-button:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(34,224,196,0.2); }
+.pagination-button.active { background: var(--color-accent); color: var(--color-primary-dark); font-weight: 600; }
+
+/* Filtros */
+.filter-button { transition: all 0.3s ease; cursor: pointer; }
+.filter-button:hover { transform: translateY(-1px); background: var(--color-accent) !important; color: var(--color-primary-dark) !important; }
+
+/* Formularios */
+.form-input {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border-subtle);
+  color: var(--color-text-primary);
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+.form-input:focus { outline: none; border-color: var(--color-accent); box-shadow: 0 0 0 3px rgba(34,224,196,0.1); }
+
+/* Gradiente de texto */
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-accent), #1BC4A8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Menú móvil */
+#mobile-menu.hidden { display: none; }
+
+/* FAQ accordion */
+.faq-item {
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  background: var(--color-bg-secondary);
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  gap: 1rem;
+}
+
+.faq-question:hover { background: rgba(34, 224, 196, 0.05); }
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s ease;
+  padding: 0 1.5rem;
+}
+
+.faq-answer.open {
+  max-height: 400px;
+  padding: 0 1.5rem 1.25rem;
+}
+
+.faq-icon {
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.faq-icon.rotated { transform: rotate(180deg); }
+
+/* ═══════════════════════════════════
+   WOW V2 — Efectos modernos
+═══════════════════════════════════ */
+
+/* Barra de lectura */
+#read-progress {
+  position: fixed;
+  top: 0; left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-accent), #1BC4A8);
+  z-index: 9999;
+  pointer-events: none;
+  transition: width 80ms linear;
+  border-radius: 0 2px 2px 0;
+}
+
+/* Smart header */
+header {
+  transition: transform 280ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+header.header-up {
+  transform: translateY(-100%);
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 520ms ease-out, transform 520ms ease-out;
+  will-change: transform, opacity;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  will-change: auto;
+}
+.reveal-d1 { transition-delay: 90ms; }
+.reveal-d2 { transition-delay: 180ms; }
+.reveal-d3 { transition-delay: 270ms; }
+
+/* Card hover mejorado con acento lateral */
+.card-enhanced {
+  transition: all 300ms ease-out;
+}
+.card-enhanced:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    inset 3px 0 0 var(--color-accent),
+    0 12px 36px rgba(34,224,196,0.12),
+    0 20px 40px rgba(0,0,0,0.08);
+}
+
+/* Ripple en botones */
+.btn-primary,
+.btn-secondary {
+  position: relative;
+  overflow: hidden;
+}
+.ripple-wave {
+  position: absolute;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  margin-top: -50px;
+  margin-left: -50px;
+  background: rgba(255,255,255,0.25);
+  transform: scale(0);
+  animation: ripple-go 600ms ease-out forwards;
+  pointer-events: none;
+}
+@keyframes ripple-go {
+  to { transform: scale(5); opacity: 0; }
+}
+
+/* Nav underline draw */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 200ms ease-out;
+  border-radius: 1px;
+}
+.nav-link:hover::after,
+.nav-link.is-active::after {
+  transform: scaleX(1);
+}
+
+/* Ticker: layout flex para el LIVE label */
+.economic-slider {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.ticker-track {
+  flex: 1;
+  overflow: hidden;
+}
+.ticker-live-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px 0 12px;
+  flex-shrink: 0;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.5);
+  white-space: nowrap;
+  border-right: 1px solid rgba(255,255,255,0.12);
+}
+.ticker-live-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--color-accent);
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: live-pulse 2s ease-in-out infinite;
+}
+@keyframes live-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34,224,196,0.6); }
+  50%       { box-shadow: 0 0 0 5px rgba(34,224,196,0); }
+}
+
+/* Ticker: flash overlay al cargar */
+.economic-slider::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: rgba(34,224,196,0.14);
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+}
+.economic-slider.ticker-flashing::after {
+  animation: ticker-flash-overlay 900ms ease-out forwards;
+}
+@keyframes ticker-flash-overlay {
+  0%   { opacity: 0; }
+  25%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Hero entrance animation */
+.hero-img-enter {
+  animation: hero-from-left 650ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 100ms both;
+}
+.hero-content-enter {
+  animation: hero-from-right 650ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 280ms both;
+}
+@keyframes hero-from-left {
+  from { opacity: 0; transform: translateX(-28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes hero-from-right {
+  from { opacity: 0; transform: translateX(28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Badge pulse para artículo destacado */
+.badge-pulse {
+  animation: badge-beat 4s ease-in-out infinite;
+}
+@keyframes badge-beat {
+  0%, 80%, 100% { transform: scale(1); box-shadow: none; }
+  90%            { transform: scale(1.07); box-shadow: 0 0 0 5px rgba(34,224,196,0.25); }
+}
+
+/* Ghost rank numbers en "Más Leídos" */
+.rank-article {
+  position: relative;
+  overflow: hidden;
+}
+.rank-ghost {
+  position: absolute;
+  bottom: -10px;
+  right: 14px;
+  font-family: 'Rubik', sans-serif;
+  font-size: 6.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(14,46,79,0.07);
+  user-select: none;
+  pointer-events: none;
+  z-index: 0;
+  transition: color 350ms ease;
+  letter-spacing: -0.04em;
+}
+.rank-article:hover .rank-ghost {
+  color: rgba(34,224,196,0.14);
+}
+.rank-article > .grid {
+  position: relative;
+  z-index: 1;
+}
+
+/* Newsletter input glow */
+.newsletter-input {
+  transition: box-shadow 300ms ease, border-color 300ms ease !important;
+}
+.newsletter-input:focus {
+  box-shadow: 0 0 0 3px rgba(34,224,196,0.25), 0 0 20px rgba(34,224,196,0.10) !important;
+  outline: none !important;
+  border-color: var(--color-accent) !important;
+}
+
+/* Newsletter button shimmer */
+.newsletter-btn {
+  position: relative;
+  overflow: hidden;
+}
+.newsletter-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+  transform: skewX(-15deg);
+  animation: shimmer-pass 2.8s ease-in-out infinite 1.2s;
+}
+@keyframes shimmer-pass {
+  0%   { left: -80%; }
+  100% { left: 130%; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .economic-slider-content { animation-duration: 20s; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+  .hero-img-enter,
+  .hero-content-enter { opacity: 1; transform: none; animation: none; }
+  .badge-pulse { animation: none; }
+  .ticker-live-dot { animation: none; }
+  .newsletter-btn::after { animation: none; }
+  header { transition: none; }
+}

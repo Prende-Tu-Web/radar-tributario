@@ -1,0 +1,429 @@
+﻿<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reforma tributaria 2026: qué cambia para pymes — Radar Tributario</title>
+    <meta name="description" content="El Ministerio de Hacienda presentó el proyecto definitivo de reforma tributaria. Analizamos los cambios clave para pymes y contribuyentes.">
+    <meta property="og:title" content="Reforma tributaria 2026: qué cambia para pymes — Radar Tributario">
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2026-06-24">
+        <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="canonical" href="https://radartributario.cl/noticias/reforma-tributaria-2026-pymes/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/tailwind.config.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <style>
+        :root {
+            --rt-navy:#0f2547; --rt-dark:#091a35; --rt-red:#c0392b;
+            --rt-teal:#22E0C4; --rt-warn:#f59e0b; --rt-bg:#f5f4f0;
+            --rt-border:#d4cfc8; --rt-text:#1e293b; --rt-muted:#64748b;
+        }
+        body { background:var(--rt-bg) !important; color:var(--rt-text); }
+        .dept { font-family:'Montserrat',sans-serif; font-size:.58rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; }
+        .sec-rule { display:flex; align-items:center; gap:12px; padding-bottom:10px; border-bottom:2px solid var(--rt-navy); margin-bottom:20px; }
+        .rt-tag { font-family:'Montserrat',sans-serif; font-size:.56rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; }
+        .rt-tag-red { color:var(--rt-red); } .rt-tag-teal { color:var(--rt-teal); } .rt-tag-navy { color:var(--rt-navy); }
+        .live-dot { display:inline-flex; align-items:center; gap:5px; font-family:'Montserrat',sans-serif; font-size:.58rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--rt-red); }
+        .live-dot::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--rt-red); animation:pulse-dot 1.5s ease-in-out infinite; }
+        @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
+
+        /* Article body */
+        .article-body h2 { font-family:'Rubik',sans-serif; font-size:1.3rem; font-weight:700; color:var(--rt-navy); margin:2rem 0 0.75rem; }
+        .article-body h3 { font-family:'Rubik',sans-serif; font-size:1.05rem; font-weight:600; color:var(--rt-text); margin:1.5rem 0 0.5rem; }
+        .article-body p { font-size:.95rem; line-height:1.75; color:#374151; margin-bottom:1rem; }
+        .article-body ul { margin-bottom:1rem; padding-left:0; list-style:none; }
+        .article-body ul li { font-size:.95rem; line-height:1.7; color:#374151; padding:.25rem 0 .25rem 1rem; position:relative; }
+        .article-body ul li::before { content:'·'; position:absolute; left:0; color:var(--rt-teal); font-weight:700; }
+
+        /* Executive summary */
+        .exec-box { background:var(--rt-navy); border-radius:4px; padding:1.5rem; margin-bottom:1.5rem; }
+        .exec-box-title { font-family:'Montserrat',sans-serif; font-size:.6rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--rt-teal); margin-bottom:.75rem; }
+        .exec-box li { font-size:.88rem; line-height:1.6; color:#d1d5db; padding:.2rem 0 .2rem 1rem; position:relative; }
+        .exec-box li::before { content:'▸'; position:absolute; left:0; color:var(--rt-teal); font-size:.6rem; top:.35rem; }
+
+        /* Pull quote */
+        .pull-quote { border-left:3px solid var(--rt-teal); padding:1rem 1.25rem; margin:1.5rem 0; background:rgba(34,224,196,.04); }
+        .pull-quote p { font-family:'Rubik',sans-serif; font-size:1.05rem; font-style:italic; font-weight:500; color:var(--rt-navy); line-height:1.6; margin:0; }
+
+        /* Calendar dark box */
+        .cal-box { background:var(--rt-navy); border-radius:4px; padding:1.25rem 1.5rem; margin:1.5rem 0; }
+        .cal-title { font-family:'Montserrat',sans-serif; font-size:.6rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--rt-teal); margin-bottom:.75rem; }
+        .cal-row { display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; padding:.5rem 0; border-bottom:1px solid rgba(255,255,255,.08); font-size:.85rem; }
+        .cal-row:last-child { border-bottom:none; }
+        .cal-date { color:white; font-weight:600; font-family:'Rubik',sans-serif; flex-shrink:0; }
+        .cal-desc { color:#9ca3af; }
+
+        /* Sidebar cards */
+        .sidebar-calc { background:var(--rt-navy); border:1px solid rgba(255,255,255,.08); padding:14px; display:flex; align-items:center; gap:10px; cursor:pointer; transition:background 200ms; }
+        .sidebar-calc:hover { background:#162f5c; }
+        .sii-row-sm { display:flex; gap:10px; align-items:flex-start; padding:8px 0; border-bottom:1px solid var(--rt-border); font-size:.82rem; }
+        .sii-row-sm:last-child { border-bottom:none; }
+        .sii-num-sm { font-family:'Montserrat',sans-serif; font-size:.5rem; font-weight:700; color:var(--rt-teal); background:rgba(34,224,196,.08); padding:2px 5px; border-radius:2px; white-space:nowrap; flex-shrink:0; }
+    </style>
+</head>
+<body class="font-montserrat">
+
+    <!-- INDICADORES ECONÓMICOS -->
+    <div class="economic-slider py-2">
+        <div class="economic-slider-content">
+            <div class="economic-item"><strong>UF:</strong> $39.145,76</div>
+            <div class="economic-item"><strong>UTM:</strong> $68.306</div>
+            <div class="economic-item"><strong>UTA:</strong> $819.672</div>
+            <div class="economic-item"><strong>DÓLAR:</strong> $950,30</div>
+            <div class="economic-item"><strong>EURO:</strong> $1.021,45</div>
+            <div class="economic-item"><strong>IPC:</strong> +0,3%</div>
+            <div class="economic-item"><strong>UF:</strong> $39.145,76</div>
+            <div class="economic-item"><strong>UTM:</strong> $68.306</div>
+            <div class="economic-item"><strong>UTA:</strong> $819.672</div>
+            <div class="economic-item"><strong>DÓLAR:</strong> $950,30</div>
+            <div class="economic-item"><strong>EURO:</strong> $1.021,45</div>
+            <div class="economic-item"><strong>IPC:</strong> +0,3%</div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="bg-primary-dark border-b border-white/10 sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-6 lg:px-8 py-3.5">
+            <div class="flex items-center justify-between gap-6">
+                <a href="index.html" class="flex-shrink-0">
+                    <img src="assets/radar-tributario-logo.png"
+                         alt="Radar Tributario" class="h-9 w-auto">
+                </a>
+                <div class="hidden md:flex items-center space-x-7">
+                    <a href="index.html"         class="text-white hover:text-accent transition-colors font-medium text-sm">Inicio</a>
+                    <a href="noticias.html"       class="text-accent font-medium text-sm">Noticias</a>
+                    <a href="sobre-nosotros.html" class="text-white hover:text-accent transition-colors font-medium text-sm">Nosotros</a>
+                    <a href="categoria.html"      class="text-white hover:text-accent transition-colors font-medium text-sm">Blog</a>
+                    <a href="contacto.html"       class="text-white hover:text-accent transition-colors font-medium text-sm">Contacto</a>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="live-dot hidden md:flex">En vivo</span>
+                    <a href="noticias.html#newsletter" class="hidden md:inline-flex text-xs font-semibold px-4 py-2 rounded transition-all"
+                       style="background:var(--rt-red); color:white; font-family:'Montserrat',sans-serif; letter-spacing:.06em;">
+                        Alertas gratis
+                    </a>
+                    <button id="mobile-menu-btn" class="md:hidden text-white hover:text-accent">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4 border-t border-white/10">
+                <div class="flex flex-col space-y-4 pt-4">
+                    <a href="index.html"         class="text-white font-medium">Inicio</a>
+                    <a href="noticias.html"       class="text-accent font-medium">Noticias</a>
+                    <a href="sobre-nosotros.html" class="text-white font-medium">Nosotros</a>
+                    <a href="contacto.html"       class="text-white font-medium">Contacto</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Breadcrumb -->
+        <div class="bg-white border-b py-3" style="border-color:var(--rt-border);">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <nav class="flex items-center gap-2 text-xs" style="font-family:'Montserrat',sans-serif; color:var(--rt-muted);">
+                    <a href="index.html" class="hover:text-accent transition-colors">Inicio</a>
+                    <span>/</span>
+                    <a href="noticias.html" class="hover:text-accent transition-colors">Noticias</a>
+                    <span>/</span>
+                    <span style="color:var(--rt-text);">Reforma tributaria 2026…</span>
+                </nav>
+            </div>
+        </div>
+
+        <!-- 2-COLUMN LAYOUT -->
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-8">
+            <div class="grid lg:grid-cols-12 gap-10">
+
+                <!-- MAIN ARTICLE (8/12) -->
+                <article class="lg:col-span-8">
+
+                    <!-- Article header -->
+                    <header class="mb-6">
+                        <div class="flex items-center gap-3 mb-3 flex-wrap">
+                            <span class="dept px-2 py-1 text-white" style="background:var(--rt-red); font-size:.52rem;">URGENTE</span>
+                            <span class="rt-tag rt-tag-navy">Reforma Tributaria</span>
+                            <span class="rt-tag rt-tag-navy">Legislación</span>
+                        </div>
+                        <h1 class="font-rubik font-bold leading-tight mb-4" style="font-size:clamp(1.5rem,3vw,2.2rem); color:var(--rt-navy);">
+                            Reforma tributaria 2026: qué cambia para pymes y contribuyentes individuales
+                        </h1>
+                        <p class="text-gray-500 leading-relaxed mb-5" style="font-size:.95rem;">
+                            El Ministerio de Hacienda presentó esta semana el proyecto definitivo. Analizamos los puntos clave que afectarán a pequeñas empresas, trabajadores independientes y el régimen general — incluidos los cambios aprobados en comisión.
+                        </p>
+
+                        <!-- Imagen hero -->
+                        <div class="relative mb-5 overflow-hidden" style="border-radius:4px; height:320px;">
+                            <img src="../wordpress-bkp/wp-content/themes/radar-tributario/img/hero-post-image.jpg"
+                                 alt="Reforma tributaria 2026"
+                                 class="w-full h-full object-cover">
+                            <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(15,37,71,.5) 0%,transparent 50%);"></div>
+                        </div>
+
+                        <!-- Byline -->
+                        <div class="flex items-center justify-between flex-wrap gap-3 pb-5 border-b" style="border-color:var(--rt-border);">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-full flex items-center justify-center" style="background:rgba(15,37,71,.12);">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:var(--rt-navy);"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                </div>
+                                <div>
+                                    <span class="text-sm font-semibold block" style="color:var(--rt-text);">Nayadeth Miranda</span>
+                                    <span class="text-xs text-gray-400" style="font-family:'Montserrat',sans-serif;">Gerenta de Impuestos · CPA</span>
+                                </div>
+                            </div>
+                            <div class="text-xs text-gray-400 flex items-center gap-3" style="font-family:'Montserrat',sans-serif;">
+                                <span>24 de junio, 2026</span>
+                                <span>·</span>
+                                <span>8 min lectura</span>
+                            </div>
+                        </div>
+                    </header>
+
+                    <!-- Article body -->
+                    <div class="article-body">
+
+                        <!-- Resumen ejecutivo -->
+                        <div class="exec-box">
+                            <div class="exec-box-title">Resumen ejecutivo</div>
+                            <ul>
+                                <li>Tasa de primera categoría sube de 25% a 27% para régimen general</li>
+                                <li>Pymes en Pro Pyme mantienen tasa de 25%</li>
+                                <li>Nuevo tramo de 44% para rentas anuales sobre 1.000 UF</li>
+                                <li>IVA del 10% para servicios de arriendo en plataformas digitales</li>
+                                <li>Vigencia estimada: enero de 2027 para primera categoría</li>
+                            </ul>
+                        </div>
+
+                        <h2>¿Qué cambia para las pymes?</h2>
+
+                        <p>
+                            La propuesta mantiene el régimen Pro Pyme (artículo 14 D de la Ley de Renta) como el sistema base para empresas con ventas anuales hasta 75.000 UF, pero introduce dos modificaciones relevantes que las empresas medianas deben considerar.
+                        </p>
+
+                        <h3>Cambios en tasa de primera categoría</h3>
+
+                        <ul>
+                            <li><strong>Tasa de primera categoría sube de 25% a 27%</strong> para el régimen general, mientras que las empresas acogidas al Pro Pyme mantienen la tasa del 25%.</li>
+                            <li><strong>Crédito por compras de activo fijo</strong> se amplía: las pymes podrán imputar hasta el 50% del IVA pagado en bienes de capital como crédito contra el impuesto de primera categoría.</li>
+                            <li><strong>Plazo de pérdidas tributarias</strong> se limita a 5 años hacia adelante para el régimen general.</li>
+                        </ul>
+
+                        <div class="pull-quote">
+                            <p>Las empresas con ventas hasta 75.000 UF en Pro Pyme no verán aumentar su tasa impositiva. El alza del 25% al 27% afecta solo a quienes operen bajo el régimen general.</p>
+                        </div>
+
+                        <h2>Cambios para personas naturales</h2>
+
+                        <p>
+                            Los trabajadores dependientes e independientes verán modificaciones en los tramos del impuesto global complementario. La principal novedad es la creación de un nuevo tramo del 44% para rentas anuales superiores a 1.000 UF, lo que afecta a contribuyentes de altos ingresos.
+                        </p>
+
+                        <h2>IVA: pocas novedades pero una excepción importante</h2>
+
+                        <p>
+                            El IVA permanece en 19%. Sin embargo, se introduce IVA del 10% a los servicios de arriendo de inmuebles amoblados por plataformas digitales (Airbnb, Booking), que actualmente operan en un vacío normativo que el SII ha reconocido como un problema de equidad tributaria.
+                        </p>
+
+                        <h2>¿Cuándo entraría en vigencia?</h2>
+
+                        <div class="cal-box">
+                            <div class="cal-title">Calendario tentativo de implementación</div>
+                            <div class="cal-row">
+                                <span class="cal-date">1 ene 2027</span>
+                                <span class="cal-desc">Cambios de primera categoría y tramos de global complementario</span>
+                            </div>
+                            <div class="cal-row">
+                                <span class="cal-date">Mediados 2026</span>
+                                <span class="cal-desc">IVA digital si hay despacho rápido en el Congreso</span>
+                            </div>
+                            <div class="cal-row">
+                                <span class="cal-date">A definir</span>
+                                <span class="cal-desc">Crédito activo fijo ampliado para pymes (en negociación)</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Share strip -->
+                    <div class="flex items-center justify-between mt-8 pt-6 border-t" style="border-color:var(--rt-border);">
+                        <div>
+                            <span class="dept block mb-1" style="color:var(--rt-navy);">Compartir</span>
+                            <span class="text-xs text-gray-400">Ayuda a otros a estar informados</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <a href="#" class="w-9 h-9 flex items-center justify-center border hover:border-accent transition-colors" style="border-color:var(--rt-border);">
+                                <svg class="w-4 h-4 text-gray-400 hover:text-accent" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                            </a>
+                            <a href="#" class="w-9 h-9 flex items-center justify-center border hover:border-accent transition-colors" style="border-color:var(--rt-border);">
+                                <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Artículos relacionados -->
+                    <div class="mt-10">
+                        <div class="sec-rule">
+                            <span class="dept" style="color:var(--rt-navy);">Artículos relacionados</span>
+                        </div>
+                        <div class="grid sm:grid-cols-3 gap-4">
+                            <a href="articulo.html" class="group block p-4 border hover:border-accent transition-colors" style="border-color:var(--rt-border); background:white;">
+                                <span class="rt-tag rt-tag-teal block mb-2">Renta</span>
+                                <h3 class="font-rubik font-semibold text-sm leading-snug" style="color:var(--rt-text);">Operación Renta 2026: novedades y plazos</h3>
+                                <span class="rt-tag rt-tag-navy mt-3 inline-block group-hover:text-accent transition-colors">Leer →</span>
+                            </a>
+                            <a href="articulo.html" class="group block p-4 border hover:border-accent transition-colors" style="border-color:var(--rt-border); background:white;">
+                                <span class="rt-tag rt-tag-teal block mb-2">PYMEs</span>
+                                <h3 class="font-rubik font-semibold text-sm leading-snug" style="color:var(--rt-text);">Régimen Pro Pyme 14D: guía completa 2026</h3>
+                                <span class="rt-tag rt-tag-navy mt-3 inline-block group-hover:text-accent transition-colors">Leer →</span>
+                            </a>
+                            <a href="articulo.html" class="group block p-4 border hover:border-accent transition-colors" style="border-color:var(--rt-border); background:white;">
+                                <span class="rt-tag rt-tag-red block mb-2">SII</span>
+                                <h3 class="font-rubik font-semibold text-sm leading-snug" style="color:var(--rt-text);">Multas SII 2026: montos actualizados</h3>
+                                <span class="rt-tag rt-tag-navy mt-3 inline-block group-hover:text-accent transition-colors">Leer →</span>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- SIDEBAR (4/12) -->
+                <aside class="lg:col-span-4 space-y-8">
+
+                    <!-- SII Esta semana -->
+                    <div>
+                        <div class="sec-rule">
+                            <span class="dept" style="color:var(--rt-navy);">SII · Esta semana</span>
+                        </div>
+                        <div>
+                            <div class="sii-row-sm">
+                                <span class="sii-num-sm">RES. 67</span>
+                                <span class="font-rubik text-xs leading-snug" style="color:var(--rt-text);">Nuevos criterios de fiscalización e-commerce segundo semestre 2026</span>
+                            </div>
+                            <div class="sii-row-sm">
+                                <span class="sii-num-sm">CIRC. 22</span>
+                                <span class="font-rubik text-xs leading-snug" style="color:var(--rt-text);">Actualización facturas electrónicas tipo 39 y 41 — nuevos campos</span>
+                            </div>
+                            <div class="sii-row-sm">
+                                <span class="sii-num-sm">OF. 1.201</span>
+                                <span class="font-rubik text-xs leading-snug" style="color:var(--rt-text);">Tratamiento tributario de tokens y criptoactivos — criterio actualizado</span>
+                            </div>
+                            <div class="sii-row-sm">
+                                <span class="sii-num-sm">RES. 65</span>
+                                <span class="font-rubik text-xs leading-snug" style="color:var(--rt-text);">Prórroga plazo declaración F29 contribuyentes afectados zona norte</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calculadoras -->
+                    <div>
+                        <div class="sec-rule">
+                            <span class="dept" style="color:var(--rt-navy);">Calculadoras</span>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="sidebar-calc">
+                                <div class="w-8 h-8 rounded flex items-center justify-center flex-shrink-0" style="background:rgba(34,224,196,.12);">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:var(--rt-teal);"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 11h.01M12 11h.01M15 11h.01M4 19h16a2 2 0 002-2V7a2 2 0 00-2-2H4a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                                </div>
+                                <div>
+                                    <div class="font-rubik font-semibold text-xs text-white leading-tight">Calculadora IVA</div>
+                                    <div class="text-gray-500 mt-0.5" style="font-size:.58rem; font-family:'Montserrat',sans-serif;">Neto → Bruto · Bruto → Neto</div>
+                                </div>
+                            </div>
+                            <div class="sidebar-calc">
+                                <div class="w-8 h-8 rounded flex items-center justify-center flex-shrink-0" style="background:rgba(34,224,196,.12);">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:var(--rt-teal);"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                </div>
+                                <div>
+                                    <div class="font-rubik font-semibold text-xs text-white leading-tight">PPM Estimado</div>
+                                    <div class="text-gray-500 mt-0.5" style="font-size:.58rem; font-family:'Montserrat',sans-serif;">Cálculo pagos provisionales</div>
+                                </div>
+                            </div>
+                            <div class="sidebar-calc">
+                                <div class="w-8 h-8 rounded flex items-center justify-center flex-shrink-0" style="background:rgba(34,224,196,.12);">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:var(--rt-teal);"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                </div>
+                                <div>
+                                    <div class="font-rubik font-semibold text-xs text-white leading-tight">Converter UF</div>
+                                    <div class="text-gray-500 mt-0.5" style="font-size:.58rem; font-family:'Montserrat',sans-serif;">UF ↔ CLP en tiempo real</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Newsletter sidebar -->
+                    <div class="p-5" style="background:var(--rt-navy);">
+                        <div class="dept text-accent mb-3">Newsletter gratuito</div>
+                        <p class="text-white text-sm font-rubik font-semibold leading-snug mb-4">Alertas tributarias directas a tu correo</p>
+                        <input type="email" placeholder="tu@empresa.cl"
+                               class="w-full px-3 py-2.5 text-sm text-white placeholder-gray-600 mb-3 focus:outline-none"
+                               style="background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:2px; font-family:'Montserrat',sans-serif;">
+                        <button class="w-full py-2.5 text-xs font-semibold text-white rounded transition-all"
+                                style="background:var(--rt-red); font-family:'Montserrat',sans-serif; letter-spacing:.06em;">
+                            Suscribirme gratis →
+                        </button>
+                        <p class="text-gray-600 text-xs text-center mt-2" style="font-family:'Montserrat',sans-serif;">Sin spam. Cancelás cuando quieras.</p>
+                    </div>
+
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-primary-dark border-t border-white/8">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <img src="assets/radar-tributario-logo.png"
+                         alt="Radar Tributario" class="h-8 w-auto mb-4">
+                    <p class="text-gray-400 text-sm leading-relaxed max-w-sm">
+                        Cobertura tributaria en tiempo real para Chile. Resoluciones del SII, plazos urgentes y análisis para profesionales.
+                    </p>
+                    <div class="flex space-x-4 mt-5">
+                        <a href="#" class="text-gray-500 hover:text-accent transition-colors" title="X (Twitter)">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-accent transition-colors" title="LinkedIn">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="dept text-gray-400 mb-4">Secciones</h3>
+                    <ul class="space-y-2.5">
+                        <li><a href="noticias.html"       class="text-gray-400 hover:text-accent text-sm transition-colors">Noticias</a></li>
+                        <li><a href="categoria.html"      class="text-gray-400 hover:text-accent text-sm transition-colors">SII · Resoluciones</a></li>
+                        <li><a href="sobre-nosotros.html" class="text-gray-400 hover:text-accent text-sm transition-colors">Nosotros</a></li>
+                        <li><a href="contacto.html"       class="text-gray-400 hover:text-accent text-sm transition-colors">Contacto</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="dept text-gray-400 mb-4">Legal</h3>
+                    <ul class="space-y-2.5">
+                        <li><a href="descargo-responsabilidad.html" class="text-gray-400 hover:text-accent text-sm transition-colors">Descargo de Responsabilidad</a></li>
+                        <li><a href="politica-privacidad.html"       class="text-gray-400 hover:text-accent text-sm transition-colors">Política de Privacidad</a></li>
+                        <li><a href="terminos-uso.html"              class="text-gray-400 hover:text-accent text-sm transition-colors">Términos de Uso</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/8 mt-10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-gray-600 text-xs">© 2026 Radar Tributario. Información con fines informativos, no constituye asesoría legal o contable profesional.</p>
+                <p class="text-gray-600 text-xs">radartributario.cl</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
+
+

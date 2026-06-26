@@ -1,0 +1,216 @@
+﻿<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descargo de Responsabilidad — Radar Tributario</title>
+    <meta name="description" content="Descargo de responsabilidad de Radar Tributario. La información publicada es de carácter informativo y no constituye asesoría tributaria profesional.">
+    <meta name="robots" content="noindex, follow">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/tailwind.config.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <style>
+        :root {
+            --rt-navy:#0f2547; --rt-dark:#091a35; --rt-red:#c0392b;
+            --rt-teal:#22E0C4; --rt-warn:#f59e0b; --rt-bg:#f5f4f0;
+            --rt-border:#d4cfc8; --rt-text:#1e293b; --rt-muted:#64748b;
+        }
+        body { background:var(--rt-bg) !important; color:var(--rt-text); }
+        .dept { font-family:'Montserrat',sans-serif; font-size:.58rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; }
+        .sec-rule { display:flex; align-items:center; gap:12px; padding-bottom:10px; border-bottom:2px solid var(--rt-navy); margin-bottom:20px; }
+        .live-dot { display:inline-flex; align-items:center; gap:5px; font-family:'Montserrat',sans-serif; font-size:.58rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--rt-red); }
+        .live-dot::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--rt-red); animation:pulse-dot 1.5s ease-in-out infinite; }
+        @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
+
+        /* Legal content */
+        .legal-content h2 { font-family:'Rubik',sans-serif; font-size:1rem; font-weight:700; color:var(--rt-navy); margin:1.75rem 0 .5rem; padding-top:1.25rem; border-top:1px solid var(--rt-border); }
+        .legal-content h2:first-child { border-top:none; padding-top:0; margin-top:0; }
+        .legal-content p { font-size:.9rem; line-height:1.75; color:#4b5563; margin-bottom:.75rem; }
+        .legal-content ul { margin-bottom:.75rem; padding-left:0; list-style:none; }
+        .legal-content ul li { font-size:.9rem; line-height:1.7; color:#4b5563; padding:.2rem 0 .2rem 1.1rem; position:relative; }
+        .legal-content ul li::before { content:'·'; position:absolute; left:0; color:var(--rt-teal); font-weight:700; font-size:1.1rem; line-height:1.4; }
+        .legal-content strong { color:var(--rt-text); }
+    </style>
+</head>
+<body class="font-montserrat">
+
+    <!-- INDICADORES ECONÓMICOS -->
+    <div class="economic-slider py-2">
+        <div class="economic-slider-content">
+            <div class="economic-item"><strong>UF:</strong> $39.145,76</div>
+            <div class="economic-item"><strong>UTM:</strong> $68.306</div>
+            <div class="economic-item"><strong>UTA:</strong> $819.672</div>
+            <div class="economic-item"><strong>DÓLAR:</strong> $950,30</div>
+            <div class="economic-item"><strong>EURO:</strong> $1.021,45</div>
+            <div class="economic-item"><strong>IPC:</strong> +0,3%</div>
+            <div class="economic-item"><strong>UF:</strong> $39.145,76</div>
+            <div class="economic-item"><strong>UTM:</strong> $68.306</div>
+            <div class="economic-item"><strong>UTA:</strong> $819.672</div>
+            <div class="economic-item"><strong>DÓLAR:</strong> $950,30</div>
+            <div class="economic-item"><strong>EURO:</strong> $1.021,45</div>
+            <div class="economic-item"><strong>IPC:</strong> +0,3%</div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="bg-primary-dark border-b border-white/10 sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-6 lg:px-8 py-3.5">
+            <div class="flex items-center justify-between gap-6">
+                <a href="index.html" class="flex-shrink-0">
+                    <img src="assets/radar-tributario-logo.png"
+                         alt="Radar Tributario" class="h-9 w-auto">
+                </a>
+                <div class="hidden md:flex items-center space-x-7">
+                    <a href="index.html"         class="text-white hover:text-accent transition-colors font-medium text-sm">Inicio</a>
+                    <a href="noticias.html"       class="text-white hover:text-accent transition-colors font-medium text-sm">Noticias</a>
+                    <a href="sobre-nosotros.html" class="text-white hover:text-accent transition-colors font-medium text-sm">Nosotros</a>
+                    <a href="categoria.html"      class="text-white hover:text-accent transition-colors font-medium text-sm">Blog</a>
+                    <a href="contacto.html"       class="text-white hover:text-accent transition-colors font-medium text-sm">Contacto</a>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button id="mobile-menu-btn" class="md:hidden text-white hover:text-accent">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4 border-t border-white/10">
+                <div class="flex flex-col space-y-4 pt-4">
+                    <a href="index.html"    class="text-white font-medium">Inicio</a>
+                    <a href="noticias.html" class="text-white font-medium">Noticias</a>
+                    <a href="contacto.html" class="text-white font-medium">Contacto</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Breadcrumb -->
+        <div class="bg-white border-b py-3" style="border-color:var(--rt-border);">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <nav class="flex items-center gap-2 text-xs" style="font-family:'Montserrat',sans-serif; color:var(--rt-muted);">
+                    <a href="index.html" class="hover:text-accent transition-colors">Inicio</a>
+                    <span>/</span>
+                    <span style="color:var(--rt-text);">Descargo de Responsabilidad</span>
+                </nav>
+            </div>
+        </div>
+
+        <section class="py-12 bg-white border-b" style="border-color:var(--rt-border);">
+            <div class="max-w-3xl mx-auto px-6 lg:px-8">
+
+                <div class="sec-rule">
+                    <span class="dept" style="color:var(--rt-navy);">Legal</span>
+                    <span class="dept text-gray-400">Última actualización: 25 de junio de 2026</span>
+                </div>
+
+                <h1 class="font-rubik font-bold mb-6" style="font-size:1.8rem; color:var(--rt-navy);">
+                    Descargo de Responsabilidad
+                </h1>
+
+                <!-- Aviso destacado -->
+                <div class="mb-8 p-5" style="border-left:4px solid var(--rt-teal); background:rgba(34,224,196,.05);">
+                    <p class="text-sm leading-relaxed" style="color:var(--rt-text);">
+                        La información publicada en Radar Tributario (radartributario.cl) tiene carácter <strong>exclusivamente informativo y educativo</strong>. No constituye, en ningún caso, asesoría legal, contable ni tributaria profesional.
+                    </p>
+                </div>
+
+                <div class="legal-content">
+
+                    <h2>1. Propósito del contenido</h2>
+                    <p>
+                        Radar Tributario es un medio de comunicación digital especializado en tributación chilena. Nuestros artículos, análisis y guías tienen por objetivo informar, explicar y facilitar la comprensión de la normativa tributaria vigente en Chile. No reemplazamos en ningún caso la consulta con un profesional habilitado (contador auditor, abogado tributarista u otro especialista certificado).
+                    </p>
+
+                    <h2>2. Exactitud y vigencia de la información</h2>
+                    <p>
+                        Si bien procuramos que toda la información publicada sea precisa y esté actualizada al momento de su publicación, la normativa tributaria chilena puede cambiar con rapidez mediante resoluciones, circulares y oficios del SII, leyes, reglamentos y modificaciones administrativas.
+                    </p>
+                    <p>
+                        Radar Tributario no garantiza que la información publicada se encuentre vigente al momento en que el lector la consulte. Es responsabilidad del lector verificar la información con las fuentes oficiales pertinentes antes de tomar cualquier decisión.
+                    </p>
+
+                    <h2>3. No somos asesores tributarios</h2>
+                    <p>
+                        Radar Tributario no es un estudio jurídico ni una firma contable. Ningún artículo, comentario, respuesta o publicación de este sitio configura una relación de asesoría profesional entre el lector y Radar Tributario o sus colaboradores. Para resolver situaciones tributarias específicas, te recomendamos acudir a un profesional habilitado e inscrito en el Colegio de Contadores o el Colegio de Abogados de Chile.
+                    </p>
+
+                    <h2>4. Limitación de responsabilidad</h2>
+                    <p>
+                        Radar Tributario, sus editores, redactores y colaboradores no serán responsables por daños directos, indirectos, incidentales o consecuentes derivados del uso o la imposibilidad de usar la información contenida en este sitio, incluidas, sin limitación, pérdidas económicas, multas, sanciones o cualquier otro perjuicio patrimonial que pudiera sufrir el usuario.
+                    </p>
+
+                    <h2>5. Enlaces a sitios externos</h2>
+                    <p>
+                        Este sitio puede contener enlaces a sitios de terceros (SII, Hacienda, Diario Oficial u otros). Radar Tributario no es responsable del contenido, la exactitud ni las prácticas de privacidad de dichos sitios externos.
+                    </p>
+
+                    <h2>6. Fuentes oficiales recomendadas</h2>
+                    <p>Para información tributaria oficial y vinculante, consulta siempre:</p>
+                    <ul>
+                        <li>Servicio de Impuestos Internos (SII): <strong>sii.cl</strong></li>
+                        <li>Ministerio de Hacienda: <strong>hacienda.cl</strong></li>
+                        <li>Biblioteca del Congreso Nacional: <strong>bcn.cl</strong></li>
+                        <li>Diario Oficial: <strong>diariooficial.interior.gob.cl</strong></li>
+                    </ul>
+                </div>
+
+                <!-- Contacto legal -->
+                <div class="mt-8 p-5" style="background:var(--rt-navy); border-radius:3px;">
+                    <p class="text-sm text-gray-300">
+                        Consultas sobre este descargo:
+                        <a href="mailto:editorial@radartributario.cl" class="text-accent hover:underline ml-1">editorial@radartributario.cl</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-primary-dark border-t border-white/8">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <img src="assets/radar-tributario-logo.png"
+                         alt="Radar Tributario" class="h-8 w-auto mb-4">
+                    <p class="text-gray-400 text-sm leading-relaxed max-w-sm">Cobertura tributaria en tiempo real para Chile.</p>
+                </div>
+                <div>
+                    <h3 class="dept text-gray-400 mb-4">Navegación</h3>
+                    <ul class="space-y-2.5">
+                        <li><a href="index.html"    class="text-gray-400 hover:text-accent text-sm transition-colors">Inicio</a></li>
+                        <li><a href="noticias.html" class="text-gray-400 hover:text-accent text-sm transition-colors">Noticias</a></li>
+                        <li><a href="categoria.html" class="text-gray-400 hover:text-accent text-sm transition-colors">Blog</a></li>
+                        <li><a href="contacto.html" class="text-gray-400 hover:text-accent text-sm transition-colors">Contacto</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="dept text-gray-400 mb-4">Legal</h3>
+                    <ul class="space-y-2.5">
+                        <li><a href="descargo-responsabilidad.html" class="text-accent text-sm">Descargo de Responsabilidad</a></li>
+                        <li><a href="politica-privacidad.html"       class="text-gray-400 hover:text-accent text-sm transition-colors">Política de Privacidad</a></li>
+                        <li><a href="terminos-uso.html"              class="text-gray-400 hover:text-accent text-sm transition-colors">Términos de Uso</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/8 mt-10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-gray-600 text-xs">© 2026 Radar Tributario. Información con fines informativos, no constituye asesoría legal o contable profesional.</p>
+                <p class="text-gray-600 text-xs">radartributario.cl</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
+
+
+

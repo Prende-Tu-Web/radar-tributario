@@ -1,0 +1,32 @@
+# WordPress backup — solo para migración local, no va al repo
+wordpress-bkp/
+
+# Claude Code project memory
+.claude/
+
+# Dependencias Node
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+dist/
+.output/
+.vercel/
+.netlify/
+
+# Env con secrets
+.env
+.env.local
+.env.*.local
+
+# Sanity
+.sanity/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+.idea/
