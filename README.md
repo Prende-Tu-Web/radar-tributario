@@ -3,7 +3,7 @@
 Medio digital tributario para Chile. Migración de WordPress a Astro + Sanity + Vercel.
 
 **Sitio en producción:** https://radar-tributario-tau.vercel.app  
-**Sanity Studio:** https://radartributario.sanity.studio  
+**Sanity Studio:** https://radartributario.sanity.studio ✅  
 **Repo:** https://github.com/Prende-Tu-Web/radar-tributario
 
 ---
@@ -224,7 +224,7 @@ Reforzado en dos capas:
 | 1 — Fundación Astro | ✅ Completo | Astro + Sanity + Vercel en producción |
 | 2 — Páginas | ✅ Completo | Home, Noticias, Artículo, Categoría, Autor, Nosotros, Contacto, Legales |
 | 3 — Dominio | 🔄 Pendiente | Conectar `radartributario.cl` + `studio.radartributario.cl` |
-| 4 — Studio deploy | 🔄 Pendiente | `npx sanity deploy` en `studio/` |
+| 4 — Studio deploy | ✅ Completo | https://radartributario.sanity.studio |
 | 5 — Migración WP | Pendiente | Script migración contenido + redirects 301 |
 | 6 — SEO y performance | Pendiente | JSON-LD, sitemap, Core Web Vitals |
 | 7 — Auto-generador IA | Futuro | Sistema externo de borradores con revisión humana obligatoria |
