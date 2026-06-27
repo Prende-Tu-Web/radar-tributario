@@ -1,32 +1,51 @@
 ---
-// Indicadores económicos — valores se actualizarán vía API en Fase 4
-// Por ahora son placeholders estáticos para no bloquear el deploy inicial
-const indicators = [
-  { label: 'UF', value: '$38.432,16', change: '+0.02%', up: true },
-  { label: 'UTM', value: '$67.294', change: '—', up: null },
-  { label: 'Dólar', value: '$937,50', change: '-1.20%', up: false },
-  { label: 'Euro', value: '$1.012,30', change: '+0.45%', up: true },
-  { label: 'IPC', value: '0.3%', change: 'may 2026', up: null },
-];
+interface Indicator { label: string; value: string; sub?: string }
+
+const fallback: Indicator[] = [
+  { label: 'UF',     value: '—' },
+  { label: 'UTM',    value: '—' },
+  { label: 'Dólar',  value: '—' },
+  { label: 'Euro',   value: '—' },
+  { label: 'IPC',    value: '—' },
+]
+
+function clp(n: number) {
+  return '$' + n.toLocaleString('es-CL', { minimumFractionDigits: 0, maximumFractionDigits: 2 })
+}
+
+let indicators: Indicator[] = fallback
+try {
+  const res = await fetch('https://mindicador.cl/api', { signal: AbortSignal.timeout(4000) })
+  if (res.ok) {
+    const data = await res.json()
+    indicators = [
+      { label: 'UF',    value: clp(data.uf?.valor),    sub: 'hoy' },
+      { label: 'UTM',   value: clp(data.utm?.valor),   sub: new Date(data.utm?.fecha).toLocaleDateString('es-CL', { month: 'short', year: 'numeric' }) },
+      { label: 'Dólar', value: clp(data.dolar?.valor),  sub: 'hoy' },
+      { label: 'Euro',  value: clp(data.euro?.valor),   sub: 'hoy' },
+      { label: 'IPC',   value: data.ipc?.valor + '%',   sub: new Date(data.ipc?.fecha).toLocaleDateString('es-CL', { month: 'short', year: 'numeric' }) },
+    ]
+  }
+} catch {
+  // Mantiene fallback si la API no responde
+}
+
+const doubled = [...indicators, ...indicators]
 ---
 
-<div class="bg-rt-navy text-white overflow-hidden">
+<div style="background:#0f2547; color:white; overflow:hidden;">
   <div class="flex items-stretch">
-    <div class="bg-rt-red px-4 flex items-center shrink-0 text-[11px] font-semibold uppercase tracking-wider" style="font-family:'Montserrat',sans-serif">
+    <div class="shrink-0 flex items-center px-4 text-[11px] font-semibold uppercase tracking-wider" style="background:#c0392b; font-family:'Montserrat',sans-serif;">
       Indicadores
     </div>
-    <div class="overflow-hidden flex-1 relative">
+    <div class="overflow-hidden flex-1">
       <div class="economic-slider py-2">
-        {[...indicators, ...indicators].map((ind) => (
-          <span class="inline-flex items-center gap-2 px-6 text-[12px]" style="font-family:'Montserrat',sans-serif">
-            <span class="text-rt-teal font-semibold">{ind.label}</span>
+        {doubled.map((ind) => (
+          <span class="inline-flex items-center gap-1.5 px-6 text-[12px]" style="font-family:'Montserrat',sans-serif;">
+            <span style="color:#22E0C4;" class="font-semibold">{ind.label}</span>
             <span class="font-medium">{ind.value}</span>
-            {ind.change !== '—' && (
-              <span class={ind.up === true ? 'text-green-400' : ind.up === false ? 'text-rt-red' : 'text-gray-400'}>
-                {ind.change}
-              </span>
-            )}
-            <span class="text-gray-600 mx-2">|</span>
+            {ind.sub && <span class="text-gray-500 text-[10px]">{ind.sub}</span>}
+            <span class="text-gray-700 mx-2">|</span>
           </span>
         ))}
       </div>
