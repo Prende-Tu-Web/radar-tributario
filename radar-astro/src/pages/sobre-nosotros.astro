@@ -1,6 +1,16 @@
 ---
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { sanityClient } from '../lib/sanity';
+import type { Author } from '../lib/types';
+
+const authors = await sanityClient.fetch<Author[]>(
+  `*[_type == "author"] | order(name asc) { _id, name, slug, bio, credentials }`
+);
+
+function authorSlug(name: string) {
+  return authors.find(a => a.name.toLowerCase().includes(name.toLowerCase()))?.slug.current ?? '#';
+}
 ---
 
 <BaseLayout
@@ -88,7 +98,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:var(--rt-navy);"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
           </div>
           <div>
-            <h3 class="font-bold text-base mb-0.5" style="font-family:'Rubik',sans-serif; color:var(--rt-navy);">Nayadeth Miranda</h3>
+            <h3 class="font-bold text-base mb-0.5" style="font-family:'Rubik',sans-serif; color:var(--rt-navy);">
+              <a href={`/autor/${authorSlug('Nayadeth')}/`} class="hover:text-rt-teal transition-colors">Nayadeth Miranda</a>
+            </h3>
             <div class="dept mb-2" style="color:var(--rt-teal); font-size:.55rem;">Gerenta de Impuestos · CPA</div>
             <p class="text-sm text-gray-500 leading-relaxed">
               Especialista en tributación empresarial. Magíster en gestión tributaria con más de 8 años de experiencia en empresa y consultoría.
@@ -101,7 +113,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:var(--rt-navy);"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
           </div>
           <div>
-            <h3 class="font-bold text-base mb-0.5" style="font-family:'Rubik',sans-serif; color:var(--rt-navy);">Alexis Contreras</h3>
+            <h3 class="font-bold text-base mb-0.5" style="font-family:'Rubik',sans-serif; color:var(--rt-navy);">
+              <a href={`/autor/${authorSlug('Alexis')}/`} class="hover:text-rt-teal transition-colors">Alexis Contreras</a>
+            </h3>
             <div class="dept mb-2" style="color:var(--rt-teal); font-size:.55rem;">Technical Lead · Co-Founder</div>
             <p class="text-sm text-gray-500 leading-relaxed">
               Especialista en análisis tecnológico e implementación de soluciones digitales. Lidera la transformación de Radar Tributario al stack moderno.
