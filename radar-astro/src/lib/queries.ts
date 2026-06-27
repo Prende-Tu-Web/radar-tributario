@@ -47,3 +47,13 @@ export const allCategoriesQuery = `*[_type == "category"] | order(name asc) {
 export const allPublishedSlugsQuery = `*[_type == "post" && status == "publicado"] {
   "slug": slug.current
 }`;
+
+export const authorBySlugQuery = `*[_type == "author" && slug.current == $slug][0] {
+  _id, name, slug, bio, credentials, photo
+}`;
+
+export const postsByAuthorQuery = `*[_type == "post" && status == "publicado" && author->slug.current == $slug] | order(publishedAt desc) {
+  ${postFields}
+}`;
+
+export const allAuthorSlugsQuery = `*[_type == "author"] { "slug": slug.current }`;

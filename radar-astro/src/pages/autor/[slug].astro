@@ -1,0 +1,115 @@
+---
+export const prerender = false;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { sanityClient } from '../../lib/sanity';
+import { authorBySlugQuery, postsByAuthorQuery } from '../../lib/queries';
+import { urlFor } from '../../lib/urlFor';
+import type { Author, Post } from '../../lib/types';
+
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect('/404');
+
+const [author, posts] = await Promise.all([
+  sanityClient.fetch<Author | null>(authorBySlugQuery, { slug }),
+  sanityClient.fetch<Post[]>(postsByAuthorQuery, { slug }),
+]);
+
+if (!author) return Astro.redirect('/404');
+
+const photoUrl = author.photo
+  ? urlFor(author.photo).width(240).height(240).fit('crop').url()
+  : null;
+
+const initials = author.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+---
+
+<BaseLayout
+  title={`${author.name} | Radar Tributario`}
+  description={author.bio ?? `Artículos de ${author.name} en Radar Tributario.`}
+>
+  <!-- Breadcrumb -->
+  <div class="bg-white border-b py-3" style="border-color:var(--rt-border);">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <nav class="flex items-center gap-2 text-xs" style="font-family:'Montserrat',sans-serif; color:var(--rt-muted);">
+        <a href="/" class="hover:text-rt-teal transition-colors">Inicio</a>
+        <span>/</span>
+        <span style="color:var(--rt-text);">{author.name}</span>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Hero del autor -->
+  <section style="background:var(--rt-navy);" class="py-14">
+    <div class="max-w-5xl mx-auto px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+
+        <!-- Foto o avatar -->
+        <div class="shrink-0">
+          {photoUrl ? (
+            <img
+              src={photoUrl}
+              alt={author.name}
+              width="120" height="120"
+              class="rounded-full object-cover ring-4"
+              style="ring-color:rgba(34,224,196,.3); width:120px; height:120px;"
+            />
+          ) : (
+            <div
+              class="rounded-full flex items-center justify-center text-3xl font-bold ring-4"
+              style="width:120px; height:120px; background:rgba(34,224,196,.12); color:#22E0C4; ring-color:rgba(34,224,196,.3); font-family:'Rubik',sans-serif;"
+            >
+              {initials}
+            </div>
+          )}
+        </div>
+
+        <!-- Info -->
+        <div class="text-center md:text-left">
+          <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:#22E0C4; font-family:'Montserrat',sans-serif;">
+            Equipo editorial
+          </p>
+          <h1 class="text-3xl font-bold text-white mb-1" style="font-family:'Rubik',sans-serif;">
+            {author.name}
+          </h1>
+          {author.credentials && (
+            <p class="text-sm mb-4" style="color:rgba(255,255,255,.55); font-family:'Montserrat',sans-serif;">
+              {author.credentials}
+            </p>
+          )}
+          {author.bio && (
+            <p class="text-sm leading-relaxed max-w-xl" style="color:rgba(255,255,255,.75); font-family:'Montserrat',sans-serif;">
+              {author.bio}
+            </p>
+          )}
+
+          <!-- Stat de artículos -->
+          <div class="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-sm text-sm font-semibold"
+               style="background:rgba(34,224,196,.1); border:1px solid rgba(34,224,196,.2); color:#22E0C4; font-family:'Montserrat',sans-serif;">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            {posts.length} artículo{posts.length !== 1 ? 's' : ''} publicado{posts.length !== 1 ? 's' : ''}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Artículos del autor -->
+  <div class="max-w-7xl mx-auto px-6 lg:px-8 py-10">
+    <div class="sec-rule mb-6">
+      <span class="dept" style="color:var(--rt-navy);">Publicaciones</span>
+    </div>
+
+    {posts.length === 0 ? (
+      <div class="py-20 text-center">
+        <p class="text-rt-muted text-sm">Este autor aún no tiene artículos publicados.</p>
+      </div>
+    ) : (
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {posts.map(post => <PostCard post={post} variant="card" />)}
+      </div>
+    )}
+  </div>
+</BaseLayout>

@@ -12,6 +12,7 @@ export interface Author {
   name: string;
   slug: { current: string };
   bio?: string;
+  credentials?: string;
   photo?: SanityImage;
 }
 
