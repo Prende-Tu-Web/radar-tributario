@@ -22,9 +22,10 @@ const nav = [
 const pathname = Astro.url.pathname;
 ---
 
+<div class="sticky top-0 z-50">
 <Ticker />
 
-<header class="sticky top-0 z-50" style="background:#0f2547; border-bottom:1px solid rgba(255,255,255,0.1);">
+<header style="background:#0f2547; border-bottom:1px solid rgba(255,255,255,0.1);">
   <div class="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
     <a href="/" class="flex items-center gap-3">
       <img src="/logo.png" alt="Radar Tributario" class="h-9 w-auto" />
@@ -113,6 +114,7 @@ const pathname = Astro.url.pathname;
     </nav>
   </div>
 </header>
+</div>
 
 <script>
   const btn = document.getElementById('mobile-menu-btn');

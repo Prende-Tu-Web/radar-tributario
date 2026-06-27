@@ -143,6 +143,7 @@
 
 .economic-slider {
   display: flex;
+  width: max-content;   /* crucial: debe ser más ancho que el contenedor */
   animation: ticker-scroll 30s linear infinite;
   white-space: nowrap;
 }
