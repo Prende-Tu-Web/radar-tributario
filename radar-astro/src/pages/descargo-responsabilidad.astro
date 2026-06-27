@@ -3,12 +3,65 @@ export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Descargo de responsabilidad | Radar Tributario" noIndex={true}>
-  <div class="max-w-3xl mx-auto px-4 py-12">
-    <h1 class="text-3xl font-bold text-rt-navy mb-6" style="font-family:'Rubik',sans-serif">Descargo de responsabilidad</h1>
-    <div class="prose prose-slate max-w-none">
-      <p>La información publicada en Radar Tributario tiene carácter informativo y divulgativo. No constituye asesoría legal ni tributaria y no reemplaza la opinión de un profesional calificado.</p>
-      <p>Los autores no se hacen responsables por decisiones tomadas con base en el contenido de este sitio. Consulte siempre a un contador o abogado tributario para su situación particular.</p>
+<BaseLayout title="Descargo de Responsabilidad | Radar Tributario" noIndex={true}
+  description="La información publicada en Radar Tributario es de carácter informativo y no constituye asesoría tributaria profesional.">
+
+  <div class="bg-white border-b py-3" style="border-color:var(--rt-border);">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <nav class="flex items-center gap-2 text-xs" style="font-family:'Montserrat',sans-serif; color:var(--rt-muted);">
+        <a href="/" class="hover:text-rt-teal transition-colors">Inicio</a>
+        <span>/</span>
+        <span style="color:var(--rt-text);">Descargo de Responsabilidad</span>
+      </nav>
     </div>
   </div>
+
+  <section class="py-12 bg-white border-b" style="border-color:var(--rt-border);">
+    <div class="max-w-3xl mx-auto px-6 lg:px-8">
+      <div class="sec-rule">
+        <span class="dept" style="color:var(--rt-navy);">Legal</span>
+        <span class="dept text-gray-400">Última actualización: 25 de junio de 2026</span>
+      </div>
+      <h1 class="font-bold mb-6" style="font-family:'Rubik',sans-serif; font-size:1.8rem; color:var(--rt-navy);">
+        Descargo de Responsabilidad
+      </h1>
+      <div class="mb-8 p-5" style="border-left:4px solid var(--rt-teal); background:rgba(34,224,196,.05);">
+        <p class="text-sm leading-relaxed" style="color:var(--rt-text);">
+          La información publicada en Radar Tributario (radartributario.cl) tiene carácter <strong>exclusivamente informativo y educativo</strong>. No constituye, en ningún caso, asesoría legal, contable ni tributaria profesional.
+        </p>
+      </div>
+      <div class="legal-content">
+        <h2>1. Propósito del contenido</h2>
+        <p>Radar Tributario es un medio de comunicación digital especializado en tributación chilena. Nuestros artículos, análisis y guías tienen por objetivo informar, explicar y facilitar la comprensión de la normativa tributaria vigente en Chile. No reemplazamos en ningún caso la consulta con un profesional habilitado.</p>
+
+        <h2>2. Exactitud y vigencia de la información</h2>
+        <p>Si bien procuramos que toda la información publicada sea precisa y esté actualizada al momento de su publicación, la normativa tributaria chilena puede cambiar con rapidez mediante resoluciones, circulares y oficios del SII, leyes, reglamentos y modificaciones administrativas.</p>
+        <p>Radar Tributario no garantiza que la información publicada se encuentre vigente al momento en que el lector la consulte. Es responsabilidad del lector verificar la información con las fuentes oficiales pertinentes antes de tomar cualquier decisión.</p>
+
+        <h2>3. No somos asesores tributarios</h2>
+        <p>Radar Tributario no es un estudio jurídico ni una firma contable. Ningún artículo, comentario, respuesta o publicación de este sitio configura una relación de asesoría profesional entre el lector y Radar Tributario o sus colaboradores. Para resolver situaciones tributarias específicas, te recomendamos acudir a un profesional habilitado e inscrito en el Colegio de Contadores o el Colegio de Abogados de Chile.</p>
+
+        <h2>4. Limitación de responsabilidad</h2>
+        <p>Radar Tributario, sus editores, redactores y colaboradores no serán responsables por daños directos, indirectos, incidentales o consecuentes derivados del uso o la imposibilidad de usar la información contenida en este sitio, incluidas pérdidas económicas, multas, sanciones o cualquier otro perjuicio patrimonial.</p>
+
+        <h2>5. Enlaces a sitios externos</h2>
+        <p>Este sitio puede contener enlaces a sitios de terceros (SII, Hacienda, Diario Oficial u otros). Radar Tributario no es responsable del contenido, la exactitud ni las prácticas de privacidad de dichos sitios externos.</p>
+
+        <h2>6. Fuentes oficiales recomendadas</h2>
+        <p>Para información tributaria oficial y vinculante, consulta siempre:</p>
+        <ul>
+          <li><strong>Servicio de Impuestos Internos (SII):</strong> sii.cl</li>
+          <li><strong>Ministerio de Hacienda:</strong> hacienda.cl</li>
+          <li><strong>Biblioteca del Congreso Nacional:</strong> bcn.cl</li>
+          <li><strong>Diario Oficial:</strong> diariooficial.interior.gob.cl</li>
+        </ul>
+      </div>
+      <div class="mt-8 p-5" style="background:var(--rt-navy); border-radius:3px;">
+        <p class="text-sm text-gray-300">
+          Consultas sobre este descargo:
+          <a href="mailto:editorial@radartributario.cl" style="color:var(--rt-teal);" class="hover:underline ml-1">editorial@radartributario.cl</a>
+        </p>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

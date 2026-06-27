@@ -53,6 +53,88 @@
   }
 }
 
+/* Stat tiles (sobre-nosotros) */
+.stat-tile {
+  border-right: 1px solid rgba(255,255,255,.1);
+  padding: 1.5rem 2rem;
+  text-align: center;
+}
+.stat-tile:last-child { border-right: none; }
+
+/* Team cards */
+.team-card {
+  background: white;
+  border: 1px solid var(--rt-border);
+  padding: 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.team-avatar-icon {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: rgba(15,37,71,.08);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Valor tiles */
+.valor-tile {
+  background: white;
+  border: 1px solid var(--rt-border);
+  padding: 1.25rem;
+  border-top: 3px solid var(--rt-teal);
+}
+.valor-tile.red  { border-top-color: var(--rt-red); }
+.valor-tile.navy { border-top-color: var(--rt-navy); }
+.valor-tile.warn { border-top-color: var(--rt-warn); }
+
+/* Form inputs (contacto) */
+.rt-input {
+  width: 100%; padding: .75rem 1rem; font-size: .875rem;
+  border: 1px solid var(--rt-border); background: white;
+  color: var(--rt-text); font-family: 'Montserrat', sans-serif;
+  transition: border-color 150ms; outline: none; border-radius: 2px;
+}
+.rt-input:focus { border-color: var(--rt-navy); }
+.rt-label {
+  font-family: 'Montserrat', sans-serif; font-size: .62rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--rt-navy);
+  display: block; margin-bottom: .4rem;
+}
+
+/* FAQ */
+.faq-item { border-bottom: 1px solid var(--rt-border); }
+.faq-question {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 0; cursor: pointer;
+}
+.faq-answer { display: none; padding-bottom: 1rem; }
+.faq-answer.open { display: block; }
+.faq-icon { transition: transform 200ms; flex-shrink: 0; }
+.faq-icon.rotated { transform: rotate(180deg); }
+
+/* Legal content */
+.legal-content h2 {
+  font-family: 'Rubik', sans-serif; font-size: 1rem; font-weight: 700;
+  color: var(--rt-navy); margin: 1.75rem 0 .5rem;
+  padding-top: 1.25rem; border-top: 1px solid var(--rt-border);
+}
+.legal-content h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+.legal-content p { font-size: .9rem; line-height: 1.75; color: #4b5563; margin-bottom: .75rem; }
+.legal-content ul { margin-bottom: .75rem; padding-left: 0; list-style: none; }
+.legal-content ul li {
+  font-size: .9rem; line-height: 1.7; color: #4b5563;
+  padding: .2rem 0 .2rem 1.1rem; position: relative;
+}
+.legal-content ul li::before {
+  content: '·'; position: absolute; left: 0;
+  color: var(--rt-teal); font-weight: 700; font-size: 1.1rem; line-height: 1.4;
+}
+.legal-content strong { color: var(--rt-text); }
+.legal-content a { color: var(--rt-teal); }
+.legal-content a:hover { text-decoration: underline; }
+
 /* Economic ticker animation */
 @keyframes ticker-scroll {
   0%   { transform: translateX(0); }

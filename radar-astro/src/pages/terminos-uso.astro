@@ -3,11 +3,76 @@ export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Términos de uso | Radar Tributario" noIndex={true}>
-  <div class="max-w-3xl mx-auto px-4 py-12">
-    <h1 class="text-3xl font-bold text-rt-navy mb-6" style="font-family:'Rubik',sans-serif">Términos de uso</h1>
-    <div class="prose prose-slate max-w-none">
-      <p>Al utilizar Radar Tributario usted acepta los términos y condiciones de uso de este sitio. Contenido completo próximamente.</p>
+<BaseLayout title="Términos de Uso | Radar Tributario" noIndex={true}
+  description="Términos de uso del sitio web radartributario.cl.">
+
+  <div class="bg-white border-b py-3" style="border-color:var(--rt-border);">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <nav class="flex items-center gap-2 text-xs" style="font-family:'Montserrat',sans-serif; color:var(--rt-muted);">
+        <a href="/" class="hover:text-rt-teal transition-colors">Inicio</a>
+        <span>/</span>
+        <span style="color:var(--rt-text);">Términos de Uso</span>
+      </nav>
     </div>
   </div>
+
+  <section class="py-12 bg-white border-b" style="border-color:var(--rt-border);">
+    <div class="max-w-3xl mx-auto px-6 lg:px-8">
+      <div class="sec-rule">
+        <span class="dept" style="color:var(--rt-navy);">Legal</span>
+        <span class="dept text-gray-400">Última actualización: 25 de junio de 2026</span>
+      </div>
+      <h1 class="font-bold mb-6" style="font-family:'Rubik',sans-serif; font-size:1.8rem; color:var(--rt-navy);">
+        Términos de Uso
+      </h1>
+      <div class="mb-8 p-5" style="border-left:4px solid var(--rt-teal); background:rgba(34,224,196,.05);">
+        <p class="text-sm leading-relaxed" style="color:var(--rt-text);">
+          Al acceder y utilizar el sitio web <strong>radartributario.cl</strong>, aceptas quedar vinculado por los presentes Términos de Uso. Si no estás de acuerdo con alguno de estos términos, te pedimos que no utilices el sitio.
+        </p>
+      </div>
+      <div class="legal-content">
+        <h2>1. Objeto</h2>
+        <p>Radar Tributario es un medio de comunicación digital que publica información, análisis y comentarios sobre tributación en Chile. El acceso al sitio es gratuito y no requiere registro previo, salvo para la suscripción al newsletter.</p>
+
+        <h2>2. Uso permitido</h2>
+        <p>El usuario puede:</p>
+        <ul>
+          <li>Leer, descargar e imprimir el contenido para uso personal, no comercial.</li>
+          <li>Compartir enlaces a artículos del sitio en redes sociales u otros medios, citando la fuente.</li>
+          <li>Citar fragmentos breves del contenido con atribución expresa a Radar Tributario y enlace al artículo original.</li>
+        </ul>
+
+        <h2>3. Usos prohibidos</h2>
+        <p>Queda prohibido:</p>
+        <ul>
+          <li>Reproducir, distribuir o publicar artículos completos sin autorización escrita previa.</li>
+          <li>Usar el contenido del sitio con fines comerciales sin licencia expresa.</li>
+          <li>Scraping automatizado, indexación masiva o cualquier uso que sobrecargue los servidores.</li>
+          <li>Presentar el contenido de Radar Tributario como propio o sin atribución.</li>
+          <li>Utilizar el sitio para difundir información falsa, engañosa o que viole derechos de terceros.</li>
+        </ul>
+
+        <h2>4. Propiedad intelectual</h2>
+        <p>Todo el contenido publicado en Radar Tributario —textos, gráficos, logotipos, diseño y código— es propiedad de Radar Tributario o de sus autores y colaboradores, protegido por la <strong>Ley N.° 17.336 de Propiedad Intelectual</strong> de Chile.</p>
+
+        <h2>5. Contenido generado por terceros</h2>
+        <p>Algunos artículos pueden citar, enlazar o reproducir fragmentos de publicaciones oficiales (SII, Hacienda, Diario Oficial). Estos materiales son de dominio público o se usan bajo el principio de cita con fines informativos.</p>
+
+        <h2>6. Disponibilidad del servicio</h2>
+        <p>Radar Tributario no garantiza la disponibilidad ininterrumpida del sitio. Podemos suspender el acceso temporalmente por razones de mantenimiento, seguridad o fuerza mayor.</p>
+
+        <h2>7. Modificaciones</h2>
+        <p>Nos reservamos el derecho de modificar estos Términos de Uso en cualquier momento. Los cambios entrarán en vigor desde su publicación en esta página.</p>
+
+        <h2>8. Ley aplicable y jurisdicción</h2>
+        <p>Estos Términos de Uso se rigen por la legislación de la <strong>República de Chile</strong>. Cualquier controversia se someterá a los tribunales ordinarios de justicia de la ciudad de Santiago de Chile.</p>
+      </div>
+      <div class="mt-8 p-5" style="background:var(--rt-navy); border-radius:3px;">
+        <p class="text-sm text-gray-300">
+          Consultas sobre estos términos:
+          <a href="mailto:editorial@radartributario.cl" style="color:var(--rt-teal);" class="hover:underline ml-1">editorial@radartributario.cl</a>
+        </p>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
