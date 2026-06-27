@@ -1,29 +1,88 @@
 ---
-interface Indicator { label: string; value: string; sub?: string }
-
-const fallback: Indicator[] = [
-  { label: 'UF',     value: '—' },
-  { label: 'UTM',    value: '—' },
-  { label: 'Dólar',  value: '—' },
-  { label: 'Euro',   value: '—' },
-  { label: 'IPC',    value: '—' },
-]
+interface Indicator {
+  label: string
+  value: string
+  sub?: string
+  change?: string
+  trend?: 'up' | 'down' | 'neutral'
+}
 
 function clp(n: number) {
   return '$' + n.toLocaleString('es-CL', { minimumFractionDigits: 0, maximumFractionDigits: 2 })
 }
 
+function pct(current: number, prev: number) {
+  const diff = ((current - prev) / prev) * 100
+  const sign = diff > 0 ? '+' : ''
+  return sign + diff.toFixed(2) + '%'
+}
+
+function trend(current: number, prev: number): 'up' | 'down' | 'neutral' {
+  if (current > prev) return 'up'
+  if (current < prev) return 'down'
+  return 'neutral'
+}
+
+const fallback: Indicator[] = [
+  { label: 'UF',    value: '—', trend: 'neutral' },
+  { label: 'UTM',   value: '—', trend: 'neutral' },
+  { label: 'Dólar', value: '—', trend: 'neutral' },
+  { label: 'Euro',  value: '—', trend: 'neutral' },
+  { label: 'IPC',   value: '—', trend: 'neutral' },
+]
+
 let indicators: Indicator[] = fallback
 try {
-  const res = await fetch('https://mindicador.cl/api', { signal: AbortSignal.timeout(4000) })
-  if (res.ok) {
-    const data = await res.json()
+  const [mainRes, dolarRes, euroRes] = await Promise.all([
+    fetch('https://mindicador.cl/api',        { signal: AbortSignal.timeout(4000) }),
+    fetch('https://mindicador.cl/api/dolar',  { signal: AbortSignal.timeout(4000) }),
+    fetch('https://mindicador.cl/api/euro',   { signal: AbortSignal.timeout(4000) }),
+  ])
+
+  if (mainRes.ok && dolarRes.ok && euroRes.ok) {
+    const [main, dolarData, euroData] = await Promise.all([
+      mainRes.json(), dolarRes.json(), euroRes.json(),
+    ])
+
+    const dolarHoy  = dolarData.serie?.[0]?.valor
+    const dolarAyer = dolarData.serie?.[1]?.valor
+    const euroHoy   = euroData.serie?.[0]?.valor
+    const euroAyer  = euroData.serie?.[1]?.valor
+
+    const mesUTM = new Date(main.utm?.fecha).toLocaleDateString('es-CL', { month: 'short', year: 'numeric' })
+    const mesIPC = new Date(main.ipc?.fecha).toLocaleDateString('es-CL', { month: 'short', year: 'numeric' })
+
     indicators = [
-      { label: 'UF',    value: clp(data.uf?.valor),    sub: 'hoy' },
-      { label: 'UTM',   value: clp(data.utm?.valor),   sub: new Date(data.utm?.fecha).toLocaleDateString('es-CL', { month: 'short', year: 'numeric' }) },
-      { label: 'Dólar', value: clp(data.dolar?.valor),  sub: 'hoy' },
-      { label: 'Euro',  value: clp(data.euro?.valor),   sub: 'hoy' },
-      { label: 'IPC',   value: data.ipc?.valor + '%',   sub: new Date(data.ipc?.fecha).toLocaleDateString('es-CL', { month: 'short', year: 'numeric' }) },
+      {
+        label: 'UF',
+        value: clp(main.uf?.valor),
+        sub: 'hoy',
+        trend: 'neutral',
+      },
+      {
+        label: 'UTM',
+        value: clp(main.utm?.valor),
+        sub: mesUTM,
+        trend: 'neutral',
+      },
+      {
+        label: 'Dólar',
+        value: clp(dolarHoy),
+        change: dolarAyer ? pct(dolarHoy, dolarAyer) : undefined,
+        trend: dolarAyer ? trend(dolarHoy, dolarAyer) : 'neutral',
+      },
+      {
+        label: 'Euro',
+        value: clp(euroHoy),
+        change: euroAyer ? pct(euroHoy, euroAyer) : undefined,
+        trend: euroAyer ? trend(euroHoy, euroAyer) : 'neutral',
+      },
+      {
+        label: 'IPC',
+        value: main.ipc?.valor + '%',
+        sub: mesIPC,
+        trend: main.ipc?.valor > 0 ? 'up' : main.ipc?.valor < 0 ? 'down' : 'neutral',
+      },
     ]
   }
 } catch {
@@ -31,21 +90,37 @@ try {
 }
 
 const doubled = [...indicators, ...indicators]
+
+const trendColor = {
+  up:      '#4ade80',   // verde
+  down:    '#f87171',   // rojo suave
+  neutral: '#94a3b8',   // gris
+}
+
+const trendArrow = { up: '▲', down: '▼', neutral: '' }
 ---
 
 <div style="background:#0f2547; color:white; overflow:hidden;">
   <div class="flex items-stretch">
-    <div class="shrink-0 flex items-center px-4 text-[11px] font-semibold uppercase tracking-wider" style="background:#c0392b; font-family:'Montserrat',sans-serif;">
+    <div class="shrink-0 flex items-center px-4 text-[11px] font-semibold uppercase tracking-wider"
+         style="background:#c0392b; font-family:'Montserrat',sans-serif; letter-spacing:.1em;">
       Indicadores
     </div>
     <div class="overflow-hidden flex-1">
-      <div class="economic-slider py-2">
+      <div class="economic-slider py-1.5">
         {doubled.map((ind) => (
-          <span class="inline-flex items-center gap-1.5 px-6 text-[12px]" style="font-family:'Montserrat',sans-serif;">
-            <span style="color:#22E0C4;" class="font-semibold">{ind.label}</span>
-            <span class="font-medium">{ind.value}</span>
-            {ind.sub && <span class="text-gray-500 text-[10px]">{ind.sub}</span>}
-            <span class="text-gray-700 mx-2">|</span>
+          <span class="inline-flex items-center gap-1.5 px-5" style="font-family:'Montserrat',sans-serif; font-size:11px;">
+            <span style="color:#22E0C4; font-weight:700; letter-spacing:.05em;">{ind.label}</span>
+            <span style="font-weight:600; color:white;">{ind.value}</span>
+            {ind.change && (
+              <span style={`color:${trendColor[ind.trend ?? 'neutral']}; font-size:10px; font-weight:600;`}>
+                {trendArrow[ind.trend ?? 'neutral']} {ind.change}
+              </span>
+            )}
+            {!ind.change && ind.sub && (
+              <span style="color:#475569; font-size:10px;">{ind.sub}</span>
+            )}
+            <span style="color:#1e3a5f; margin:0 6px;">|</span>
           </span>
         ))}
       </div>
