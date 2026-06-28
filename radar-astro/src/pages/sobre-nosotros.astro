@@ -6,7 +6,7 @@ import { urlFor } from '../lib/urlFor';
 import type { Author } from '../lib/types';
 
 const authors = await sanityClient.fetch<Author[]>(
-  `*[_type == "author"] | order(displayOrder asc, name asc) { _id, name, slug, bio, credentials, photo }`
+  `*[_type == "author"] | order(displayOrder asc, name asc) { _id, name, slug, shortBio, credentials, photo }`
 );
 ---
 
@@ -120,8 +120,8 @@ const authors = await sanityClient.fetch<Author[]>(
                 {author.credentials && (
                   <div class="dept mb-2" style="color:var(--rt-teal); font-size:.55rem;">{author.credentials}</div>
                 )}
-                {author.bio && (
-                  <p class="text-sm text-gray-500 leading-relaxed">{author.bio}</p>
+                {author.shortBio && (
+                  <p class="text-sm text-gray-500 leading-relaxed">{author.shortBio}</p>
                 )}
               </div>
             </div>

@@ -37,6 +37,13 @@ export default defineType({
       description: 'Ej: Contadora · Magíster en Tributación',
     }),
     defineField({
+      name: 'shortBio',
+      title: 'Descripción corta',
+      type: 'string',
+      description: 'Aparece en la página Sobre Nosotros. Máx. ~120 caracteres.',
+      validation: (Rule) => Rule.max(120),
+    }),
+    defineField({
       name: 'displayOrder',
       title: 'Orden de aparición',
       type: 'number',
