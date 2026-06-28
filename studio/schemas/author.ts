@@ -36,6 +36,13 @@ export default defineType({
       type: 'string',
       description: 'Ej: Contadora · Magíster en Tributación',
     }),
+    defineField({
+      name: 'displayOrder',
+      title: 'Orden de aparición',
+      type: 'number',
+      description: 'Número menor aparece primero en la página Sobre Nosotros (ej: 1 = primero)',
+      initialValue: 99,
+    }),
   ],
   preview: {
     select: { title: 'name', media: 'photo' },

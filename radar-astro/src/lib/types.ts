@@ -14,6 +14,7 @@ export interface Author {
   bio?: string;
   credentials?: string;
   photo?: SanityImage;
+  displayOrder?: number;
 }
 
 export interface Category {

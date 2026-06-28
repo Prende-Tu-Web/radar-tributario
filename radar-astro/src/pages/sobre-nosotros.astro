@@ -6,7 +6,7 @@ import { urlFor } from '../lib/urlFor';
 import type { Author } from '../lib/types';
 
 const authors = await sanityClient.fetch<Author[]>(
-  `*[_type == "author"] | order(name asc) { _id, name, slug, bio, credentials, photo { asset } }`
+  `*[_type == "author"] | order(displayOrder asc, name asc) { _id, name, slug, bio, credentials, photo }`
 );
 ---
 
@@ -115,7 +115,7 @@ const authors = await sanityClient.fetch<Author[]>(
               )}
               <div>
                 <h3 class="font-bold text-base mb-0.5" style="font-family:'Rubik',sans-serif; color:var(--rt-navy);">
-                  <a href={`/autor/${author.slug.current}/`} class="hover:text-rt-teal transition-colors">{author.name}</a>
+                  <a href={author.slug?.current ? `/autor/${author.slug.current}/` : '#'} class="hover:text-rt-teal transition-colors">{author.name}</a>
                 </h3>
                 {author.credentials && (
                   <div class="dept mb-2" style="color:var(--rt-teal); font-size:.55rem;">{author.credentials}</div>
