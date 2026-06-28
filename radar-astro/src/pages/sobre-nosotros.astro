@@ -2,15 +2,12 @@
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { sanityClient } from '../lib/sanity';
+import { urlFor } from '../lib/urlFor';
 import type { Author } from '../lib/types';
 
 const authors = await sanityClient.fetch<Author[]>(
-  `*[_type == "author"] | order(name asc) { _id, name, slug, bio, credentials }`
+  `*[_type == "author"] | order(name asc) { _id, name, slug, bio, credentials, photo { asset } }`
 );
-
-function authorSlug(name: string) {
-  return authors.find(a => a.name.toLowerCase().includes(name.toLowerCase()))?.slug.current ?? '#';
-}
 ---
 
 <BaseLayout
@@ -93,35 +90,43 @@ function authorSlug(name: string) {
       </div>
 
       <div class="grid md:grid-cols-2 gap-6">
-        <div class="team-card">
-          <div class="team-avatar-icon">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:var(--rt-navy);"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-          </div>
-          <div>
-            <h3 class="font-bold text-base mb-0.5" style="font-family:'Rubik',sans-serif; color:var(--rt-navy);">
-              <a href={`/autor/${authorSlug('Nayadeth')}/`} class="hover:text-rt-teal transition-colors">Nayadeth Miranda</a>
-            </h3>
-            <div class="dept mb-2" style="color:var(--rt-teal); font-size:.55rem;">Gerenta de Impuestos · CPA</div>
-            <p class="text-sm text-gray-500 leading-relaxed">
-              Especialista en tributación empresarial. Magíster en gestión tributaria con más de 8 años de experiencia en empresa y consultoría.
-            </p>
-          </div>
-        </div>
-
-        <div class="team-card">
-          <div class="team-avatar-icon">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:var(--rt-navy);"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-          </div>
-          <div>
-            <h3 class="font-bold text-base mb-0.5" style="font-family:'Rubik',sans-serif; color:var(--rt-navy);">
-              <a href={`/autor/${authorSlug('Alexis')}/`} class="hover:text-rt-teal transition-colors">Alexis Contreras</a>
-            </h3>
-            <div class="dept mb-2" style="color:var(--rt-teal); font-size:.55rem;">Technical Lead · Co-Founder</div>
-            <p class="text-sm text-gray-500 leading-relaxed">
-              Especialista en análisis tecnológico e implementación de soluciones digitales. Lidera la transformación de Radar Tributario al stack moderno.
-            </p>
-          </div>
-        </div>
+        {authors.map(author => {
+          const photoUrl = author.photo
+            ? urlFor(author.photo).width(160).height(160).fit('crop').url()
+            : null;
+          const initials = author.name.split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase();
+          return (
+            <div class="team-card">
+              {photoUrl ? (
+                <img
+                  src={photoUrl}
+                  alt={author.name}
+                  width="64" height="64"
+                  class="shrink-0 rounded-full object-cover"
+                  style="width:64px; height:64px; border:2px solid var(--rt-border);"
+                />
+              ) : (
+                <div
+                  class="team-avatar-icon shrink-0 rounded-full flex items-center justify-center font-bold text-lg"
+                  style="width:64px; height:64px; background:var(--rt-bg); color:var(--rt-navy); font-family:'Rubik',sans-serif; border:2px solid var(--rt-border);"
+                >
+                  {initials}
+                </div>
+              )}
+              <div>
+                <h3 class="font-bold text-base mb-0.5" style="font-family:'Rubik',sans-serif; color:var(--rt-navy);">
+                  <a href={`/autor/${author.slug.current}/`} class="hover:text-rt-teal transition-colors">{author.name}</a>
+                </h3>
+                {author.credentials && (
+                  <div class="dept mb-2" style="color:var(--rt-teal); font-size:.55rem;">{author.credentials}</div>
+                )}
+                {author.bio && (
+                  <p class="text-sm text-gray-500 leading-relaxed">{author.bio}</p>
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   </section>
