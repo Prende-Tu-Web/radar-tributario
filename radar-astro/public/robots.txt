@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+# Bloquear rutas de WordPress (sitio anterior hackeado)
+Disallow: /wp-admin/
+Disallow: /wp-content/
+Disallow: /wp-includes/
+Disallow: /wp-login.php
+Disallow: /xmlrpc.php
+Disallow: /?p=
+Disallow: /?page_id=
+Disallow: /?cat=
+Disallow: /?tag=
+Disallow: /?author=
+Disallow: /?s=
+Disallow: /feed/
+Disallow: /comments/feed/
+Disallow: /trackback/
+Disallow: /cgi-bin/
+
+Sitemap: https://radartributario.cl/sitemap.xml
