@@ -16,11 +16,46 @@ const topFeatured = featured[0];
 const sideFeatured = featured.slice(1, 3);
 const latestPosts = latest.slice(0, 6);
 const denseList = latest.slice(6, 12);
+
+const homeJsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Radar Tributario',
+    url: 'https://radartributario.cl',
+    description: 'El referente en análisis tributario para Chile. Novedades del SII, impuesto a la renta, IVA, pymes y más.',
+    inLanguage: 'es-CL',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: 'https://radartributario.cl/noticias/?q={search_term_string}',
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Radar Tributario',
+    url: 'https://radartributario.cl',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://radartributario.cl/logo.png',
+    },
+    description: 'Medio digital chileno especializado en análisis tributario, novedades del SII y contabilidad.',
+    address: {
+      '@type': 'PostalAddress',
+      addressCountry: 'CL',
+    },
+  },
+];
 ---
 
 <BaseLayout
   title="Radar Tributario — Análisis tributario para Chile"
   description="El referente en análisis tributario para Chile. Novedades del SII, impuesto a la renta, IVA, pymes y más."
+  jsonLd={homeJsonLd}
 >
   <div class="max-w-7xl mx-auto px-4 py-8">
 

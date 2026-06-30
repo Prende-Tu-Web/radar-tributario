@@ -24,6 +24,40 @@ const categoryColorMap: Record<string, string> = {
 };
 const tagClass = categoryColorMap[post.category?.color ?? ''] ?? 'rt-tag rt-tag-navy';
 
+const canonicalUrl = `https://radartributario.cl/noticias/${slug}/`;
+
+const articleJsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: post.seo?.metaTitle ?? post.title,
+    description: post.seo?.metaDescription ?? post.summary,
+    url: canonicalUrl,
+    ...(imgUrl ? { image: [imgUrl] } : {}),
+    datePublished: post.publishedAt,
+    dateModified: post.publishedAt,
+    inLanguage: 'es-CL',
+    author: post.author
+      ? { '@type': 'Person', name: post.author.name, url: `https://radartributario.cl/autor/${post.author.slug?.current}/` }
+      : undefined,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Radar Tributario',
+      url: 'https://radartributario.cl',
+      logo: { '@type': 'ImageObject', url: 'https://radartributario.cl/logo.png' },
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://radartributario.cl/' },
+      { '@type': 'ListItem', position: 2, name: 'Noticias', item: 'https://radartributario.cl/noticias/' },
+      { '@type': 'ListItem', position: 3, name: post.title, item: canonicalUrl },
+    ],
+  },
+];
+
 type Block = {
   _type: string;
   _key: string;
@@ -39,9 +73,10 @@ function renderText(children: { text: string; marks?: string[] }[] = []) {
 <BaseLayout
   title={post.seo?.metaTitle ?? post.title}
   description={post.seo?.metaDescription ?? post.summary}
-  canonical={post.seo?.canonical}
+  canonical={post.seo?.canonical ?? canonicalUrl}
   noIndex={post.seo?.noIndex}
   ogImage={imgUrl}
+  jsonLd={articleJsonLd}
 >
   <article class="max-w-3xl mx-auto px-4 py-10">
 
