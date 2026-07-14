@@ -57,6 +57,8 @@ Esto se refuerza en dos capas:
 1. El token de API del auto-generador solo tiene permiso `create`, nunca `patch` en el campo `status`
 2. El Studio valida que si `source === 'ia_generado'`, el campo `revisadoPor` es obligatorio antes de publicar
 
+La capa 2 ya está implementada (`studio/schemas/post.ts:44-73`). La capa 1 y el generador en sí (botón en el Studio, integración con Claude API, scraping) están **diseñados pero no implementados** — ver `PLAN_GENERADOR_IA.md` para el plan completo y las configuraciones pendientes (API keys, tokens, variables de entorno) antes de retomar esta fase.
+
 ## Flujo editorial
 
 ```
@@ -107,7 +109,7 @@ borrador → en_revision → aprobado → publicado
 | 2 — Flujo editorial | Pendiente | Studio para editores, estados de revisión |
 | 3 — Migración WP | Pendiente | Script migración, redirects 301 |
 | 4 — SEO y performance | Pendiente | Vitals, sitemap, JSON-LD |
-| 5 — Auto-generador IA | Futuro | Integración sistema externo de borradores |
+| 5 — Auto-generador IA | **Diseñado, sin implementar** | Ver `PLAN_GENERADOR_IA.md` — botón en el Studio, Claude API (Citations + web search), scraping SII/Diario Oficial/URL manual |
 
 ## Lo que NO queremos
 
