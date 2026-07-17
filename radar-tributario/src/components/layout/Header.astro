@@ -1,0 +1,268 @@
+---
+import { getAllServices } from '../../lib/sanity/queries';
+import type { Pillar, Service, SiteSettings } from '../../lib/sanity/types';
+
+interface Props {
+  siteSettings: SiteSettings | null;
+}
+
+const { siteSettings } = Astro.props;
+
+const services = await getAllServices();
+
+const PILLARS: { key: Pillar; label: string }[] = [
+  { key: 'tributario', label: 'Tributario' },
+  { key: 'contable', label: 'Contable' },
+  { key: 'rrhh', label: 'RRHH' },
+];
+
+const columns = PILLARS.map((p) => ({
+  ...p,
+  services: services.filter((s: Service) => s.pillar === p.key),
+}));
+
+const navLinks = [
+  { label: 'Noticias', href: '/noticias/' },
+  { label: 'Sobre Nosotros', href: '/sobre-nosotros/' },
+  { label: 'Contacto', href: '/contacto/' },
+];
+
+// "Agenda una reunión" va directo a Calendly si está configurado; si no,
+// cae a /contacto/ en vez de mostrar un botón roto.
+const scheduleHref = siteSettings?.calendlyUrl || '/contacto/';
+const scheduleIsExternal = Boolean(siteSettings?.calendlyUrl);
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-40 border-b border-white/10 bg-primary">
+  <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:h-20 lg:px-8">
+    <!-- Logo real (radartributario.cl/logo.png) — diseñado para fondo navy -->
+    <a href="/" class="flex shrink-0 items-center">
+      <img src="/logo.png" alt="Radar Tributario" class="h-8 w-auto lg:h-9" />
+    </a>
+
+    <!-- Desktop nav -->
+    <nav aria-label="Principal" class="hidden items-center gap-1 lg:flex">
+      <div class="relative">
+        <button
+          id="services-trigger"
+          type="button"
+          aria-haspopup="true"
+          aria-expanded="false"
+          aria-controls="services-megamenu"
+          class="flex cursor-pointer items-center gap-1.5 rounded-md px-4 py-2 font-body text-[13px] font-medium uppercase tracking-[0.08em] text-background/75 transition-colors hover:text-accent"
+        >
+          Servicios
+          <svg
+            id="services-chevron"
+            class="h-3.5 w-3.5 transition-transform duration-200 ease-out"
+            viewBox="0 0 12 8"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+
+        <!-- Mega-menu -->
+        <div
+          id="services-megamenu"
+          role="region"
+          aria-label="Servicios por área"
+          hidden
+          class="absolute left-1/2 top-full w-[min(90vw,760px)] -translate-x-1/2 pt-3"
+        >
+          <div class="grid grid-cols-3 divide-x divide-white/10 rounded-xl border border-white/10 bg-primary shadow-[0_16px_40px_-16px_rgba(0,0,0,0.5)]">
+            {
+              columns.map((col) => (
+                <div class="p-5">
+                  <p class="mb-3 font-body text-[11px] font-semibold uppercase tracking-[0.12em] text-accent">{col.label}</p>
+                  <ul class="space-y-2.5">
+                    {col.services.map((s: Service) => (
+                      <li>
+                        <a
+                          href={`/servicios/${s.pillar}/${s.slug.current}/`}
+                          class="block font-body text-[13.5px] leading-snug text-background/70 transition-colors hover:text-accent"
+                        >
+                          {s.title}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))
+            }
+          </div>
+          <div class="mt-2 flex items-center justify-between rounded-xl border border-white/10 bg-primary px-5 py-3">
+            <a href="/servicios/" class="font-body text-[13px] font-medium text-background/75 hover:text-accent">
+              Ver todos los servicios
+            </a>
+            <a href="/combos/" class="font-body text-[13px] font-medium text-background/75 hover:text-accent">
+              Combos de entrada
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            aria-current={currentPath === link.href ? 'page' : undefined}
+            class:list={[
+              'rounded-md px-4 py-2 font-body text-[13px] font-medium uppercase tracking-[0.08em] transition-colors hover:text-accent',
+              currentPath === link.href ? 'text-accent' : 'text-background/75',
+            ]}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <a
+        href={scheduleHref}
+        target={scheduleIsExternal ? '_blank' : undefined}
+        rel={scheduleIsExternal ? 'noopener noreferrer' : undefined}
+        class="hidden rounded-md bg-accent px-4 py-2 font-body text-[13px] font-medium text-on-accent shadow-sm transition-opacity hover:opacity-90 sm:inline-flex sm:items-center"
+      >
+        Agenda una reunión
+      </a>
+
+      <!-- Mobile toggle -->
+      <button
+        id="mobile-menu-trigger"
+        type="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Abrir menú"
+        class="flex h-11 w-11 cursor-pointer items-center justify-center rounded-md text-background lg:hidden"
+      >
+        <svg id="icon-open" class="h-6 w-6" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" />
+        </svg>
+        <svg id="icon-close" class="hidden h-6 w-6" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" hidden class="border-t border-white/10 bg-primary lg:hidden">
+    <nav aria-label="Principal (móvil)" class="mx-auto max-w-7xl px-4 py-4 sm:px-6">
+      <ul class="divide-y divide-white/10">
+        {
+          columns.map((col, i) => (
+            <li>
+              <button
+                type="button"
+                class="pillar-accordion-trigger flex w-full cursor-pointer items-center justify-between py-3.5 text-left font-body text-[13px] font-semibold uppercase tracking-[0.08em] text-background/90"
+                aria-expanded="false"
+                aria-controls={`pillar-panel-${i}`}
+              >
+                {col.label}
+                <svg class="pillar-chevron h-3.5 w-3.5 transition-transform duration-200 ease-out" viewBox="0 0 12 8" fill="none" aria-hidden="true">
+                  <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+              <ul id={`pillar-panel-${i}`} hidden class="space-y-3 pb-4 pl-1">
+                {col.services.map((s: Service) => (
+                  <li>
+                    <a href={`/servicios/${s.pillar}/${s.slug.current}/`} class="block py-1 font-body text-[14px] text-background/70">
+                      {s.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="flex flex-col gap-1 pt-2">
+        <a href="/combos/" class="py-3 font-body text-[13px] font-medium uppercase tracking-[0.08em] text-background/90">Combos de entrada</a>
+        {navLinks.map((link) => (
+          <a href={link.href} class="py-3 font-body text-[13px] font-medium uppercase tracking-[0.08em] text-background/90">{link.label}</a>
+        ))}
+      </div>
+      <a
+        href={scheduleHref}
+        target={scheduleIsExternal ? '_blank' : undefined}
+        rel={scheduleIsExternal ? 'noopener noreferrer' : undefined}
+        class="mt-3 block rounded-md bg-accent px-4 py-3 text-center font-body text-[13px] font-medium text-on-accent shadow-sm"
+      >
+        Agenda una reunión
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  function setExpanded(el: Element, expanded: boolean) {
+    el.setAttribute('aria-expanded', String(expanded));
+  }
+
+  // Desktop mega-menu
+  const trigger = document.getElementById('services-trigger');
+  const menu = document.getElementById('services-megamenu');
+  const chevron = document.getElementById('services-chevron');
+
+  function closeMegaMenu() {
+    if (!trigger || !menu) return;
+    setExpanded(trigger, false);
+    menu.hidden = true;
+    chevron?.classList.remove('rotate-180');
+  }
+
+  function openMegaMenu() {
+    if (!trigger || !menu) return;
+    setExpanded(trigger, true);
+    menu.hidden = false;
+    chevron?.classList.add('rotate-180');
+  }
+
+  trigger?.addEventListener('click', () => {
+    const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+    isOpen ? closeMegaMenu() : openMegaMenu();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!menu || !trigger) return;
+    const target = e.target as Node;
+    if (!menu.contains(target) && !trigger.contains(target)) closeMegaMenu();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMegaMenu();
+  });
+
+  // Mobile menu
+  const mobileTrigger = document.getElementById('mobile-menu-trigger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('icon-open');
+  const iconClose = document.getElementById('icon-close');
+
+  mobileTrigger?.addEventListener('click', () => {
+    if (!mobileMenu) return;
+    const isOpen = mobileTrigger.getAttribute('aria-expanded') === 'true';
+    setExpanded(mobileTrigger, !isOpen);
+    mobileMenu.hidden = isOpen;
+    iconOpen?.classList.toggle('hidden', !isOpen);
+    iconClose?.classList.toggle('hidden', isOpen);
+  });
+
+  // Mobile accordion per pillar
+  document.querySelectorAll('.pillar-accordion-trigger').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const controls = btn.getAttribute('aria-controls');
+      const panel = controls ? document.getElementById(controls) : null;
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+      setExpanded(btn, !isOpen);
+      if (panel) panel.hidden = isOpen;
+      btn.querySelector('.pillar-chevron')?.classList.toggle('rotate-180', !isOpen);
+    });
+  });
+</script>

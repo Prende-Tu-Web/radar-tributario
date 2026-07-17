@@ -1,0 +1,74 @@
+---
+import { getPosts } from '../../lib/sanity/queries';
+
+// Estilo (2026-07-16): referentes Apple/Nike/Okwu — número grande + label
+// chica, sin líneas divisorias (el espacio hace el trabajo), acento teal
+// usado con disciplina en un solo detalle por stat, no repartido.
+// (2026-07-17): mismo scroll-reveal + contador animado que Sobre Nosotros.
+const postCount = (await getPosts()).length;
+
+const profile = [{ label: 'Equipo fundador', value: 'Nayadeth Miranda & Alexis Contreras' }];
+
+// "+" solo para umbrales abiertos (años, clientes) — no para el conteo
+// exacto de artículos publicados.
+const stats = [
+  { label: 'Años de experiencia', value: 8, unit: 'años', plus: true },
+  { label: 'Clientes gestionados', value: 50, unit: 'clientes', plus: true },
+  { label: 'Análisis publicados', value: postCount, unit: postCount === 1 ? 'artículo' : 'artículos', plus: false },
+];
+---
+
+<section class="border-b border-primary/10 bg-background">
+  <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+    <div class="grid grid-cols-1 gap-x-12 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        profile.map((item, i) => (
+          <div data-reveal style={`transition-delay: ${i * 70}ms`}>
+            <p class="font-heading text-xl leading-snug text-primary sm:text-2xl">{item.value}</p>
+            <p class="mt-3 font-body text-[11px] font-semibold uppercase tracking-[0.14em] text-secondary">{item.label}</p>
+          </div>
+        ))
+      }
+      {
+        stats.map((item, i) => (
+          <div data-reveal style={`transition-delay: ${(i + 1) * 70}ms`}>
+            <p class="font-heading text-6xl leading-none sm:text-7xl">
+              {item.plus && <span class="text-accent">+</span>}
+              <span class={item.plus ? 'text-primary' : 'text-accent'} data-count-to={item.value}>
+                0
+              </span>
+              <span class="ml-1 font-body text-base font-normal text-muted">{item.unit}</span>
+            </p>
+            <p class="mt-4 font-body text-[11px] font-semibold uppercase tracking-[0.14em] text-secondary">{item.label}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.6s ease,
+      transform 0.6s ease;
+  }
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  import { initScrollEffects } from '../../lib/scroll-effects';
+  initScrollEffects();
+</script>

@@ -1,0 +1,60 @@
+---
+import LeadForm from '../islands/LeadForm';
+---
+
+<section id="contacto" class="relative scroll-mt-16 overflow-hidden bg-primary lg:scroll-mt-20">
+  <!-- Capa decorativa: foto de Unsplash (curvas abstractas navy/teal, calza
+       con la paleta de marca) a opacidad media + overlay navy encima para
+       que el texto y el form sigan legibles, más el motivo "§" del Hero y
+       un glow que deriva lento. bg-fixed (no <img>) para que el Footer,
+       que usa la misma foto+bg-fixed, quede perfectamente alineado con
+       esta y se lea como una sola imagen continua entre ambas secciones. -->
+  <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+    <div
+      class="absolute inset-0 bg-cover bg-center bg-fixed opacity-45"
+      style="background-image: url('https://images.unsplash.com/photo-1767988048897-2dca103ff620?fm=jpg&q=60&w=1600&auto=format&fit=crop')"
+    >
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-br from-primary/95 via-primary/80 to-primary/60"></div>
+    <span class="absolute -bottom-16 -left-10 select-none font-heading text-[15rem] italic leading-none text-white/[0.045] sm:text-[19rem]">§</span>
+    <div class="cta-glow absolute -top-24 -right-16 h-80 w-80 rounded-full bg-accent/20 blur-3xl sm:h-96 sm:w-96"></div>
+  </div>
+
+  <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+    <div class="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
+      <div class="lg:pr-8 lg:pt-6">
+        <h2 class="font-heading text-[1.75rem] font-medium leading-[1.15] text-background sm:text-3xl">
+          Cuéntanos qué necesitas.
+        </h2>
+        <p class="mt-3 max-w-md font-body text-[15px] leading-relaxed text-background/70">
+          Sin IVR ni derivaciones. Completa el formulario y te respondemos directo a tu correo o
+          teléfono en las próximas horas hábiles.
+        </p>
+      </div>
+
+      <div class="rounded-xl border border-white/40 bg-white/70 p-6 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.5)] backdrop-blur-xl sm:p-8">
+        <LeadForm client:load service="general" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-glow {
+    animation: cta-glow-drift 14s ease-in-out infinite;
+  }
+  @keyframes cta-glow-drift {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(-2.5rem, 2.5rem) scale(1.15);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cta-glow {
+      animation: none;
+    }
+  }
+</style>

@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import TrustStrip from '../components/sections/TrustStrip.astro';
+import BlogPreview from '../components/sections/BlogPreview.astro';
+import CategoriesShowcase from '../components/sections/CategoriesShowcase.astro';
+import ServicesPreview from '../components/sections/ServicesPreview.astro';
+import CTASection from '../components/sections/CTASection.astro';
+import { getSiteSettings } from '../lib/sanity/queries';
+import { organizationJsonLd } from '../lib/seo';
+
+const siteSettings = await getSiteSettings();
+---
+
+<BaseLayout
+  title="Radar Tributario — Asesoría tributaria, contable y RRHH"
+  description="Asesoría tributaria, contable y de remuneraciones para independientes, pymes y empresas en Chile. Declaraciones, contabilidad mensual y RRHH con acompañamiento directo."
+>
+  <script is:inline type="application/ld+json" slot="jsonld" set:html={JSON.stringify(organizationJsonLd(siteSettings))} />
+  <main>
+    <Hero />
+    <TrustStrip />
+    <BlogPreview />
+    <CategoriesShowcase />
+    <ServicesPreview />
+    <CTASection />
+  </main>
+</BaseLayout>

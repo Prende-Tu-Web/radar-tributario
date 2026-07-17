@@ -1,0 +1,26 @@
+---
+// Render mínimo del bloque custom `legalSource` de Portable Text.
+// Diseño real pendiente para el Step 8 (/frontend-design) — esto solo
+// deja el mapeo de astro-portabletext funcionando de punta a punta.
+interface LegalSourceNode {
+  _type: 'legalSource';
+  entity: 'SII' | 'Banco Central' | 'TGR' | 'Diario Oficial' | 'Otro';
+  label: string;
+  url: string;
+}
+
+interface Props {
+  node: LegalSourceNode;
+}
+
+const { node } = Astro.props;
+---
+
+<a
+  href={node.url}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="my-4 block rounded-lg border border-muted/30 bg-surface px-4 py-3 text-sm text-text no-underline hover:border-muted/60"
+>
+  <span class="font-medium text-primary">{node.entity}:</span> {node.label}
+</a>

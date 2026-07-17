@@ -1,0 +1,144 @@
+---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+
+const lastUpdated = '16 de julio de 2026';
+const hasGtm = Boolean(import.meta.env.PUBLIC_GTM_ID);
+---
+
+<BaseLayout
+  title="Política de Cookies | Radar Tributario"
+  description="Qué cookies usa Radar Tributario, para qué, y cómo puedes gestionar tu consentimiento."
+>
+  <section class="bg-primary">
+    <div class="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <p class="font-body text-[11px] font-semibold uppercase tracking-[0.14em] text-accent">Legal</p>
+      <h1 class="mt-3 font-heading text-[2.25rem] font-medium leading-[1.1] text-background sm:text-[2.75rem]">Política de Cookies</h1>
+      <p class="mt-4 font-body text-[14px] text-background/60">Última actualización: {lastUpdated}</p>
+    </div>
+  </section>
+
+  <section class="bg-surface">
+    <div class="prose-legal mx-auto max-w-3xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+      <h2>1. Qué son las cookies</h2>
+      <p>
+        Las cookies son pequeños archivos de texto que un sitio web guarda en tu navegador para recordar información
+        entre visitas — por ejemplo, tus preferencias de consentimiento, o cómo navegaste el sitio.
+      </p>
+
+      <h2>2. Qué cookies usamos hoy</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Categoría</th>
+            <th>¿Siempre activa?</th>
+            <th>Para qué</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Necesarias</td>
+            <td>Sí</td>
+            <td>Recordar tu elección de cookies (aceptar/rechazar). No requieren consentimiento porque el sitio no
+            funciona correctamente sin ellas.</td>
+          </tr>
+          <tr>
+            <td>Analíticas</td>
+            <td>{hasGtm ? 'Solo si aceptas' : 'No activas actualmente'}</td>
+            <td>
+              Entender cómo se usa el sitio (páginas visitadas, tiempo de permanencia) a través de Google Tag Manager.
+              {hasGtm
+                ? ' No se cargan hasta que aceptas cookies en el banner.'
+                : ' Google Tag Manager todavía no está configurado en este sitio — cuando se active, esta tabla y el banner de cookies pasarán a reflejarlo automáticamente.'}
+            </td>
+          </tr>
+          <tr>
+            <td>Marketing</td>
+            <td>No</td>
+            <td>Actualmente no usamos cookies de publicidad ni redes sociales en este sitio.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>3. Cómo gestionamos tu consentimiento</h2>
+      <p>
+        La primera vez que visitas el sitio, te mostramos un banner para elegir entre "Aceptar todas" o "Rechazar no
+        esenciales". Guardamos esa elección en tu navegador (<code>localStorage</code>, no en una cookie de terceros) y
+        la respetamos en tus próximas visitas. Las cookies analíticas <strong>nunca se cargan antes de que aceptes</strong>.
+      </p>
+      <p>
+        Puedes cambiar tu elección en cualquier momento haciendo clic en{' '}
+        <button type="button" data-cookie-preferences class="font-medium text-primary underline decoration-primary/30 underline-offset-2 hover:text-secondary hover:decoration-accent">
+          Preferencias de cookies
+        </button>
+        , disponible también al final de cada página del sitio.
+      </p>
+
+      <h2>4. Cómo bloquear cookies desde tu navegador</h2>
+      <p>
+        Además de nuestro banner, todos los navegadores modernos permiten bloquear o eliminar cookies desde su
+        configuración de privacidad. Ten en cuenta que bloquear cookies necesarias puede afectar el funcionamiento del
+        sitio.
+      </p>
+
+      <h2>5. Actualizaciones</h2>
+      <p>
+        Si en el futuro incorporamos nuevas herramientas que usen cookies (por ejemplo, chat en vivo o publicidad),
+        actualizaremos esta página y, si corresponde, te pediremos tu consentimiento nuevamente.
+      </p>
+
+      <h2>6. Contacto</h2>
+      <p>
+        Para consultas sobre esta política, contáctanos a través de <a href="/contacto/">nuestro formulario de contacto</a>.
+        Ver también nuestra <a href="/politica-de-privacidad/">Política de Privacidad</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .prose-legal :global(h2) {
+    margin-top: 2.25rem;
+    margin-bottom: 0.75rem;
+    font-family: var(--font-heading);
+    font-size: 1.375rem;
+    font-weight: 500;
+    color: var(--color-primary);
+  }
+  .prose-legal :global(p) {
+    margin-bottom: 1.1rem;
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--color-text);
+  }
+  .prose-legal :global(a) {
+    color: var(--color-secondary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .prose-legal :global(table) {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    border-collapse: collapse;
+    font-family: var(--font-body);
+    font-size: 13.5px;
+  }
+  .prose-legal :global(th),
+  .prose-legal :global(td) {
+    border: 1px solid color-mix(in srgb, var(--color-primary) 12%, transparent);
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  .prose-legal :global(th) {
+    background: var(--color-background);
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+  .prose-legal :global(code) {
+    background: var(--color-background);
+    border-radius: 3px;
+    padding: 0.1rem 0.35rem;
+    font-size: 0.9em;
+  }
+</style>

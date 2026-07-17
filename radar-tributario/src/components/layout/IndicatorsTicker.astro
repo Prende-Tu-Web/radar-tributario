@@ -1,0 +1,88 @@
+---
+// Franja de indicadores económicos — misma fuente real que usa
+// radartributario.cl (mindicador.cl, API pública sin auth). Fetch en build
+// time: si falla, no se renderiza nada — nunca mostramos cifras inventadas.
+interface Indicator {
+  label: string;
+  value: number;
+  unit: string;
+}
+
+let indicators: Indicator[] = [];
+
+try {
+  // Timeout corto: si mindicador.cl está caída o lenta, no queremos que
+  // cuelgue el render de TODA la página (BaseLayout la incluye siempre).
+  const res = await fetch('https://mindicador.cl/api', { signal: AbortSignal.timeout(4000) });
+  if (res.ok) {
+    const data = await res.json();
+    indicators = [
+      { label: 'UF', value: data.uf?.valor, unit: '$' },
+      { label: 'UTM', value: data.utm?.valor, unit: '$' },
+      { label: 'Dólar', value: data.dolar?.valor, unit: '$' },
+      { label: 'Euro', value: data.euro?.valor, unit: '$' },
+    ].filter((i): i is Indicator => typeof i.value === 'number');
+  }
+} catch {
+  indicators = [];
+}
+
+const formatCLP = (n: number) =>
+  new Intl.NumberFormat('es-CL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n);
+
+// Un solo set de indicadores es más angosto que pantallas anchas/ultra-wide:
+// repetimos cada mitad varias veces para garantizar que el bloque siempre
+// exceda el ancho del viewport y el loop (translateX(-50%)) quede sin huecos.
+const REPEAT = 8;
+const repeated = Array.from({ length: REPEAT }, () => indicators).flat();
+// La duración escala junto con REPEAT para mantener la velocidad visual
+// constante (más contenido a recorrer = más tiempo, mismo px/s).
+const BASE_DURATION_S = 32;
+const durationS = BASE_DURATION_S * REPEAT;
+
+const summary = indicators.map((ind) => `${ind.label} ${ind.unit}${formatCLP(ind.value)}`).join(', ');
+---
+
+{
+  indicators.length > 0 && (
+    <div class="overflow-hidden border-b border-white/10 bg-primary py-1.5" aria-label="Indicadores económicos del día">
+      <span class="sr-only">{summary}</span>
+      <div class="ticker-track flex w-max motion-reduce:animate-none" style={`animation-duration: ${durationS}s`} aria-hidden="true">
+        {[0, 1].map(() => (
+          <div class="flex shrink-0">
+            {repeated.map((ind) => (
+              <span class="inline-flex items-center gap-1.5 px-5 font-body text-[11px]">
+                <span class="font-bold tracking-wide text-accent">{ind.label}</span>
+                <span class="font-semibold text-background">
+                  {ind.unit}
+                  {formatCLP(ind.value)}
+                </span>
+                <span class="text-[10px] text-background/50">hoy</span>
+                <span class="mx-1.5 text-secondary">|</span>
+              </span>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .ticker-track {
+    animation-name: ticker-scroll;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  .ticker-track:hover {
+    animation-play-state: paused;
+  }
+  @keyframes ticker-scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+</style>

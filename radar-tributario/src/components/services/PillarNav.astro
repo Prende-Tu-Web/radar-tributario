@@ -1,0 +1,31 @@
+---
+interface Props {
+  pillar: 'tributario' | 'contable' | 'rrhh';
+  pillarLabel: string;
+  current?: string;
+}
+
+const { pillar, pillarLabel, current } = Astro.props;
+---
+
+<nav aria-label="Breadcrumb" class="border-b border-primary/10 bg-background">
+  <div class="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
+    <ol class="flex flex-wrap items-center gap-1.5 font-body text-[12.5px] text-muted">
+      <li><a href="/servicios/" class="hover:text-secondary">Servicios</a></li>
+      <li aria-hidden="true">/</li>
+      <li>
+        <a href={`/servicios/${pillar}/`} class="hover:text-secondary">{pillarLabel}</a>
+      </li>
+      {
+        current && (
+          <>
+            <li aria-hidden="true">/</li>
+            <li aria-current="page" class="text-primary">
+              {current}
+            </li>
+          </>
+        )
+      }
+    </ol>
+  </div>
+</nav>

@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import PostCard from '../../components/blog/PostCard.astro';
+import { getPosts, getCategories } from '../../lib/sanity/queries';
+import { CATEGORIES_FALLBACK } from '../../lib/categories-fallback';
+import { categoryDotClass, categoryBorderHoverClass } from '../../lib/category-colors';
+import type { Post } from '../../lib/sanity/types';
+
+export async function getStaticPaths({ paginate }: { paginate: Function }) {
+  const posts = await getPosts();
+  return paginate(posts, { pageSize: 9 });
+}
+
+const { page } = Astro.props as { page: { data: Post[]; currentPage: number; lastPage: number; url: { prev?: string; next?: string } } };
+
+const fromSanity = await getCategories();
+const categories = fromSanity.length > 0 ? fromSanity : CATEGORIES_FALLBACK;
+const allPosts = await getPosts();
+---
+
+<BaseLayout
+  title="Noticias | Radar Tributario"
+  description="Análisis tributario, contable y laboral con fuentes oficiales citadas — SII, Banco Central, TGR y Diario Oficial."
+>
+  <section class="bg-primary">
+    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+      <div class="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
+        <div>
+          <p class="font-body text-[11px] font-semibold uppercase tracking-[0.14em] text-accent">Noticias</p>
+          <h1 class="mt-3 max-w-xl font-heading text-[2.25rem] font-medium leading-[1.1] text-background sm:text-[2.75rem]">
+            Análisis con fuente oficial citada.
+          </h1>
+          <p class="mt-4 max-w-lg font-body text-[15px] leading-relaxed text-background/70">
+            SII, Banco Central, TGR y Diario Oficial — cada artículo dice de dónde sale la información.
+          </p>
+        </div>
+        <div class="shrink-0">
+          <p class="font-heading text-6xl leading-none text-accent sm:text-7xl">{allPosts.length}</p>
+          <p class="mt-3 font-body text-[11px] font-semibold uppercase tracking-[0.14em] text-background/60">Artículos publicados</p>
+        </div>
+      </div>
+
+      {
+        categories.length > 0 && (
+          <div class="mt-12 flex flex-wrap gap-2.5 border-t border-white/10 pt-8">
+            {categories.map((cat) => (
+              <a
+                href={`/noticias/categoria/${cat.slug.current}/`}
+                class={`group inline-flex items-center gap-2 rounded-full border border-white/15 px-3.5 py-2 font-body text-[12.5px] font-medium text-background/80 transition-all hover:-translate-y-0.5 hover:text-background ${categoryBorderHoverClass(cat.color)}`}
+              >
+                <span class={`h-1.5 w-1.5 shrink-0 rounded-full ${categoryDotClass(cat.color)}`} aria-hidden="true" />
+                {cat.title}
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="bg-surface">
+    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      {
+        page.data.length === 0 ? (
+          <div class="max-w-xl border-l border-dashed border-muted/40 pl-6 py-2">
+            <p class="font-heading text-xl italic text-primary">Estamos preparando los primeros análisis.</p>
+            <p class="mt-3 font-body text-[14.5px] leading-relaxed text-muted">
+              Reforma tributaria, resoluciones del SII, IVA y gestión pyme, siempre citando la fuente oficial.
+              El primer análisis se publica pronto.
+            </p>
+          </div>
+        ) : (
+          <>
+            <div class="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {page.data.map((post) => (
+                <PostCard post={post} />
+              ))}
+            </div>
+            {(page.url.prev || page.url.next) && (
+              <nav aria-label="Paginación" class="mt-14 flex items-center justify-between border-t border-primary/10 pt-6">
+                {page.url.prev ? (
+                  <a href={page.url.prev} class="font-body text-[13px] font-medium text-primary hover:text-secondary">
+                    ← Más recientes
+                  </a>
+                ) : <span />}
+                <span class="font-body text-[12.5px] text-muted">Página {page.currentPage} de {page.lastPage}</span>
+                {page.url.next ? (
+                  <a href={page.url.next} class="font-body text-[13px] font-medium text-primary hover:text-secondary">
+                    Más antiguas →
+                  </a>
+                ) : <span />}
+              </nav>
+            )}
+          </>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

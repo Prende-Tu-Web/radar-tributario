@@ -1,0 +1,38 @@
+---
+import type { Combo } from '../../lib/sanity/types';
+import { COMBO_CTA_LABEL, COMBO_CTA_ICON } from '../../lib/combo-icons';
+
+interface Props {
+  combo: Combo;
+  isExpired: boolean;
+}
+
+const { combo, isExpired } = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-surface">
+  <span
+    aria-hidden="true"
+    class="pointer-events-none absolute -right-6 -top-10 select-none font-heading text-[13rem] italic leading-none text-primary/[0.04] sm:text-[18rem] lg:-right-10 lg:-top-16 lg:text-[24rem]"
+  >
+    §
+  </span>
+  <div class="relative mx-auto max-w-4xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+    <div class="flex items-center gap-3">
+      <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/[0.06] text-primary">
+        <svg class="h-[22px] w-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={COMBO_CTA_ICON[combo.ctaType]} />
+      </span>
+      <p class="font-body text-[11px] font-semibold uppercase tracking-[0.12em] text-secondary">{COMBO_CTA_LABEL[combo.ctaType]}</p>
+    </div>
+    <h1 class="mt-5 max-w-2xl font-heading text-[2.25rem] font-medium leading-[1.1] text-primary sm:text-[2.75rem]">{combo.title}</h1>
+    {combo.description && <p class="mt-5 max-w-xl font-body text-[16px] leading-relaxed text-text/80">{combo.description}</p>}
+
+    {
+      isExpired && (
+        <p class="mt-6 inline-block rounded-md border border-destructive/30 bg-destructive/5 px-4 py-2 font-body text-[13px] font-medium text-destructive">
+          Esta oferta ya cerró. Escríbenos y vemos qué opciones tienes disponibles.
+        </p>
+      )
+    }
+  </div>
+</section>

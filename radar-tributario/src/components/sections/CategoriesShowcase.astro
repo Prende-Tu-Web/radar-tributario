@@ -1,0 +1,114 @@
+---
+import { getCategories, getPosts } from '../../lib/sanity/queries';
+import { CATEGORIES_FALLBACK } from '../../lib/categories-fallback';
+import { categoryDotClass, categoryBorderHoverClass, categoryBadgeClass, categoryColorVar } from '../../lib/category-colors';
+import PostCard from '../blog/PostCard.astro';
+
+const fromSanity = await getCategories();
+const categories = fromSanity.length > 0 ? fromSanity : CATEGORIES_FALLBACK;
+const allPosts = await getPosts();
+
+const POSTS_PER_TOPIC = 8;
+const topics = categories.map((cat) => ({
+  category: cat,
+  posts: allPosts.filter((p) => p.category?.slug.current === cat.slug.current).slice(0, POSTS_PER_TOPIC),
+}));
+
+// El primer tema con contenido real queda seleccionado por defecto, para no
+// abrir el filtro en un tema vacío.
+const defaultTopicSlug = (topics.find((t) => t.posts.length > 0) ?? topics[0])?.category.slug.current;
+
+const inputId = (slug: string) => `topic-${slug}`;
+const panelId = (slug: string) => `topic-panel-${slug}`;
+
+// Tailwind no puede generar clases con nombres de grupo dinámicos (los slugs
+// vienen de Sanity, desconocidos en build time), así que el show/hide del
+// panel activo y el estado "activo" de la pill se resuelven con CSS plano
+// generado acá (selectores por ID — seguro, slug.current es un slug de
+// Sanity, no input de usuario).
+const topicCss = topics
+  .map(({ category: cat }) => {
+    const id = inputId(cat.slug.current);
+    const color = categoryColorVar(cat.color);
+    return `
+#${id}:checked ~ #${panelId(cat.slug.current)} { display: block; }
+.topics-widget:has(#${id}:checked) label[for="${id}"] {
+  border-color: ${color};
+  background-color: color-mix(in srgb, ${color} 12%, white);
+}`;
+  })
+  .join('\n');
+---
+
+<section class="bg-background">
+  <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
+    <p class="font-body text-[11px] font-semibold uppercase tracking-[0.12em] text-secondary">Explora por tema</p>
+    <h2 class="mt-2 font-heading text-2xl font-medium text-primary sm:text-3xl">
+      Diez frentes que seguimos de cerca, todos con fuente oficial citada.
+    </h2>
+    <p class="mt-2 font-body text-[13px] text-muted">Elige un tema para ver los últimos análisis, sin salir de esta página.</p>
+
+    <div class="topics-widget mt-7">
+      <div class="flex flex-wrap gap-3">
+        {
+          topics.map(({ category: cat, posts }) => (
+            <label
+              for={inputId(cat.slug.current)}
+              class={`inline-flex cursor-pointer items-center gap-2 rounded-full border border-primary/15 bg-surface px-4 py-2.5 font-body text-[13px] font-medium text-text shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md ${categoryBorderHoverClass(cat.color)}`}
+            >
+              <span class={`h-1.5 w-1.5 shrink-0 rounded-full ${categoryDotClass(cat.color)}`} aria-hidden="true" />
+              {cat.title}
+              {posts.length > 0 && <span class="text-[11px] text-muted">({posts.length})</span>}
+            </label>
+          ))
+        }
+      </div>
+
+      <div class="relative mt-4">
+        {
+          topics.map(({ category: cat }) => (
+            <input
+              type="radio"
+              name="topic-filter"
+              id={inputId(cat.slug.current)}
+              checked={cat.slug.current === defaultTopicSlug}
+              class="sr-only"
+            />
+          ))
+        }
+
+        {
+          topics.map(({ category: cat, posts }) => (
+            <div id={panelId(cat.slug.current)} class="hidden border-t border-primary/10 pt-8">
+              {posts.length === 0 ? (
+                <div class="max-w-lg py-2">
+                  <p class="font-heading text-lg italic text-primary">Todavía no hay artículos en {cat.title}.</p>
+                  <p class="mt-2 font-body text-[13.5px] text-muted">Vuelve pronto — estamos preparando los primeros análisis de este tema.</p>
+                </div>
+              ) : (
+                <>
+                  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                    {posts.map((post) => (
+                      <PostCard post={post} />
+                    ))}
+                  </div>
+                  <a
+                    href={`/noticias/categoria/${cat.slug.current}/`}
+                    class={`mt-7 inline-flex items-center gap-1.5 rounded-full px-4 py-2 font-body text-[13px] font-semibold transition-opacity hover:opacity-80 ${categoryBadgeClass(cat.color)}`}
+                  >
+                    Ver todos los de {cat.title}
+                    <svg class="h-3 w-3" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                      <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </a>
+                </>
+              )}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style set:html={topicCss} />

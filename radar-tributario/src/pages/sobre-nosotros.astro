@@ -1,0 +1,176 @@
+---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import { getAuthors } from '../lib/sanity/queries';
+import { AUTHORS_FALLBACK } from '../lib/authors-fallback';
+import { AUTHOR_LINKEDIN } from '../lib/author-links';
+import { getAuthorPhotoUrl } from '../lib/author-photos';
+import { SOCIAL_ICONS } from '../lib/social-icons';
+import { urlFor } from '../lib/sanity/image';
+import type { Author } from '../lib/sanity/types';
+
+const fromSanity = await getAuthors();
+const team = fromSanity.length > 0 ? fromSanity : AUTHORS_FALLBACK;
+
+// "+" solo para umbrales abiertos (años, clientes) — no para conteos exactos
+// como fundadores o tamaño del catálogo.
+const stats = [
+  { value: 8, unit: 'años', label: 'De experiencia combinada', plus: true },
+  { value: 50, unit: 'clientes', label: 'Gestionados', plus: true },
+  { value: 2, unit: 'fundadores', label: 'Perfil técnico + tributario', plus: false },
+  { value: 24, unit: 'servicios', label: 'Tributario, contable y RRHH', plus: false },
+];
+---
+
+<BaseLayout
+  title="Sobre Nosotros | Radar Tributario"
+  description="Radar Tributario combina experiencia tributaria real con un producto digital pensado para que entiendas tus números, no solo que alguien los resuelva por ti."
+>
+  <section class="relative overflow-hidden bg-surface">
+    <span
+      aria-hidden="true"
+      class="pointer-events-none absolute -right-6 -top-10 select-none font-heading text-[13rem] italic leading-none text-primary/[0.04] sm:text-[18rem] lg:-right-10 lg:-top-16 lg:text-[24rem]"
+    >
+      §
+    </span>
+    <div class="relative mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+      <p class="font-body text-[11px] font-semibold uppercase tracking-[0.14em] text-secondary" data-reveal>Sobre nosotros</p>
+      <h1 class="mt-4 max-w-3xl font-heading text-[2.5rem] font-medium leading-[1.08] text-primary sm:text-[3.25rem] lg:text-[3.75rem]" data-reveal style="transition-delay: 60ms">
+        Asesoría tributaria real, con un producto digital que la respalda.
+      </h1>
+      <p class="mt-6 max-w-xl font-body text-[16px] leading-relaxed text-text/80" data-reveal style="transition-delay: 120ms">
+        La asesoría tributaria en Chile suele ser opaca: declaraciones que llegan sin explicación, contadores que
+        no responden y todo el proceso dependiendo de una sola persona. Nosotros lo armamos distinto — la
+        experiencia tributaria de Nayadeth, cruzada con la ingeniería de performance y SEO técnico que Alexis
+        aplica todos los días como desarrollador.
+      </p>
+
+      <div class="mt-16 grid grid-cols-2 gap-x-10 gap-y-12 border-t border-primary/10 pt-12 lg:grid-cols-4">
+        {
+          stats.map((s, i) => (
+            <div data-reveal style={`transition-delay: ${180 + i * 70}ms`}>
+              <p class="font-heading text-5xl leading-none sm:text-6xl">
+                {s.plus && <span class="text-accent">+</span>}
+                <span class={s.plus ? 'text-primary' : 'text-accent'} data-count-to={s.value}>
+                  0
+                </span>
+                <span class="ml-1 font-body text-sm font-normal text-muted">{s.unit}</span>
+              </p>
+              <p class="mt-3 font-body text-[12.5px] leading-snug text-muted">{s.label}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-primary/10 bg-background">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+      <p class="font-body text-[11px] font-semibold uppercase tracking-[0.14em] text-secondary" data-reveal>El equipo</p>
+      <h2 class="mt-2 font-heading text-3xl font-medium text-primary sm:text-4xl" data-reveal style="transition-delay: 60ms">Dos perfiles, una sola idea.</h2>
+
+      <div class="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-2">
+        {
+          team.map((member: Author, i) => {
+            const bioParagraphs = (member.bio ?? '').split('\n').filter(Boolean);
+            const linkedin = AUTHOR_LINKEDIN[member.slug.current];
+            const photoUrl = member.photo ? urlFor(member.photo).width(160).height(160).fit('crop').url() : getAuthorPhotoUrl(member.slug.current);
+            return (
+              <div
+                class="group relative flex flex-col overflow-hidden rounded-2xl border border-primary/10 bg-surface p-7 shadow-sm transition-all hover:-translate-y-1 hover:border-accent/30 hover:shadow-xl sm:p-9"
+                data-reveal
+                style={`transition-delay: ${120 + i * 100}ms`}
+              >
+                <span class="pointer-events-none absolute -right-3 -top-6 select-none font-heading text-[7rem] italic leading-none text-primary/[0.04] transition-colors duration-300 group-hover:text-accent/[0.07]" aria-hidden="true">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+
+                <div class="relative flex items-center gap-4">
+                  <div class="relative h-16 w-16 shrink-0 overflow-hidden rounded-full ring-2 ring-transparent transition-all duration-300 group-hover:scale-105 group-hover:ring-accent">
+                    {photoUrl ? (
+                      <img src={photoUrl} alt={member.name} class="h-full w-full object-cover" />
+                    ) : (
+                      <div class="flex h-full w-full items-center justify-center bg-primary/[0.06] font-heading text-xl font-medium text-primary">
+                        {member.name.charAt(0)}
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <a href={`/autor/${member.slug.current}/`} class="inline-block font-heading text-xl font-medium text-primary transition-colors hover:text-secondary">
+                      {member.name}
+                    </a>
+                    {member.credentials && <p class="mt-1 font-body text-[13px] text-secondary">{member.credentials}</p>}
+                  </div>
+                  {linkedin && (
+                    <a
+                      href={linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`LinkedIn de ${member.name}`}
+                      class="ml-auto flex h-9 w-9 shrink-0 items-center justify-center self-start rounded-full border border-primary/15 text-primary/60 transition-all hover:-translate-y-0.5 hover:border-accent hover:bg-accent hover:text-on-accent"
+                    >
+                      <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={SOCIAL_ICONS.linkedin.path} />
+                    </a>
+                  )}
+                </div>
+
+                {bioParagraphs.length > 0 && (
+                  <div class="relative mt-6 space-y-3 border-t border-primary/10 pt-6">
+                    {bioParagraphs.map((p) => (
+                      <p class="font-body text-[14px] leading-relaxed text-text/75">{p}</p>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="relative overflow-hidden border-t border-primary/10 bg-primary">
+    <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+      <div
+        class="absolute inset-0 bg-cover bg-center bg-fixed opacity-45"
+        style="background-image: url('https://images.unsplash.com/photo-1767988048897-2dca103ff620?fm=jpg&q=60&w=1600&auto=format&fit=crop')"
+      >
+      </div>
+      <div class="absolute inset-0 bg-gradient-to-br from-primary/95 via-primary/80 to-primary/60"></div>
+    </div>
+    <div class="relative mx-auto max-w-3xl px-4 py-14 text-center sm:px-6 lg:px-8 lg:py-20" data-reveal>
+      <h2 class="font-heading text-2xl font-medium text-background sm:text-3xl">¿Conversamos de tu caso?</h2>
+      <a
+        href="/contacto/"
+        class="mt-6 inline-flex items-center rounded-md bg-accent px-6 py-3 font-body text-[14px] font-medium text-on-accent shadow-sm transition-all hover:-translate-y-0.5 hover:bg-background"
+      >
+        Ir a contacto
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.6s ease,
+      transform 0.6s ease;
+  }
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  import { initScrollEffects } from '../lib/scroll-effects';
+  initScrollEffects();
+</script>

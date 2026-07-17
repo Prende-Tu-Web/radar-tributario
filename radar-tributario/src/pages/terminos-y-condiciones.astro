@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+
+const lastUpdated = '16 de julio de 2026';
+---
+
+<BaseLayout
+  title="Términos y Condiciones | Radar Tributario"
+  description="Condiciones de uso del sitio web de Radar Tributario."
+>
+  <section class="bg-primary">
+    <div class="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <p class="font-body text-[11px] font-semibold uppercase tracking-[0.14em] text-accent">Legal</p>
+      <h1 class="mt-3 font-heading text-[2.25rem] font-medium leading-[1.1] text-background sm:text-[2.75rem]">Términos y Condiciones</h1>
+      <p class="mt-4 font-body text-[14px] text-background/60">Última actualización: {lastUpdated}</p>
+    </div>
+  </section>
+
+  <section class="bg-surface">
+    <div class="prose-legal mx-auto max-w-3xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+      <p class="rounded-lg border border-dashed border-muted/40 bg-background px-4 py-3 font-body text-[13.5px] text-muted">
+        [COMPLETAR] Este es un borrador base. Revísalo con un abogado antes de publicar el sitio, y actualiza la
+        identificación legal de la empresa una vez esté constituida formalmente.
+      </p>
+
+      <h2>1. Aceptación de estos términos</h2>
+      <p>
+        Al usar este sitio, aceptas estos Términos y Condiciones. Si no estás de acuerdo, te pedimos no usar el sitio.
+      </p>
+
+      <h2>2. Naturaleza informativa del contenido</h2>
+      <p>
+        Los artículos, guías y análisis publicados en la sección Noticias tienen fines informativos generales y{' '}
+        <strong>no constituyen asesoría tributaria, contable ni legal vinculante</strong> para tu caso particular. Cada
+        situación debe evaluarse individualmente — para eso está nuestro formulario de contacto.
+      </p>
+
+      <h2>3. Relación cliente-asesor</h2>
+      <p>
+        Completar un formulario de contacto o cotización en este sitio no crea, por sí solo, una relación de servicio
+        profesional entre tú y Radar Tributario. Esa relación se formaliza solo cuando ambas partes acuerdan
+        expresamente los términos del servicio a contratar.
+      </p>
+
+      <h2>4. Propiedad intelectual</h2>
+      <p>
+        El contenido de este sitio (textos, diseño, logotipo) es propiedad de Radar Tributario o de sus autores, y no
+        puede reproducirse sin autorización, salvo citas breves con atribución.
+      </p>
+
+      <h2>5. Uso aceptable</h2>
+      <p>
+        No debes usar este sitio para actividades ilegales, para intentar vulnerar su seguridad, ni para extraer
+        contenido de forma masiva y automatizada sin autorización.
+      </p>
+
+      <h2>6. Limitación de responsabilidad</h2>
+      <p>
+        Hacemos esfuerzos razonables para que la información publicada sea exacta y esté actualizada, pero no
+        garantizamos que esté libre de errores en todo momento. El uso de la información de este sitio es bajo tu
+        propio criterio.
+      </p>
+
+      <h2>7. Enlaces a terceros</h2>
+      <p>
+        Este sitio puede enlazar a fuentes oficiales (SII, Banco Central, Diario Oficial, entre otras). No somos
+        responsables del contenido de sitios de terceros.
+      </p>
+
+      <h2>8. Ley aplicable</h2>
+      <p>Estos términos se rigen por las leyes de la República de Chile.</p>
+
+      <h2>9. Cambios a estos términos</h2>
+      <p>Podemos actualizar estos términos ocasionalmente. La fecha de "Última actualización" refleja la versión vigente.</p>
+
+      <h2>10. Contacto</h2>
+      <p>
+        Para consultas sobre estos términos, contáctanos a través de <a href="/contacto/">nuestro formulario de contacto</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .prose-legal :global(h2) {
+    margin-top: 2.25rem;
+    margin-bottom: 0.75rem;
+    font-family: var(--font-heading);
+    font-size: 1.375rem;
+    font-weight: 500;
+    color: var(--color-primary);
+  }
+  .prose-legal :global(p) {
+    margin-bottom: 1.1rem;
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--color-text);
+  }
+  .prose-legal :global(strong) {
+    color: var(--color-primary);
+  }
+  .prose-legal :global(a) {
+    color: var(--color-secondary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>
