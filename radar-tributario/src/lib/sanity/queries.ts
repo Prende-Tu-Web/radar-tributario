@@ -1,42 +1,5 @@
 import { sanityClient } from './client';
-import type { Author, Category, Combo, Pillar, Post, Service, SiteSettings } from './types';
-
-// ---------- service ----------
-
-export async function getServicesByPillar(pillar: Pillar): Promise<Service[]> {
-  return sanityClient.fetch<Service[]>(
-    `*[_type == "service" && pillar == $pillar] | order(order asc)`,
-    { pillar }
-  );
-}
-
-export async function getAllServices(): Promise<Service[]> {
-  return sanityClient.fetch<Service[]>(
-    `*[_type == "service"] | order(pillar asc, order asc)`
-  );
-}
-
-export async function getServiceBySlug(slug: string): Promise<Service | null> {
-  return sanityClient.fetch<Service | null>(
-    `*[_type == "service" && slug.current == $slug][0]`,
-    { slug }
-  );
-}
-
-// ---------- combo ----------
-
-export async function getCombos(): Promise<Combo[]> {
-  return sanityClient.fetch<Combo[]>(
-    `*[_type == "combo"]{..., relatedServices[]->}`
-  );
-}
-
-export async function getComboBySlug(slug: string): Promise<Combo | null> {
-  return sanityClient.fetch<Combo | null>(
-    `*[_type == "combo" && slug.current == $slug][0]{..., relatedServices[]->}`,
-    { slug }
-  );
-}
+import type { Author, Category, Post, SiteSettings } from './types';
 
 // ---------- post ----------
 // IMPORTANTE: status "publicado" siempre filtrado — el schema real tiene

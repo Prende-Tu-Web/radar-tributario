@@ -5,17 +5,7 @@ import { test, expect } from '@playwright/test';
 // ("Audit", "Settings") al final del body — el h1 real de la página siempre
 // aparece antes en el DOM.
 
-const STATIC_ROUTES = [
-  '/',
-  '/servicios/',
-  '/servicios/tributario/',
-  '/servicios/contable/',
-  '/servicios/rrhh/',
-  '/combos/',
-  '/noticias/',
-  '/sobre-nosotros/',
-  '/contacto/',
-];
+const STATIC_ROUTES = ['/', '/noticias/', '/sobre-nosotros/', '/contacto/'];
 
 for (const route of STATIC_ROUTES) {
   test(`${route} carga sin error`, async ({ page }) => {
@@ -25,16 +15,20 @@ for (const route of STATIC_ROUTES) {
   });
 }
 
-test('una página de servicio dinámica carga (declaración F29)', async ({ page }) => {
+// Servicios y combos quedaron desactivados (2026-07): las rutas ya no
+// existen como páginas Astro. En producción Vercel las redirige a Home
+// (ver vercel.json) — eso no aplica en "astro dev"/"astro preview" local,
+// así que acá solo confirmamos que dejaron de servir contenido de
+// servicio/combo (404 local es el comportamiento esperado sin la capa de
+// redirects de Vercel).
+test('las rutas de servicios ya no existen', async ({ page }) => {
   const response = await page.goto('/servicios/tributario/declaracion-f29/');
-  expect(response?.status()).toBeLessThan(400);
-  await expect(page.locator('h1').first()).toContainText('Declaración F29');
+  expect(response?.status()).toBe(404);
 });
 
-test('un combo carga (rrhh-mensual, con calculadora)', async ({ page }) => {
+test('las rutas de combos ya no existen', async ({ page }) => {
   const response = await page.goto('/combos/rrhh-mensual/');
-  expect(response?.status()).toBeLessThan(400);
-  await expect(page.getByLabel(/N° de trabajadores/i)).toBeVisible();
+  expect(response?.status()).toBe(404);
 });
 
 test('una categoría de noticias carga (aunque no tenga posts todavía)', async ({ page }) => {

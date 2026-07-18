@@ -1,4 +1,4 @@
-import type { FaqItem, Post, Service, SiteSettings } from './sanity/types';
+import type { FaqItem, Post, SiteSettings } from './sanity/types';
 
 function siteUrl(): string {
   return import.meta.env.PUBLIC_SITE_URL || 'https://radartributario.cl';
@@ -14,21 +14,6 @@ export function organizationJsonLd(siteSettings: SiteSettings | null) {
     areaServed: 'CL',
     ...(siteSettings?.contactEmail ? { email: siteSettings.contactEmail } : {}),
     ...(siteSettings?.whatsappNumber ? { telephone: `+${siteSettings.whatsappNumber}` } : {}),
-  };
-}
-
-export function serviceJsonLd(service: Service) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    name: service.title,
-    description: service.shortDescription || service.heroDescription || service.title,
-    url: `${siteUrl()}/servicios/${service.pillar}/${service.slug.current}/`,
-    areaServed: 'CL',
-    provider: {
-      '@type': 'LegalService',
-      name: 'Radar Tributario',
-    },
   };
 }
 

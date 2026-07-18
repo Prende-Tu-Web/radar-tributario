@@ -4,7 +4,6 @@ import Hero from '../components/sections/Hero.astro';
 import TrustStrip from '../components/sections/TrustStrip.astro';
 import BlogPreview from '../components/sections/BlogPreview.astro';
 import CategoriesShowcase from '../components/sections/CategoriesShowcase.astro';
-import ServicesPreview from '../components/sections/ServicesPreview.astro';
 import CTASection from '../components/sections/CTASection.astro';
 import { getSiteSettings } from '../lib/sanity/queries';
 import { organizationJsonLd } from '../lib/seo';
@@ -22,7 +21,6 @@ const siteSettings = await getSiteSettings();
     <TrustStrip />
     <BlogPreview />
     <CategoriesShowcase />
-    <ServicesPreview />
     <CTASection />
   </main>
 </BaseLayout>

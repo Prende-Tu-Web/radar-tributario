@@ -46,14 +46,3 @@ test.describe('LeadForm (Contacto)', () => {
     await expect(page.getByRole('alert')).toBeVisible({ timeout: 10_000 });
   });
 });
-
-test.describe('HeadcountCalculator (combo rrhh-mensual)', () => {
-  test('pide N° de trabajadores antes de permitir el envío', async ({ page }) => {
-    await gotoAndWaitForHydration(page, '/combos/rrhh-mensual/');
-    const form = page.locator('form');
-    await form.getByRole('button', { name: /enviar mensaje/i }).click();
-    // El campo headcount es required a nivel de navegador (type=number, required)
-    const headcountInput = page.getByLabel(/N° de trabajadores/i);
-    await expect(headcountInput).toHaveAttribute('required', '');
-  });
-});

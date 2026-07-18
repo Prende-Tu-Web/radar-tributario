@@ -5,22 +5,14 @@ import { SOCIAL_ICONS } from '../../lib/social-icons';
 const siteSettings = await getSiteSettings();
 const year = new Date().getFullYear();
 
-const pillarLinks = [
-  { label: 'Tributario', href: '/servicios/tributario/' },
-  { label: 'Contable', href: '/servicios/contable/' },
-  { label: 'RRHH', href: '/servicios/rrhh/' },
-];
-
 const companyLinks = [
   { label: 'Sobre Nosotros', href: '/sobre-nosotros/' },
   { label: 'Noticias', href: '/noticias/' },
-  { label: 'Combos de entrada', href: '/combos/' },
   { label: 'Contacto', href: '/contacto/' },
 ];
 
 // Íconos de sección, mismo criterio thin-stroke del resto del sitio.
 const SECTION_ICONS = {
-  services: '<rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" />',
   radar: '<circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none" /><path d="M12 4a8 8 0 0 1 8 8" /><path d="M12 8a4 4 0 0 1 4 4" />',
   contact: '<rect x="2" y="4" width="20" height="16" rx="2.5" /><path d="M22 6.5l-10 7-10-7" />',
 };
@@ -56,7 +48,7 @@ const socials = (siteSettings?.socialLinks && siteSettings.socialLinks.length > 
   </div>
 
   <div class="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
-    <div class="grid grid-cols-1 gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+    <div class="grid grid-cols-1 gap-12 lg:grid-cols-[1.6fr_1fr_1fr]">
       <div>
         <a href="/" class="font-heading text-xl italic font-semibold text-background">Radar Tributario</a>
         <p class="mt-4 max-w-sm font-body text-[14px] leading-relaxed text-background/60">
@@ -88,25 +80,6 @@ const socials = (siteSettings?.socialLinks && siteSettings.socialLinks.length > 
               );
             })
           }
-        </ul>
-      </div>
-
-      <div>
-        <p class="flex items-center gap-2 font-body text-[11px] font-semibold uppercase tracking-[0.12em] text-accent">
-          <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={SECTION_ICONS.services} />
-          Servicios
-        </p>
-        <ul class="mt-4 space-y-2.5">
-          {pillarLinks.map((l) => (
-            <li>
-              <a href={l.href} class="group inline-block font-body text-[13.5px] text-background/70 transition-colors hover:text-background">
-                <span class="relative">
-                  {l.label}
-                  <span class="pointer-events-none absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-accent transition-transform duration-300 ease-out group-hover:scale-x-100" aria-hidden="true" />
-                </span>
-              </a>
-            </li>
-          ))}
         </ul>
       </div>
 

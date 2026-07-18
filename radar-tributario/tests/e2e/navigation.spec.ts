@@ -1,23 +1,22 @@
 import { test, expect } from '@playwright/test';
 
-test('el mega-menu de Servicios se abre y navega a un servicio (desktop)', async ({ page, isMobile }) => {
-  test.skip(isMobile, 'En mobile el header usa el menú hamburguesa, no el botón "Servicios" — ver el test siguiente.');
+// Servicios quedó desactivado (2026-07): el header ya no tiene mega-menu ni
+// acordeón de pilares — es un nav plano (Noticias / Sobre Nosotros / Contacto).
+
+test('el header desktop navega a Noticias', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'En mobile el header usa el menú hamburguesa — ver el test siguiente.');
   await page.goto('/');
-  await page.getByRole('button', { name: 'Servicios' }).click();
-  const megaMenu = page.locator('#services-megamenu');
-  await expect(megaMenu).toBeVisible();
-  await megaMenu.getByRole('link', { name: 'Declaración F29 (mensual)' }).click();
-  await expect(page).toHaveURL(/\/servicios\/tributario\/declaracion-f29\//);
+  await page.getByLabel('Principal', { exact: true }).getByRole('link', { name: 'Noticias' }).click();
+  await expect(page).toHaveURL(/\/noticias\//);
 });
 
-test('el menú hamburguesa se abre y navega a un servicio (mobile)', async ({ page, isMobile }) => {
+test('el menú hamburguesa se abre y navega a Noticias (mobile)', async ({ page, isMobile }) => {
   test.skip(!isMobile, 'Test específico del menú mobile.');
   await page.goto('/');
   await page.getByRole('button', { name: 'Abrir menú' }).click();
   const mobileMenu = page.getByLabel('Principal (móvil)');
-  await mobileMenu.getByRole('button', { name: 'Tributario' }).click();
-  await mobileMenu.getByRole('link', { name: 'Declaración F29 (mensual)' }).click();
-  await expect(page).toHaveURL(/\/servicios\/tributario\/declaracion-f29\//);
+  await mobileMenu.getByRole('link', { name: 'Noticias' }).click();
+  await expect(page).toHaveURL(/\/noticias\//);
 });
 
 test('el footer tiene los links principales', async ({ page }) => {
