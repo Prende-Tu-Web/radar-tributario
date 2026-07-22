@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../components/layout/BaseLayout.astro';
-import { getAuthors } from '../lib/sanity/queries';
+import { getAuthors, getPosts } from '../lib/sanity/queries';
 import { AUTHORS_FALLBACK } from '../lib/authors-fallback';
 import { AUTHOR_LINKEDIN } from '../lib/author-links';
 import { getAuthorPhotoUrl } from '../lib/author-photos';
@@ -11,13 +11,15 @@ import type { Author } from '../lib/sanity/types';
 const fromSanity = await getAuthors();
 const team = fromSanity.length > 0 ? fromSanity : AUTHORS_FALLBACK;
 
-// "+" solo para umbrales abiertos (años, clientes) — no para conteos exactos
-// como fundadores o tamaño del catálogo.
+// Mismos 3 stats que en el home (TrustStrip), para consistencia entre
+// páginas. El conteo de artículos se muestra como "+N-1", nunca el número
+// exacto, para que no quede desactualizado apenas se publica algo nuevo.
+const postCount = Math.max((await getPosts()).length - 1, 0);
+
 const stats = [
   { value: 8, unit: 'años', label: 'De experiencia combinada', plus: true },
   { value: 50, unit: 'clientes', label: 'Gestionados', plus: true },
-  { value: 2, unit: 'fundadores', label: 'Perfil técnico + tributario', plus: false },
-  { value: 4, unit: 'organismos', label: 'SII, Banco Central, TGR y Diario Oficial', plus: false },
+  { value: postCount, unit: postCount === 1 ? 'artículo' : 'artículos', label: 'Publicados', plus: true },
 ];
 ---
 
@@ -40,11 +42,11 @@ const stats = [
       <p class="mt-6 max-w-xl font-body text-[16px] leading-relaxed text-text/80" data-reveal style="transition-delay: 120ms">
         La asesoría tributaria en Chile suele ser opaca: declaraciones que llegan sin explicación, contadores que
         no responden y todo el proceso dependiendo de una sola persona. Nosotros lo armamos distinto — la
-        experiencia tributaria de Nayadeth, cruzada con la ingeniería de performance y SEO técnico que Alexis
-        aplica todos los días como desarrollador.
+        experiencia tributaria de Nayadeth, Magíster en Dirección Tributaria, cruzada con la ingeniería informática
+        e inteligencia artificial que Alexis aplica todos los días como desarrollador.
       </p>
 
-      <div class="mt-16 grid grid-cols-2 gap-x-10 gap-y-12 border-t border-primary/10 pt-12 lg:grid-cols-4">
+      <div class="mt-16 grid grid-cols-1 gap-x-10 gap-y-12 border-t border-primary/10 pt-12 sm:grid-cols-3">
         {
           stats.map((s, i) => (
             <div data-reveal style={`transition-delay: ${180 + i * 70}ms`}>

@@ -73,7 +73,7 @@ export const posts: PostSeed[] = [
     publishedAt: '2026-06-02T13:00:00.000Z',
     body: [
       p(
-        'Cada año veo el mismo patrón en empresas que terminan con observaciones del SII: no es que declararon tarde, es que declararon con el cierre contable del ejercicio sin cuadrar. La Operación Renta no es un trámite de un día — es el resultado de cómo se llevó la contabilidad los doce meses anteriores.'
+        'Cada año veo el mismo patrón en empresas que terminan con observaciones del Servicio de Impuestos Internos (SII): no es que declararon tarde, es que declararon con el cierre contable del ejercicio sin cuadrar. La Operación Renta no es un trámite de un día — es el resultado de cómo se llevó la contabilidad los doce meses anteriores.'
       ),
       h2('El plazo real'),
       p(
@@ -145,11 +145,11 @@ export const posts: PostSeed[] = [
     publishedAt: '2026-06-28T13:00:00.000Z',
     body: [
       p(
-        'El Common Reporting Standard (CRS) es el estándar de la OCDE para el intercambio automático de información financiera entre países. Chile se comprometió a implementarlo en 2015 y empezó a intercambiar información en 2018, mediante el Decreto de Hacienda N°418 de julio de 2017.'
+        'El Common Reporting Standard (CRS) es el estándar de la Organización para la Cooperación y el Desarrollo Económicos (OCDE) para el intercambio automático de información financiera entre países. Chile se comprometió a implementarlo en 2015 y empezó a intercambiar información en 2018, mediante el Decreto de Hacienda N°418 de julio de 2017.'
       ),
       h2('Cómo funciona en la práctica'),
       p(
-        'Las instituciones financieras chilenas y extranjeras reportan cuentas de personas con residencia tributaria fuera de su país de origen. En Chile, las instituciones financieras deben presentar una declaración jurada al SII a más tardar el 30 de junio de cada año, reportando las cuentas relacionadas con personas con residencia tributaria en el extranjero mantenidas durante el año calendario anterior.'
+        'Las instituciones financieras chilenas y extranjeras reportan cuentas de personas con residencia tributaria fuera de su país de origen. En Chile, las instituciones financieras deben presentar una declaración jurada al Servicio de Impuestos Internos (SII) a más tardar el 30 de junio de cada año, reportando las cuentas relacionadas con personas con residencia tributaria en el extranjero mantenidas durante el año calendario anterior.'
       ),
       p(
         'En septiembre de cada año, el SII recibe a su vez información sobre las cuentas de chilenos en el extranjero. Esto no es un trámite menor: hay casos recientes de fiscalización específicamente enfocados en contribuyentes con cuentas financieras en el exterior no declaradas.'
@@ -181,7 +181,7 @@ export const posts: PostSeed[] = [
     publishedAt: '2026-07-05T13:00:00.000Z',
     body: [
       p(
-        'Desde 2013, el marco vigente para preparar estados financieros en Chile es NIIF (Full o Pyme) — los antiguos boletines técnicos (PCGA chilenos) quedaron derogados. En septiembre de 2010 la Comisión de Principios y Normas de Contabilidad del Colegio de Contadores de Chile había aprobado el Boletín Técnico 82, que adopta de forma íntegra la Norma NIIF para Pymes emitida por el IASB.'
+        'Desde 2013, el marco vigente para preparar estados financieros en Chile es NIIF (Full o Pyme) — los antiguos boletines técnicos (PCGA chilenos) quedaron derogados. En septiembre de 2010 la Comisión de Principios y Normas de Contabilidad del Colegio de Contadores de Chile había aprobado el Boletín Técnico 82, que adopta de forma íntegra la Norma NIIF para Pymes emitida por el International Accounting Standards Board (IASB).'
       ),
       h2('Por qué esto no es solo un tecnicismo contable'),
       p(
@@ -243,7 +243,7 @@ export const posts: PostSeed[] = [
     publishedAt: '2026-07-08T13:00:00.000Z',
     body: [
       p(
-        'Este es un cambio que suele pasar desapercibido hasta que genera una observación: el SII incorporó nuevos campos obligatorios al libro de compras y ventas, y muchas empresas van a completarlos mal o incompletos si nadie revisa el proceso antes de la primera declaración del año con la nueva exigencia.'
+        'Este es un cambio que suele pasar desapercibido hasta que genera una observación: el Servicio de Impuestos Internos (SII) incorporó nuevos campos obligatorios al libro de compras y ventas, y muchas empresas van a completarlos mal o incompletos si nadie revisa el proceso antes de la primera declaración del año con la nueva exigencia.'
       ),
       h2('Los campos nuevos'),
       ...bullets([
@@ -276,7 +276,7 @@ export const posts: PostSeed[] = [
     publishedAt: '2026-06-10T13:00:00.000Z',
     body: [
       p(
-        'Como Technical Lead, mi trabajo no es interpretar el derecho tributario — es diseñar sistemas que no dependan de que alguien se acuerde de revisar un índice a tiempo. El SII publica un índice anual de resoluciones en su sitio, y cada una puede cambiar una obligación, un plazo o un requisito técnico. El problema real no es leerlas: es enterarse de que existen antes de que te afecten.'
+        'Como Technical Lead, mi trabajo no es interpretar el derecho tributario — es diseñar sistemas que no dependan de que alguien se acuerde de revisar un índice a tiempo. El Servicio de Impuestos Internos (SII) publica un índice anual de resoluciones en su sitio, y cada una puede cambiar una obligación, un plazo o un requisito técnico. El problema real no es leerlas: es enterarse de que existen antes de que te afecten.'
       ),
       h2('El problema de fondo es de proceso, no de lectura'),
       p(
@@ -310,7 +310,7 @@ export const posts: PostSeed[] = [
     publishedAt: '2026-06-15T13:00:00.000Z',
     body: [
       p(
-        'Me interesa esto desde el lado de los sistemas: el SII no fiscaliza revisando contribuyente por contribuyente al azar. Fiscaliza con sistemas que cruzan datos de múltiples fuentes automáticamente, y las alertas salen cuando algo no cuadra entre esas fuentes — es el mismo tipo de arquitectura de detección de anomalías que se usa en cualquier sistema financiero a gran escala.'
+        'Me interesa esto desde el lado de los sistemas: el Servicio de Impuestos Internos (SII) no fiscaliza revisando contribuyente por contribuyente al azar. Fiscaliza con sistemas que cruzan datos de múltiples fuentes automáticamente, y las alertas salen cuando algo no cuadra entre esas fuentes — es el mismo tipo de arquitectura de detección de anomalías que se usa en cualquier sistema financiero a gran escala.'
       ),
       h2('Un ejemplo real y reciente'),
       p(
@@ -348,7 +348,7 @@ export const posts: PostSeed[] = [
     publishedAt: '2026-05-25T13:00:00.000Z',
     body: [
       p(
-        'Como Technical Lead, esta es la parte que menos se cubre cuando se habla de cambios normativos del SII: qué significa realmente a nivel de integración y sistemas, no solo qué hay que declarar distinto.'
+        'Como Technical Lead, esta es la parte que menos se cubre cuando se habla de cambios normativos del Servicio de Impuestos Internos (SII): qué significa realmente a nivel de integración y sistemas, no solo qué hay que declarar distinto.'
       ),
       h2('El cambio de fondo'),
       p(

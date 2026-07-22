@@ -5,33 +5,23 @@ import { getPosts } from '../../lib/sanity/queries';
 // chica, sin líneas divisorias (el espacio hace el trabajo), acento teal
 // usado con disciplina en un solo detalle por stat, no repartido.
 // (2026-07-17): mismo scroll-reveal + contador animado que Sobre Nosotros.
-const postCount = (await getPosts()).length;
+// El conteo de artículos se muestra como "+N-1" (nunca el número exacto)
+// para que el stat no quede desactualizado apenas se publica algo nuevo.
+const postCount = Math.max((await getPosts()).length - 1, 0);
 
-const profile = [{ label: 'Fuentes oficiales citadas', value: 'SII · Banco Central · TGR' }];
-
-// "+" solo para umbrales abiertos (años, clientes) — no para el conteo
-// exacto de artículos publicados.
 const stats = [
   { label: 'Años de experiencia', value: 8, unit: 'años', plus: true },
   { label: 'Clientes gestionados', value: 50, unit: 'clientes', plus: true },
-  { label: 'Análisis publicados', value: postCount, unit: postCount === 1 ? 'artículo' : 'artículos', plus: false },
+  { label: 'Análisis publicados', value: postCount, unit: postCount === 1 ? 'artículo' : 'artículos', plus: true },
 ];
 ---
 
 <section class="border-b border-primary/10 bg-background">
   <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-    <div class="grid grid-cols-1 gap-x-12 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
-      {
-        profile.map((item, i) => (
-          <div data-reveal style={`transition-delay: ${i * 70}ms`}>
-            <p class="font-heading text-xl leading-snug text-primary sm:text-2xl">{item.value}</p>
-            <p class="mt-3 font-body text-[11px] font-semibold uppercase tracking-[0.14em] text-secondary">{item.label}</p>
-          </div>
-        ))
-      }
+    <div class="grid grid-cols-1 gap-x-12 gap-y-14 sm:grid-cols-3">
       {
         stats.map((item, i) => (
-          <div data-reveal style={`transition-delay: ${(i + 1) * 70}ms`}>
+          <div data-reveal style={`transition-delay: ${i * 70}ms`}>
             <p class="font-heading text-6xl leading-none sm:text-7xl">
               {item.plus && <span class="text-accent">+</span>}
               <span class={item.plus ? 'text-primary' : 'text-accent'} data-count-to={item.value}>

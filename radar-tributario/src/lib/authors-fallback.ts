@@ -14,7 +14,7 @@ export const AUTHORS_FALLBACK: Author[] = [
     slug: { current: 'nayadeth-miranda' },
     shortBio: 'Contadora Pública y Auditora, Magíster en Dirección Tributaria. Gerente de Impuesto en CCL AC.',
     bio: 'Nayadeth Miranda es Contadora Pública y Auditora de la Universidad de Santiago de Chile, con estudios de postgrado y un Magíster en Dirección Tributaria de la Universidad de Viña del Mar.\nSu carrera combina auditoría y gestión tributaria en distintos sectores: pasó por Deloitte trabajando con clientes del sector público, bancos y centros médicos, y se especializó en contabilidad tributaria para el rubro inmobiliario. Actualmente se desempeña en CCL Auditores Consultores (CCLAC), donde ha construido su trayectoria desde roles de supervisión hasta posiciones de gerencia, liderando equipos y procesos de outsourcing contable para empresas de distintos tamaños.\nEn Radar Tributario, Nayadeth traduce ese conocimiento técnico en contenido claro y aplicable: outsourcing contable y tributaria pensados para que dueños de empresa, CFOs y equipos financieros tomen mejores decisiones, sin perderse en la letra chica.',
-    credentials: 'Contadora Pública y Auditora · Magister en Dirección Tributaria · Gerenta Outsorcing · Fundadora',
+    credentials: 'Contadora Pública y Auditora · Magister en Dirección Tributaria · Gerenta Outsourcing · Fundadora',
     displayOrder: 1,
   },
   {
