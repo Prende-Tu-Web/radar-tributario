@@ -1,0 +1,27 @@
+---
+interface RecommendationCardItem {
+  icon?: string;
+  text: string;
+}
+
+interface RecommendationCardsNode {
+  _type: 'recommendationCards';
+  items?: RecommendationCardItem[];
+}
+
+interface Props {
+  node: RecommendationCardsNode;
+}
+
+const { node } = Astro.props;
+const items = node.items ?? [];
+---
+
+<div class="my-6 grid gap-3 sm:grid-cols-2">
+  {items.map((card) => (
+    <div class="flex items-start gap-2 rounded-lg border border-muted/20 bg-surface p-3">
+      <span aria-hidden="true">{card.icon ?? '✅'}</span>
+      <span class="text-sm text-text">{card.text}</span>
+    </div>
+  ))}
+</div>
