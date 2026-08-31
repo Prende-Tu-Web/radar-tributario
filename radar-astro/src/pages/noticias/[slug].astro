@@ -272,7 +272,7 @@ function groupListItems(body: BodyItem[]): (BodyItem | ListGroup)[] {
                   <tbody>
                     {(entry.rows ?? []).map((row) => (
                       <tr>
-                        {row.cells.map((cell) => (
+                        {(row.cells ?? []).map((cell) => (
                           <td class="p-2 border-b" style="border-color:var(--rt-border);">
                             {cell.indicator === 'check' && <span style="color:var(--rt-teal);">✓</span>}
                             {cell.indicator === 'cross' && <span style="color:var(--rt-red);">✕</span>}
