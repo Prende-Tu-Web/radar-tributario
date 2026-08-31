@@ -138,6 +138,9 @@ export default defineType({
             },
           ],
         },
+        { type: 'calloutBox' },
+        { type: 'recommendationCards' },
+        { type: 'comparisonTable' },
       ],
     }),
     defineField({
