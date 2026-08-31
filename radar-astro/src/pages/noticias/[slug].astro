@@ -97,7 +97,7 @@ type BodyItem = Block | ImageBlock | CalloutBlock | RecommendationCardsBlock | C
 type ListGroup = { _type: 'list'; listItem: 'bullet' | 'number'; items: Block[] };
 
 function escapeHtml(s: string): string {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 function renderInline(children: Span[] = [], markDefs: MarkDef[] = []): string {
@@ -225,10 +225,11 @@ function groupListItems(body: BodyItem[]): (BodyItem | ListGroup)[] {
           }
 
           if (entry._type === 'calloutBox') {
-            const html = renderInline(
-              (entry.text ?? []).flatMap((b) => b.children ?? []),
-              (entry.text ?? []).flatMap((b) => b.markDefs ?? [])
-            );
+            const html = (entry.text ?? [])
+              .map((b) => renderInline(b.children, b.markDefs))
+              .filter(Boolean)
+              .join(' ');
+            if (!html) return null;
             return (
               <div class="flex gap-3 rounded p-4 my-6" style="background:rgba(34,224,196,.08); border-left:3px solid var(--rt-teal);">
                 <span aria-hidden="true">{entry.icon ?? '💡'}</span>
