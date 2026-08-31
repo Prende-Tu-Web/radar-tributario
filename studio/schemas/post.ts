@@ -133,6 +133,9 @@ export default defineType({
           ],
         },
         { type: 'legalSource' },
+        { type: 'calloutBox' },
+        { type: 'recommendationCards' },
+        { type: 'comparisonTable' },
       ],
     }),
     defineField({

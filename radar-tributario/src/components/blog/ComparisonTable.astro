@@ -1,0 +1,53 @@
+---
+interface ComparisonTableCell {
+  text?: string;
+  indicator?: 'check' | 'cross' | 'none';
+}
+
+interface ComparisonTableRow {
+  cells?: ComparisonTableCell[];
+}
+
+interface ComparisonTableNode {
+  _type: 'comparisonTable';
+  title?: string;
+  columns?: string[];
+  rows?: ComparisonTableRow[];
+}
+
+interface Props {
+  node: ComparisonTableNode;
+}
+
+const { node } = Astro.props;
+const columns = node.columns ?? [];
+const rows = node.rows ?? [];
+---
+
+<div class="my-6 overflow-x-auto">
+  {node.title && <p class="mb-2 font-medium text-primary">{node.title}</p>}
+  <table class="w-full border-collapse text-sm">
+    <thead>
+      <tr>
+        {columns.map((col) => (
+          <th class="bg-primary p-2 text-left text-white">{col}</th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((row) => (
+        <tr>
+          {(row.cells ?? []).map((cell) => (
+            <td class="border-b border-muted/20 p-2">
+              {cell.indicator === 'check' && <span class="text-success">✓</span>}
+              {cell.indicator === 'cross' && <span class="text-destructive">✕</span>}
+              {cell.text && (
+                <span class={cell.indicator && cell.indicator !== 'none' ? 'ml-1' : ''}>{cell.text}</span>
+              )}
+            </td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

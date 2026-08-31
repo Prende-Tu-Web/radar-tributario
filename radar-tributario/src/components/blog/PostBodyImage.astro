@@ -1,0 +1,29 @@
+---
+import { urlFor } from '../../lib/sanity/image';
+import type { SanityImage } from '../../lib/sanity/types';
+
+interface PostBodyImageNode extends SanityImage {
+  alt?: string;
+  caption?: string;
+}
+
+interface Props {
+  node: PostBodyImageNode;
+}
+
+const { node } = Astro.props;
+
+let src: string | null = null;
+try {
+  src = node.asset ? urlFor(node).width(900).fit('max').url() : null;
+} catch {
+  src = null;
+}
+---
+
+{src && (
+  <figure class="my-6">
+    <img src={src} alt={node.alt ?? ''} class="w-full object-cover" />
+    {node.caption && <figcaption class="mt-2 text-center text-xs text-muted">{node.caption}</figcaption>}
+  </figure>
+)}
