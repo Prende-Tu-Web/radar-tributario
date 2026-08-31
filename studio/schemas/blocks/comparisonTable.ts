@@ -70,7 +70,22 @@ export default defineType({
           },
         }),
       ],
-      validation: (Rule) => Rule.required().min(1),
+      validation: (Rule) =>
+        Rule.required()
+          .min(1)
+          .custom((rows, context) => {
+            const parent = context.parent as { columns?: string[] } | undefined;
+            const columnCount = parent?.columns?.length ?? 0;
+            if (!Array.isArray(rows) || columnCount === 0) return true;
+            const mismatched = rows.find((row) => {
+              const r = row as { cells?: unknown[] };
+              return (r.cells?.length ?? 0) !== columnCount;
+            });
+            if (mismatched) {
+              return `Cada fila debe tener exactamente ${columnCount} celda(s), igual que la cantidad de columnas.`;
+            }
+            return true;
+          }),
     }),
   ],
   preview: {
