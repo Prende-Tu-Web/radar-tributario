@@ -32,7 +32,35 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
 const bannerUrl = post.coverImage
   ? urlFor(post.coverImage).width(1600).height(760).fit('crop').url()
   : null;
-const titleOnRight = post.coverImageTitlePosition === 'derecha';
+
+const titleHorizontal = post.coverImageTitlePosition ?? 'izquierda';
+const titleVertical = post.coverImageTitlePositionVertical ?? 'abajo';
+
+const HORIZONTAL_JUSTIFY: Record<string, string> = {
+  izquierda: 'justify-start',
+  centro: 'justify-center',
+  derecha: 'justify-end',
+};
+const HORIZONTAL_TEXT_ALIGN: Record<string, string> = {
+  izquierda: 'text-left items-start',
+  centro: 'text-center items-center',
+  derecha: 'text-right items-end',
+};
+const VERTICAL_ALIGN: Record<string, string> = {
+  arriba: 'items-start',
+  centro: 'items-center',
+  abajo: 'items-end',
+};
+const VERTICAL_GRADIENT: Record<string, string> = {
+  arriba: 'bg-gradient-to-b from-primary/90 via-primary/35 to-transparent',
+  centro: 'bg-primary/55',
+  abajo: 'bg-gradient-to-t from-primary/90 via-primary/35 to-transparent',
+};
+const VERTICAL_PADDING: Record<string, string> = {
+  arriba: 'pt-8 pb-6 sm:pt-10 lg:pt-14',
+  centro: 'py-8',
+  abajo: 'pb-8 pt-6 sm:pb-10 lg:pb-14',
+};
 ---
 
 <BaseLayout
@@ -50,17 +78,23 @@ const titleOnRight = post.coverImageTitlePosition === 'derecha';
           alt={post.coverImage?.alt ?? ''}
           class="absolute inset-0 h-full w-full object-cover"
         />
-        <div class="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/45 to-primary/5" />
-        <div class="absolute inset-0 flex items-end">
-          <div class:list={['w-full px-4 pb-8 sm:px-6 lg:px-8 lg:pb-12', titleOnRight ? 'flex justify-end' : 'flex justify-start']}>
-            <div class:list={['max-w-2xl', titleOnRight && 'text-right']}>
+        <div class:list={['absolute inset-0', VERTICAL_GRADIENT[titleVertical]]} />
+        <div class:list={['absolute inset-0 flex', VERTICAL_ALIGN[titleVertical]]}>
+          <div
+            class:list={[
+              'flex w-full px-4 sm:px-6 md:px-[8%] lg:px-[10%]',
+              VERTICAL_PADDING[titleVertical],
+              HORIZONTAL_JUSTIFY[titleHorizontal],
+            ]}
+          >
+            <div class:list={['flex max-w-2xl flex-col', HORIZONTAL_TEXT_ALIGN[titleHorizontal]]}>
               {post.category && (
                 <a href={`/noticias/categoria/${post.category.slug.current}/`} class="font-body text-[11px] font-semibold uppercase tracking-[0.1em] text-accent hover:text-white">
                   {post.category.title}
                 </a>
               )}
               <h1 class="mt-3 font-heading text-[2rem] font-medium leading-[1.15] text-white drop-shadow-sm sm:text-[2.5rem]">{post.title}</h1>
-              <div class:list={['mt-4 flex flex-wrap items-center gap-2 font-body text-[13px] text-white/80', titleOnRight && 'justify-end']}>
+              <div class="mt-4 flex flex-wrap items-center gap-2 font-body text-[13px] text-white/80">
                 {post.author && <span>{post.author.name}</span>}
                 {post.author && formattedDate && <span aria-hidden="true">·</span>}
                 {formattedDate && <span>{formattedDate}</span>}
