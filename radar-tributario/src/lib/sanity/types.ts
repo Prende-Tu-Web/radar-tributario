@@ -124,7 +124,8 @@ export interface Post {
   slug: Slug;
   summary?: string;
   coverImage?: SanityImage & { alt?: string };
-  coverImageTitlePosition?: 'izquierda' | 'derecha';
+  coverImageTitlePosition?: 'izquierda' | 'centro' | 'derecha';
+  coverImageTitlePositionVertical?: 'arriba' | 'centro' | 'abajo';
   body?: PortableTextBody;
   category?: Category;
   tags?: Tag[];
