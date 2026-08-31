@@ -215,7 +215,13 @@ function groupListItems(body: BodyItem[]): (BodyItem | ListGroup)[] {
           }
 
           if (entry._type === 'image' && entry.asset) {
-            const src = urlFor(entry).width(900).fit('max').url();
+            let src: string | null = null;
+            try {
+              src = urlFor(entry).width(900).fit('max').url();
+            } catch {
+              src = null;
+            }
+            if (!src) return null;
             return (
               <figure class="my-6 -mx-4 md:mx-0">
                 <img src={src} alt={entry.alt ?? ''} class="w-full object-cover" />
