@@ -1,0 +1,29 @@
+---
+import { urlFor } from '../../lib/sanity/image';
+import { getAuthorPhotoUrl } from '../../lib/author-photos';
+import type { Author } from '../../lib/sanity/types';
+
+interface Props {
+  author: Author;
+}
+
+const { author } = Astro.props;
+const photoUrl = author.photo ? urlFor(author.photo).width(112).height(112).fit('crop').url() : getAuthorPhotoUrl(author.slug.current);
+---
+
+<div class="flex items-start gap-4 rounded-xl border border-primary/10 bg-surface p-5">
+  <div class="h-14 w-14 shrink-0 overflow-hidden rounded-full">
+    {photoUrl ? (
+      <img src={photoUrl} alt={author.name} class="h-full w-full object-cover" />
+    ) : (
+      <div class="flex h-full w-full items-center justify-center bg-background font-heading text-lg font-medium text-primary">{author.name.charAt(0)}</div>
+    )}
+  </div>
+  <div>
+    <a href={`/autor/${author.slug.current}/`} class="font-heading text-base font-medium text-primary hover:text-secondary">
+      {author.name}
+    </a>
+    {author.credentials && <p class="mt-0.5 font-body text-[12.5px] text-secondary">{author.credentials}</p>}
+    {author.shortBio && <p class="mt-2 font-body text-[13.5px] leading-relaxed text-text/75">{author.shortBio}</p>}
+  </div>
+</div>

@@ -1,0 +1,93 @@
+---
+import '../../styles/globals.css';
+import IndicatorsTicker from './IndicatorsTicker.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import WhatsAppFloatingButton from '../islands/WhatsAppFloatingButton';
+import CookieConsent from '../islands/CookieConsent';
+import { getSiteSettings } from '../../lib/sanity/queries';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+}
+
+const { title, description, ogImage = '/og-default.png', ogType = 'website' } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL(ogImage, Astro.site);
+
+const siteSettings = await getSiteSettings();
+const gtmId = import.meta.env.PUBLIC_GTM_ID;
+---
+
+<!doctype html>
+<html lang="es-CL">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- Preload de las fuentes críticas (usadas above-the-fold en toda página) -->
+    <link rel="preload" href="/fonts/inter-variable-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/newsreader-variable-normal.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:locale" content="es_CL" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
+    <!-- JSON-LD por página (Organization/LegalService, Service, Article — Step 11) -->
+    <slot name="jsonld" />
+
+    <!-- Google Tag Manager — solo si PUBLIC_GTM_ID está definido, y solo se
+         carga si el visitante ya aceptó cookies (Ley 21.719 / banner de
+         CookieConsent.tsx). Sin consentimiento previo, esta función queda
+         registrada en window pero nunca se ejecuta sola. -->
+    {gtmId && (
+      <script is:inline define:vars={{ gtmId }}>
+        (function () {
+          function loadGTM(id) {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+            var f = document.getElementsByTagName('script')[0];
+            var j = document.createElement('script');
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + id;
+            f.parentNode.insertBefore(j, f);
+          }
+          window.__rtLoadGTM = function () {
+            loadGTM(gtmId);
+          };
+          try {
+            if (localStorage.getItem('rt-cookie-consent') === 'accepted') loadGTM(gtmId);
+          } catch (e) {}
+        })();
+      </script>
+    )}
+  </head>
+  <body>
+    <IndicatorsTicker />
+    <Header siteSettings={siteSettings} />
+    <slot />
+    <Footer />
+    <WhatsAppFloatingButton client:idle whatsappNumber={siteSettings?.whatsappNumber} />
+    <CookieConsent client:load hasGtm={Boolean(gtmId)} />
+  </body>
+</html>

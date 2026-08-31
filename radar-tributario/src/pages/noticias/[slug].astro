@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import AuthorBio from '../../components/blog/AuthorBio.astro';
+import ShareButtons from '../../components/blog/ShareButtons.astro';
+import { PortableText } from 'astro-portabletext';
+import { getPosts, getPostBySlug } from '../../lib/sanity/queries';
+import { portableTextComponents } from '../../lib/sanity/portableTextComponents';
+import { articleJsonLd } from '../../lib/seo';
+import type { Post } from '../../lib/sanity/types';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post: Post) => ({
+    params: { slug: post.slug.current },
+  }));
+}
+
+const { slug } = Astro.params;
+const post = await getPostBySlug(slug as string);
+
+if (!post) {
+  return Astro.redirect('/noticias/', 404);
+}
+
+const formattedDate = post.publishedAt
+  ? new Intl.DateTimeFormat('es-CL', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(post.publishedAt))
+  : null;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
+---
+
+<BaseLayout
+  title={post.seo?.metaTitle || `${post.title} | Radar Tributario`}
+  description={post.seo?.metaDescription || post.summary || post.title}
+  ogType="article"
+>
+  <script is:inline type="application/ld+json" slot="jsonld" set:html={JSON.stringify(articleJsonLd(post))} />
+  <article class="bg-surface">
+    <div class="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+      {post.category && (
+        <a href={`/noticias/categoria/${post.category.slug.current}/`} class="font-body text-[11px] font-semibold uppercase tracking-[0.1em] text-secondary hover:text-primary">
+          {post.category.title}
+        </a>
+      )}
+      <h1 class="mt-3 font-heading text-[2rem] font-medium leading-[1.15] text-primary sm:text-[2.5rem]">{post.title}</h1>
+      <div class="mt-4 flex flex-wrap items-center justify-between gap-4 font-body text-[13px] text-muted">
+        <div class="flex items-center gap-2">
+          {post.author && <span>{post.author.name}</span>}
+          {post.author && formattedDate && <span aria-hidden="true">·</span>}
+          {formattedDate && <span>{formattedDate}</span>}
+        </div>
+        <ShareButtons url={canonicalURL} title={post.title} />
+      </div>
+
+      <div class="prose-rt mt-10">
+        <PortableText value={post.body ?? []} components={portableTextComponents} />
+      </div>
+
+      <div class="mt-10 flex justify-end border-t border-primary/10 pt-6">
+        <ShareButtons url={canonicalURL} title={post.title} />
+      </div>
+
+      {post.author && (
+        <div class="mt-10 border-t border-primary/10 pt-8">
+          <AuthorBio author={post.author} />
+        </div>
+      )}
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .prose-rt :global(h2) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-family: var(--font-heading);
+    font-size: 1.375rem;
+    font-weight: 500;
+    color: var(--color-primary);
+  }
+  .prose-rt :global(h3) {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--color-primary);
+  }
+  .prose-rt :global(p) {
+    margin-bottom: 1.1rem;
+    font-family: var(--font-body);
+    font-size: 15.5px;
+    line-height: 1.75;
+    color: var(--color-text);
+  }
+  .prose-rt :global(ul),
+  .prose-rt :global(ol) {
+    margin-bottom: 1.1rem;
+    padding-left: 1.25rem;
+    font-family: var(--font-body);
+    font-size: 15.5px;
+    line-height: 1.75;
+    color: var(--color-text);
+  }
+  .prose-rt :global(li) {
+    margin-bottom: 0.35rem;
+  }
+  .prose-rt :global(strong) {
+    color: var(--color-primary);
+  }
+  .prose-rt :global(a) {
+    color: var(--color-secondary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .prose-rt :global(img) {
+    border-radius: 0.75rem;
+    margin: 1.5rem 0;
+  }
+</style>

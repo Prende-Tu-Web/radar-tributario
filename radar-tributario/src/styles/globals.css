@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+/* Newsreader Variable — self-hosted (OFL), subset latin, wght 200-800 + opsz axis */
+@font-face {
+  font-family: "Newsreader Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url("/fonts/newsreader-variable-normal.woff2") format("woff2-variations");
+}
+@font-face {
+  font-family: "Newsreader Variable";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url("/fonts/newsreader-variable-italic.woff2") format("woff2-variations");
+}
+
+/* Inter Variable — self-hosted (OFL), subset latin, wght 100-900 */
+@font-face {
+  font-family: "Inter Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("/fonts/inter-variable-normal.woff2") format("woff2-variations");
+}
+@font-face {
+  font-family: "Inter Variable";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("/fonts/inter-variable-italic.woff2") format("woff2-variations");
+}
+
+/*
+ * Design tokens — paleta REAL de radartributario.cl (pedido explícito: solo
+ * colores, nada más cambia). Extraída de las CSS custom properties reales del
+ * sitio en vivo (--rt-navy/red/teal/warn/bg/border/text/muted). Tipografía
+ * (Newsreader/Inter), layout y componentes se mantienen como estaban.
+ *
+ * SIN dark mode a propósito: el sitio real no tiene soporte de
+ * prefers-color-scheme (verificado — 0 coincidencias en su CSS), y estos
+ * tokens ahora se usan como colores de MARCA para fondos sólidos (Header
+ * navy, botones navy, etc.), no solo como texto. Invertirlos en dark mode
+ * rompía el diseño (el Header se veía blanco y el Hero azul en navegadores
+ * con tema oscuro) — bug real encontrado y corregido en esta iteración.
+ */
+:root {
+  --rt-primary: #0f2547; /* navy — color de marca real */
+  --rt-primary-deep: #081833; /* navy más oscuro, solo para el gradiente del Hero (constelación 3D) */
+  --rt-secondary: #1e3a5f; /* navy más claro, usado como secundario en el sitio real */
+  --rt-accent: #22e0c4; /* teal — acento real, único reservado para CTAs */
+  --rt-on-accent: #0f2547; /* el sitio real pinta texto navy sobre fondo teal (.rt-tag-teal), no blanco — blanco sobre teal no pasa AA */
+  --rt-background: #f5f4f0;
+  --rt-surface: #ffffff;
+  --rt-text: #1e293b;
+  --rt-muted: #64748b;
+  --rt-destructive: #c0392b; /* rojo real del sitio (.rt-tag-red) */
+  --rt-success: #16a34a;
+}
+
+@theme {
+  --color-primary: var(--rt-primary);
+  --color-secondary: var(--rt-secondary);
+  --color-accent: var(--rt-accent);
+  --color-cta: var(--rt-accent);
+  --color-on-accent: var(--rt-on-accent);
+  --color-background: var(--rt-background);
+  --color-surface: var(--rt-surface);
+  --color-text: var(--rt-text);
+  --color-muted: var(--rt-muted);
+  --color-destructive: var(--rt-destructive);
+  --color-success: var(--rt-success);
+
+  --font-heading: "Newsreader Variable", Georgia, serif;
+  --font-body: "Inter Variable", system-ui, sans-serif;
+}
+
+/*
+ * Radios (Sección 7): usar la escala default de Tailwind v4, sin redefinir.
+ * Convención del proyecto: rounded-lg (8px) = default de componentes/botones,
+ * rounded-xl (12px) = cards, rounded-full = avatares/badges.
+ */
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+}
+
+/*
+ * Textura global sutil sobre las secciones claras del sitio. El selector
+ * exige la etiqueta <section> a propósito: bg-background/bg-surface también
+ * se reutilizan en inputs, badges y cards (ej. LeadForm) que NO son
+ * secciones — sin el prefijo "section", el punteado se filtraba encima de
+ * los campos del formulario. Las secciones navy (bg-primary, Hero orb/CTA
+ * glow) quedan afuera: ya tienen su propia decoración y los puntos oscuros
+ * no se verían sobre fondo oscuro.
+ */
+.dot-grid,
+section.bg-background,
+section.bg-surface {
+  background-image: radial-gradient(circle at 1px 1px, rgba(35, 47, 56, 0.06) 1px, transparent 0);
+  background-size: 3px 3px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}

@@ -1,5 +1,4 @@
 import { defineType, defineField } from 'sanity';
-import { slugifyTitle } from '../lib/slugify';
 
 export default defineType({
   name: 'post',
@@ -16,12 +15,7 @@ export default defineType({
       name: 'slug',
       title: 'Slug (URL)',
       type: 'slug',
-      description: 'Generado automáticamente sin palabras vacías. Puedes editarlo antes de publicar.',
-      options: {
-        source: 'title',
-        maxLength: 60,
-        slugify: slugifyTitle,
-      },
+      options: { source: 'title', maxLength: 96 },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -138,6 +132,7 @@ export default defineType({
             },
           ],
         },
+        { type: 'legalSource' },
       ],
     }),
     defineField({

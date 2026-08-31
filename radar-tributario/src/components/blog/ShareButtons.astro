@@ -1,0 +1,41 @@
+---
+import { SOCIAL_ICONS } from '../../lib/social-icons';
+
+interface Props {
+  url: string;
+  title: string;
+}
+
+const { url, title } = Astro.props;
+const encodedUrl = encodeURIComponent(url);
+const encodedTitle = encodeURIComponent(title);
+
+const links = [
+  { platform: 'linkedin', label: 'Compartir en LinkedIn', href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}` },
+  { platform: 'x', label: 'Compartir en X', href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}` },
+];
+---
+
+<div class="flex items-center gap-3">
+  <span class="font-body text-[12px] font-semibold uppercase tracking-[0.1em] text-muted">Compartir</span>
+  {
+    links.map((l) => {
+      const icon = SOCIAL_ICONS[l.platform];
+      return (
+        <a
+          href={l.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={l.label}
+          class="flex h-9 w-9 items-center justify-center rounded-full border border-primary/15 text-primary/70 transition-all hover:-translate-y-0.5 hover:border-accent hover:bg-accent hover:text-on-accent"
+        >
+          {icon.filled ? (
+            <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" set:html={icon.path} />
+          ) : (
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={icon.path} />
+          )}
+        </a>
+      );
+    })
+  }
+</div>

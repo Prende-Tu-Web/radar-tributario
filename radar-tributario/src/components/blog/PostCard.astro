@@ -1,0 +1,88 @@
+---
+import type { Post } from '../../lib/sanity/types';
+import { categoryBadgeClass } from '../../lib/category-colors';
+import { urlFor } from '../../lib/sanity/image';
+import { getAuthorPhotoUrl } from '../../lib/author-photos';
+
+interface Props {
+  post: Post;
+  featured?: boolean;
+  badge?: string;
+}
+
+const { post, featured = false, badge } = Astro.props;
+const photoUrl = post.author?.photo
+  ? urlFor(post.author.photo).width(48).height(48).fit('crop').url()
+  : post.author
+    ? getAuthorPhotoUrl(post.author.slug.current)
+    : null;
+
+const formattedDate = post.publishedAt
+  ? new Intl.DateTimeFormat('es-CL', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(post.publishedAt))
+  : null;
+
+const initials = post.author?.name
+  ? post.author.name
+      .split(' ')
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((w) => w[0])
+      .join('')
+      .toUpperCase()
+  : null;
+---
+
+<a
+  href={`/noticias/${post.slug.current}/`}
+  class:list={[
+    'group relative flex h-full flex-col rounded-xl border border-primary/10 bg-surface shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/20 hover:shadow-md',
+    featured ? 'p-7 lg:p-9' : 'p-6',
+  ]}
+>
+  {
+    badge && (
+      <span class="absolute -top-2.5 left-5 inline-flex items-center rounded-full bg-accent px-2.5 py-1 font-body text-[10px] font-bold uppercase tracking-[0.06em] text-on-accent shadow-sm">
+        {badge}
+      </span>
+    )
+  }
+  {
+    post.category && (
+      <span class={`inline-flex w-fit items-center rounded-full px-2.5 py-1 font-body text-[10.5px] font-semibold uppercase tracking-[0.08em] ${categoryBadgeClass(post.category.color)}`}>
+        {post.category.title}
+      </span>
+    )
+  }
+  <h3
+    class:list={[
+      'font-heading leading-snug text-primary transition-colors group-hover:text-secondary',
+      featured ? 'mt-4 text-2xl lg:text-[1.85rem]' : 'mt-3.5 text-xl',
+    ]}
+  >
+    {post.title}
+  </h3>
+  {
+    post.summary && (
+      <p class:list={['font-body leading-relaxed text-text/75', featured ? 'mt-3 text-[15px] line-clamp-3 lg:line-clamp-4' : 'mt-2.5 text-[14px] line-clamp-3']}>
+        {post.summary}
+      </p>
+    )
+  }
+
+  <div class="mt-auto flex items-center gap-2.5 border-t border-primary/10 pt-4 font-body text-[12.5px] text-muted">
+    {
+      post.author && (
+        <span class="h-6 w-6 shrink-0 overflow-hidden rounded-full" aria-hidden="true">
+          {photoUrl ? (
+            <img src={photoUrl} alt="" class="h-full w-full object-cover" />
+          ) : (
+            <span class="flex h-full w-full items-center justify-center bg-primary/10 font-body text-[10px] font-bold text-primary">{initials}</span>
+          )}
+        </span>
+      )
+    }
+    {post.author && <span class="text-text/80">{post.author.name}</span>}
+    {post.author && formattedDate && <span aria-hidden="true">·</span>}
+    {formattedDate && <span>{formattedDate}</span>}
+  </div>
+</a>
