@@ -58,15 +58,82 @@ const articleJsonLd = [
   },
 ];
 
-type Block = {
-  _type: string;
+interface Span { _type: 'span'; text: string; marks?: string[] }
+interface MarkDef { _key: string; _type: string; href?: string }
+interface Block {
+  _type: 'block';
   _key: string;
   style?: string;
-  children?: { text: string; marks?: string[] }[];
-};
+  listItem?: 'bullet' | 'number';
+  markDefs?: MarkDef[];
+  children?: Span[];
+}
+interface ImageBlock {
+  _type: 'image';
+  _key: string;
+  asset?: { _ref: string };
+  alt?: string;
+  caption?: string;
+}
+interface CalloutBlock {
+  _type: 'calloutBox';
+  _key: string;
+  icon?: string;
+  text?: Block[];
+}
+interface RecommendationCardsBlock {
+  _type: 'recommendationCards';
+  _key: string;
+  items?: { icon?: string; text: string }[];
+}
+interface ComparisonTableBlock {
+  _type: 'comparisonTable';
+  _key: string;
+  title?: string;
+  columns?: string[];
+  rows?: { cells: { text?: string; indicator?: 'check' | 'cross' | 'none' }[] }[];
+}
+type BodyItem = Block | ImageBlock | CalloutBlock | RecommendationCardsBlock | ComparisonTableBlock;
+type ListGroup = { _type: 'list'; listItem: 'bullet' | 'number'; items: Block[] };
 
-function renderText(children: { text: string; marks?: string[] }[] = []) {
-  return children.map(c => c.text).join('');
+function escapeHtml(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function renderInline(children: Span[] = [], markDefs: MarkDef[] = []): string {
+  return children
+    .map((span) => {
+      let html = escapeHtml(span.text);
+      const marks = span.marks ?? [];
+      if (marks.includes('strong')) html = `<strong>${html}</strong>`;
+      if (marks.includes('em')) html = `<em>${html}</em>`;
+      const linkKey = marks.find((m) => markDefs.some((d) => d._key === m && d._type === 'link'));
+      if (linkKey) {
+        const href = markDefs.find((d) => d._key === linkKey)?.href ?? '#';
+        html = `<a href="${escapeHtml(href)}" target="_blank" rel="noopener">${html}</a>`;
+      }
+      return html;
+    })
+    .join('');
+}
+
+function groupListItems(body: BodyItem[]): (BodyItem | ListGroup)[] {
+  const grouped: (BodyItem | ListGroup)[] = [];
+  for (const item of body) {
+    const isListBlock = item._type === 'block' && Boolean((item as Block).listItem);
+    const last = grouped[grouped.length - 1];
+    if (isListBlock) {
+      const listItem = (item as Block).listItem!;
+      if (last && last._type === 'list' && last.listItem === listItem) {
+        last.items.push(item as Block);
+      } else {
+        grouped.push({ _type: 'list', listItem, items: [item as Block] });
+      }
+    } else {
+      grouped.push(item);
+    }
+  }
+  return grouped;
 }
 ---
 
@@ -124,14 +191,96 @@ function renderText(children: { text: string; marks?: string[] }[] = []) {
     <!-- Cuerpo del artículo -->
     {post.body && (
       <div class="prose prose-slate max-w-none text-rt-text">
-        {(post.body as Block[]).map((block) => {
-          if (block._type !== 'block') return null;
-          const text = renderText(block.children);
-          if (!text) return null;
-          if (block.style === 'h2') return <h2 class="font-bold text-2xl text-rt-navy mt-8 mb-4 leading-snug" style="font-family:'Rubik',sans-serif;">{text}</h2>;
-          if (block.style === 'h3') return <h3 class="font-semibold text-xl text-rt-navy mt-6 mb-3 leading-snug" style="font-family:'Rubik',sans-serif;">{text}</h3>;
-          if (block.style === 'blockquote') return <blockquote class="border-l-4 border-rt-teal pl-4 my-6 text-rt-muted italic">{text}</blockquote>;
-          return <p class="text-rt-muted leading-relaxed mb-4">{text}</p>;
+        {groupListItems(post.body as BodyItem[]).map((entry) => {
+          if (entry._type === 'list') {
+            const itemsHtml = entry.items.map((b) => renderInline(b.children, b.markDefs));
+            return entry.listItem === 'number' ? (
+              <ol class="list-decimal pl-5 mb-4 space-y-1 text-rt-muted">
+                {itemsHtml.map((html) => <li set:html={html} />)}
+              </ol>
+            ) : (
+              <ul class="list-disc pl-5 mb-4 space-y-1 text-rt-muted">
+                {itemsHtml.map((html) => <li set:html={html} />)}
+              </ul>
+            );
+          }
+
+          if (entry._type === 'block') {
+            const html = renderInline(entry.children, entry.markDefs);
+            if (!html) return null;
+            if (entry.style === 'h2') return <h2 class="font-bold text-2xl text-rt-navy mt-8 mb-4 leading-snug" style="font-family:'Rubik',sans-serif;" set:html={html} />;
+            if (entry.style === 'h3') return <h3 class="font-semibold text-xl text-rt-navy mt-6 mb-3 leading-snug" style="font-family:'Rubik',sans-serif;" set:html={html} />;
+            if (entry.style === 'blockquote') return <blockquote class="border-l-4 border-rt-teal pl-4 my-6 text-rt-muted italic" set:html={html} />;
+            return <p class="text-rt-muted leading-relaxed mb-4" set:html={html} />;
+          }
+
+          if (entry._type === 'image' && entry.asset) {
+            const src = urlFor(entry).width(900).fit('max').url();
+            return (
+              <figure class="my-6 -mx-4 md:mx-0">
+                <img src={src} alt={entry.alt ?? ''} class="w-full object-cover" />
+                {entry.caption && <figcaption class="text-xs text-rt-muted mt-2 text-center">{entry.caption}</figcaption>}
+              </figure>
+            );
+          }
+
+          if (entry._type === 'calloutBox') {
+            const html = renderInline(
+              (entry.text ?? []).flatMap((b) => b.children ?? []),
+              (entry.text ?? []).flatMap((b) => b.markDefs ?? [])
+            );
+            return (
+              <div class="flex gap-3 rounded p-4 my-6" style="background:rgba(34,224,196,.08); border-left:3px solid var(--rt-teal);">
+                <span aria-hidden="true">{entry.icon ?? '💡'}</span>
+                <div class="text-sm leading-relaxed text-rt-text" set:html={html} />
+              </div>
+            );
+          }
+
+          if (entry._type === 'recommendationCards') {
+            return (
+              <div class="grid sm:grid-cols-2 gap-3 my-6">
+                {(entry.items ?? []).map((card) => (
+                  <div class="flex items-start gap-2 rounded p-3" style="background:#f8fafc; border:1px solid var(--rt-border);">
+                    <span aria-hidden="true">{card.icon ?? '✅'}</span>
+                    <span class="text-sm text-rt-text">{card.text}</span>
+                  </div>
+                ))}
+              </div>
+            );
+          }
+
+          if (entry._type === 'comparisonTable') {
+            return (
+              <div class="my-6 overflow-x-auto">
+                {entry.title && <p class="font-semibold text-rt-navy mb-2">{entry.title}</p>}
+                <table class="w-full text-sm border-collapse">
+                  <thead>
+                    <tr>
+                      {(entry.columns ?? []).map((col) => (
+                        <th class="text-left p-2" style="background:var(--rt-navy); color:white;">{col}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(entry.rows ?? []).map((row) => (
+                      <tr>
+                        {row.cells.map((cell) => (
+                          <td class="p-2 border-b" style="border-color:var(--rt-border);">
+                            {cell.indicator === 'check' && <span style="color:var(--rt-teal);">✓</span>}
+                            {cell.indicator === 'cross' && <span style="color:var(--rt-red);">✕</span>}
+                            {cell.text && <span class={cell.indicator && cell.indicator !== 'none' ? 'ml-1' : ''}>{cell.text}</span>}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            );
+          }
+
+          return null;
         })}
       </div>
     )}
