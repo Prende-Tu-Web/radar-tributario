@@ -1,4 +1,5 @@
 import type { FaqItem, Post, SiteSettings } from './sanity/types';
+import { urlFor } from './sanity/image';
 
 function siteUrl(): string {
   return import.meta.env.PUBLIC_SITE_URL || 'https://radartributario.cl';
@@ -52,6 +53,7 @@ export function articleJsonLd(post: Post) {
     headline: post.title,
     description: post.summary || post.title,
     url: `${siteUrl()}/noticias/${post.slug.current}/`,
+    ...(post.coverImage ? { image: urlFor(post.coverImage).width(1200).height(630).fit('crop').url() } : {}),
     ...(post.publishedAt ? { datePublished: post.publishedAt } : {}),
     ...(post.author
       ? {

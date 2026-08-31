@@ -112,6 +112,21 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'coverImageTitlePosition',
+      title: 'Posición del título sobre la imagen',
+      type: 'string',
+      description: 'En el sitio, el single del post usa la imagen principal como banner con el título superpuesto a este lado.',
+      options: {
+        list: [
+          { title: 'Izquierda', value: 'izquierda' },
+          { title: 'Derecha', value: 'derecha' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'izquierda',
+      hidden: ({ document }) => !document?.coverImage,
+    }),
+    defineField({
       name: 'body',
       title: 'Contenido',
       type: 'array',
