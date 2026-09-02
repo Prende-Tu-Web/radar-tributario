@@ -30,7 +30,7 @@ const formattedDate = post.publishedAt
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
 
 const bannerUrl = post.coverImage
-  ? urlFor(post.coverImage).width(1600).height(760).fit('crop').url()
+  ? urlFor(post.coverImage).width(1920).url()
   : null;
 
 const titleHorizontal = post.coverImageTitlePosition ?? 'izquierda';
@@ -72,11 +72,11 @@ const VERTICAL_PADDING: Record<string, string> = {
   <script is:inline type="application/ld+json" slot="jsonld" set:html={JSON.stringify(articleJsonLd(post))} />
   <article class="bg-surface">
     {bannerUrl ? (
-      <div class="relative h-[52vh] min-h-[380px] max-h-[560px] w-full overflow-hidden bg-primary">
+      <div class="relative w-full overflow-hidden bg-primary">
         <img
           src={bannerUrl}
           alt={post.coverImage?.alt ?? ''}
-          class="absolute inset-0 h-full w-full object-cover"
+          class="block max-h-[640px] w-full object-contain"
         />
         <div class:list={['absolute inset-0', VERTICAL_GRADIENT[titleVertical]]} />
         <div class:list={['absolute inset-0 flex', VERTICAL_ALIGN[titleVertical]]}>
@@ -105,7 +105,12 @@ const VERTICAL_PADDING: Record<string, string> = {
       </div>
     ) : null}
 
-    <div class="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+    <div
+      class:list={[
+        'mx-auto max-w-4xl px-4 pb-12 sm:px-6 lg:px-8 lg:pb-16',
+        !bannerUrl && 'pt-12 lg:pt-16',
+      ]}
+    >
       {!bannerUrl && (
         <>
           {post.category && (
