@@ -118,12 +118,21 @@ export interface PostSeoFields extends SeoFields {
   canonical?: string;
 }
 
+export type FontFamilyChoice = 'serif' | 'sans';
+export type FontSizeChoice = 'sm' | 'base' | 'lg' | 'xl';
+
 export interface Post {
   _id: string;
   title: string;
+  titleFontFamily?: FontFamilyChoice;
+  titleFontSize?: FontSizeChoice;
   epigrafe?: string;
+  epigrafeFontFamily?: FontFamilyChoice;
+  epigrafeFontSize?: FontSizeChoice;
   slug: Slug;
   summary?: string;
+  summaryFontFamily?: FontFamilyChoice;
+  summaryFontSize?: FontSizeChoice;
   coverImage?: SanityImage & { alt?: string };
   coverImageTitlePosition?: 'izquierda' | 'centro' | 'derecha';
   coverImageTitlePositionVertical?: 'arriba' | 'centro' | 'abajo';

@@ -3,6 +3,7 @@ import type { Post } from '../../lib/sanity/types';
 import { categoryBadgeClass } from '../../lib/category-colors';
 import { urlFor } from '../../lib/sanity/image';
 import { getAuthorPhotoUrl } from '../../lib/author-photos';
+import { fieldStyle } from '../../lib/fontStyle';
 
 interface Props {
   post: Post;
@@ -76,12 +77,16 @@ const initials = post.author?.name
         'font-heading leading-snug text-primary transition-colors group-hover:text-secondary',
         featured ? 'mt-4 text-2xl lg:text-[1.85rem]' : 'mt-3.5 text-xl',
       ]}
+      style={{ whiteSpace: 'pre-line' }}
     >
       {post.title}
     </h3>
     {
       post.summary && (
-        <p class:list={['font-body leading-relaxed text-text/75', featured ? 'mt-3 text-[15px] line-clamp-3 lg:line-clamp-4' : 'mt-2.5 text-[14px] line-clamp-3']}>
+        <p
+          class:list={['font-body leading-relaxed text-text/75', featured ? 'mt-3 text-[15px] line-clamp-3 lg:line-clamp-4' : 'mt-2.5 text-[14px] line-clamp-3']}
+          style={fieldStyle(post.summaryFontFamily, post.summaryFontSize)}
+        >
           {post.summary}
         </p>
       )

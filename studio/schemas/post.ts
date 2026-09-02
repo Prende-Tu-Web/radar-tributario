@@ -8,14 +8,17 @@ export default defineType({
     defineField({
       name: 'title',
       title: 'Título',
-      type: 'string',
+      description: 'Admite saltos de línea.',
+      type: 'text',
+      rows: 2,
       validation: (Rule) => Rule.required().max(120),
     }),
     defineField({
       name: 'epigrafe',
       title: 'Epígrafe',
-      description: 'Línea corta sobre el título (ej. "Reforma tributaria"). Opcional.',
-      type: 'string',
+      description: 'Línea corta sobre el título (ej. "Reforma tributaria"). Opcional. Admite saltos de línea.',
+      type: 'text',
+      rows: 2,
       validation: (Rule) => Rule.max(80),
     }),
     defineField({
@@ -103,6 +106,92 @@ export default defineType({
       type: 'text',
       rows: 3,
       validation: (Rule) => Rule.max(300),
+    }),
+    /**
+     * Tipografía/tamaño por campo (no por selección de texto, a diferencia
+     * de `body`) — título/epígrafe/bajada son campos cortos donde mezclar
+     * varias fuentes en un mismo campo no tiene sentido editorial. Mismo
+     * vocabulario que la annotation `textStyle` del editor de cuerpo
+     * (admin-radar-tributario/src/components/BodyEditor/textFormatting.tsx):
+     * solo las 2 fuentes reales del sitio + la misma escala de tamaños.
+     */
+    defineField({
+      name: 'titleFontFamily',
+      title: 'Título — tipografía',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Serif (títulos)', value: 'serif' },
+          { title: 'Sans (cuerpo)', value: 'sans' },
+        ],
+        layout: 'radio',
+      },
+    }),
+    defineField({
+      name: 'titleFontSize',
+      title: 'Título — tamaño',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Pequeño', value: 'sm' },
+          { title: 'Normal', value: 'base' },
+          { title: 'Grande', value: 'lg' },
+          { title: 'Muy grande', value: 'xl' },
+        ],
+        layout: 'radio',
+      },
+    }),
+    defineField({
+      name: 'epigrafeFontFamily',
+      title: 'Epígrafe — tipografía',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Serif (títulos)', value: 'serif' },
+          { title: 'Sans (cuerpo)', value: 'sans' },
+        ],
+        layout: 'radio',
+      },
+    }),
+    defineField({
+      name: 'epigrafeFontSize',
+      title: 'Epígrafe — tamaño',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Pequeño', value: 'sm' },
+          { title: 'Normal', value: 'base' },
+          { title: 'Grande', value: 'lg' },
+          { title: 'Muy grande', value: 'xl' },
+        ],
+        layout: 'radio',
+      },
+    }),
+    defineField({
+      name: 'summaryFontFamily',
+      title: 'Bajada — tipografía',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Serif (títulos)', value: 'serif' },
+          { title: 'Sans (cuerpo)', value: 'sans' },
+        ],
+        layout: 'radio',
+      },
+    }),
+    defineField({
+      name: 'summaryFontSize',
+      title: 'Bajada — tamaño',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Pequeño', value: 'sm' },
+          { title: 'Normal', value: 'base' },
+          { title: 'Grande', value: 'lg' },
+          { title: 'Muy grande', value: 'xl' },
+        ],
+        layout: 'radio',
+      },
     }),
     defineField({
       name: 'coverImage',

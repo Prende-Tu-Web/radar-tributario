@@ -7,6 +7,7 @@ import { getPosts, getPostBySlug } from '../../lib/sanity/queries';
 import { portableTextComponents } from '../../lib/sanity/portableTextComponents';
 import { urlFor } from '../../lib/sanity/image';
 import { articleJsonLd } from '../../lib/seo';
+import { fieldStyle } from '../../lib/fontStyle';
 import type { Post } from '../../lib/sanity/types';
 
 export async function getStaticPaths() {
@@ -61,6 +62,9 @@ const VERTICAL_PADDING: Record<string, string> = {
   centro: 'py-8',
   abajo: 'pb-8 pt-6 sm:pb-10 lg:pb-14',
 };
+
+const titleStyle = fieldStyle(post.titleFontFamily, post.titleFontSize);
+const epigrafeStyle = fieldStyle(post.epigrafeFontFamily, post.epigrafeFontSize);
 ---
 
 <BaseLayout
@@ -94,9 +98,9 @@ const VERTICAL_PADDING: Record<string, string> = {
                 </a>
               )}
               {post.epigrafe && (
-                <p class="mt-2 font-body text-sm font-semibold text-white/90">{post.epigrafe}</p>
+                <p class="mt-2 font-body text-sm font-semibold text-white/90" style={epigrafeStyle}>{post.epigrafe}</p>
               )}
-              <h1 class="mt-3 font-heading text-[2rem] font-medium leading-[1.15] text-white drop-shadow-sm sm:text-[2.5rem]">{post.title}</h1>
+              <h1 class="mt-3 font-heading text-[2rem] font-medium leading-[1.15] text-white drop-shadow-sm sm:text-[2.5rem]" style={titleStyle}>{post.title}</h1>
               <div class="mt-4 flex flex-wrap items-center gap-2 font-body text-[13px] text-white/80">
                 {post.author && <span>{post.author.name}</span>}
                 {post.author && formattedDate && <span aria-hidden="true">·</span>}
@@ -122,9 +126,9 @@ const VERTICAL_PADDING: Record<string, string> = {
             </a>
           )}
           {post.epigrafe && (
-            <p class="mt-2 font-body text-sm font-semibold text-primary">{post.epigrafe}</p>
+            <p class="mt-2 font-body text-sm font-semibold text-primary" style={epigrafeStyle}>{post.epigrafe}</p>
           )}
-          <h1 class="mt-3 font-heading text-[2rem] font-medium leading-[1.15] text-primary sm:text-[2.5rem]">{post.title}</h1>
+          <h1 class="mt-3 font-heading text-[2rem] font-medium leading-[1.15] text-primary sm:text-[2.5rem]" style={titleStyle}>{post.title}</h1>
           <div class="mt-4 flex flex-wrap items-center gap-2 font-body text-[13px] text-muted">
             {post.author && <span>{post.author.name}</span>}
             {post.author && formattedDate && <span aria-hidden="true">·</span>}
