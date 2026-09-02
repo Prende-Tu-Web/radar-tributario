@@ -1,0 +1,33 @@
+---
+// Igual que PostBodyList.astro: `block` se reemplaza entero (componente
+// suelto, no record) en vez de fusionarse por estilo, porque agrega sangría
+// (node.level) sobre el switch h2/h3/blockquote/normal por defecto de
+// astro-portabletext (node_modules/astro-portabletext/components/Block.astro).
+// Solo cubre los estilos que el editor embebido puede producir (admin-radar-
+// tributario/src/components/BodyEditor/schema.ts: normal/h2/h3/blockquote) —
+// mantener sincronizados.
+import type { Block, Props as $ } from 'astro-portabletext/types';
+
+export type Props = $<Block>;
+
+const props = Astro.props;
+const { node, index, isInline, ...attrs } = props;
+const styleIs = (style: string) => style === node.style;
+
+// Mismo paso que admin-radar-tributario/src/components/BodyEditor/textFormatting.tsx
+// y bodyPreview.ts (INDENT_STEP_REM) — mantener sincronizados.
+const INDENT_STEP_REM = 1.5;
+const indentStyle = node.level ? `padding-left:${node.level * INDENT_STEP_REM}rem` : undefined;
+---
+
+{
+  styleIs('h2') ? (
+    <h2 {...attrs} style={indentStyle}><slot /></h2>
+  ) : styleIs('h3') ? (
+    <h3 {...attrs} style={indentStyle}><slot /></h3>
+  ) : styleIs('blockquote') ? (
+    <blockquote {...attrs} style={indentStyle}><slot /></blockquote>
+  ) : (
+    <p {...attrs} style={indentStyle}><slot /></p>
+  )
+}

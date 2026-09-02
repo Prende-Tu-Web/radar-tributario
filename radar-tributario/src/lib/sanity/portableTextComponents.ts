@@ -7,6 +7,7 @@ import ComparisonTable from '../../components/blog/ComparisonTable.astro';
 import PostBodyImage from '../../components/blog/PostBodyImage.astro';
 import TextStyleMark from '../../components/blog/TextStyleMark.astro';
 import PostBodyList from '../../components/blog/PostBodyList.astro';
+import PostBodyBlock from '../../components/blog/PostBodyBlock.astro';
 
 export const portableTextComponents: SomePortableTextComponents = {
   type: {
@@ -16,6 +17,13 @@ export const portableTextComponents: SomePortableTextComponents = {
     comparisonTable: ComparisonTable,
     image: PostBodyImage,
   },
+  /**
+   * `block` reemplaza entero al default (mismo mecanismo que `list` más abajo)
+   * porque PostBodyBlock.astro agrega la sangría (node.level, ver
+   * admin-radar-tributario/src/components/BodyEditor/Toolbar.tsx) sobre el
+   * switch h2/h3/blockquote/normal.
+   */
+  block: PostBodyBlock,
   /**
    * `list` reemplaza entero al default (node_modules/astro-portabletext/
    * components/PortableText.astro: `mergeComponents` sustituye el valor

@@ -26,11 +26,11 @@ const rows = node.rows ?? [];
 
 <div class="my-6 overflow-x-auto">
   {node.title && <p class="mb-2 font-medium text-primary">{node.title}</p>}
-  <table class="w-full border-collapse text-sm">
+  <table class="w-full border-collapse text-xs">
     <thead>
       <tr>
         {columns.map((col) => (
-          <th class="bg-primary p-2 text-left text-white">{col}</th>
+          <th class="bg-primary p-2 text-center text-white">{col}</th>
         ))}
       </tr>
     </thead>

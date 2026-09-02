@@ -114,7 +114,7 @@ const epigrafeStyle = fieldStyle(post.epigrafeFontFamily, post.epigrafeFontSize)
 
     <div
       class:list={[
-        'mx-auto max-w-4xl px-4 pb-12 sm:px-6 lg:px-8 lg:pb-16',
+        'mx-auto max-w-7xl px-2 pb-12 sm:px-3 lg:px-4 lg:pb-16',
         !bannerUrl && 'pt-12 lg:pt-16',
       ]}
     >
@@ -190,6 +190,20 @@ const epigrafeStyle = fieldStyle(post.epigrafeFontFamily, post.epigrafeFontSize)
     font-size: 15.5px;
     line-height: 1.75;
     color: var(--color-text);
+  }
+  /*
+   * Tailwind v4 preflight resetea `ul`/`ol` a `list-style: none` — sin esto
+   * las viñetas/numeración por defecto (tipos "bullet"/"number" del editor
+   * embebido, admin-radar-tributario/src/components/BodyEditor/schema.ts)
+   * no se veían en el post pese a verse bien en el editor. `.list-arrow`/
+   * `.list-check` de abajo ya traen su propio `list-style-type` explícito,
+   * así que van después y ganan por orden de cascada (misma especificidad).
+   */
+  .prose-rt :global(ul) {
+    list-style-type: disc;
+  }
+  .prose-rt :global(ol) {
+    list-style-type: decimal;
   }
   .prose-rt :global(li) {
     margin-bottom: 0.35rem;
