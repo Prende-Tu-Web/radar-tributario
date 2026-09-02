@@ -121,6 +121,7 @@ export interface PostSeoFields extends SeoFields {
 export interface Post {
   _id: string;
   title: string;
+  epigrafe?: string;
   slug: Slug;
   summary?: string;
   coverImage?: SanityImage & { alt?: string };

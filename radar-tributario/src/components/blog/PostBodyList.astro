@@ -1,0 +1,36 @@
+---
+// Mismo despacho que el List.astro por defecto de astro-portabletext
+// (node_modules/astro-portabletext/components/List.astro: menu/number/ul),
+// con la clase de viñeta agregada para los tipos custom del editor embebido
+// (admin-radar-tributario/src/components/BodyEditor/schema.ts: bullet,
+// bulletArrow, bulletCheck — mantener sincronizados).
+import type { ListProps } from 'astro-portabletext/types';
+
+export type Props = ListProps;
+
+const { node, index, isInline, ...attrs } = Astro.props;
+
+const listItemIs = (listItem: string) => listItem === node.listItem;
+
+const LIST_MARKER_CLASS: Record<string, string> = {
+  bulletArrow: 'list-arrow',
+  bulletCheck: 'list-check',
+};
+const markerClass = node.listItem ? LIST_MARKER_CLASS[node.listItem] : undefined;
+---
+
+{
+  listItemIs('menu') ? (
+    <menu {...attrs}>
+      <slot />
+    </menu>
+  ) : listItemIs('number') ? (
+    <ol {...attrs}>
+      <slot />
+    </ol>
+  ) : (
+    <ul class:list={[markerClass]} {...attrs}>
+      <slot />
+    </ul>
+  )
+}

@@ -1,0 +1,40 @@
+---
+// Render del mark `textStyle` (annotation del editor embebido en el admin,
+// ver admin-radar-tributario/src/components/BodyEditor/textFormatting.tsx —
+// mismos nombres de fontFamily/fontSize, mantener sincronizados).
+import type { MarkProps } from 'astro-portabletext/types';
+
+interface TextStyleMarkDef {
+  fontFamily?: 'serif' | 'sans';
+  fontSize?: 'sm' | 'base' | 'lg' | 'xl';
+  [key: string]: unknown;
+}
+
+export type Props = MarkProps<TextStyleMarkDef>;
+
+const { node } = Astro.props;
+
+const FONT_FAMILY_VAR: Record<string, string> = {
+  serif: 'var(--font-heading)',
+  sans: 'var(--font-body)',
+};
+const FONT_SIZE_VALUE: Record<string, string> = {
+  sm: '0.8125rem',
+  base: '0.9375rem',
+  lg: '1.125rem',
+  xl: '1.375rem',
+};
+
+const style = [
+  node.markDef.fontFamily && FONT_FAMILY_VAR[node.markDef.fontFamily]
+    ? `font-family:${FONT_FAMILY_VAR[node.markDef.fontFamily]}`
+    : '',
+  node.markDef.fontSize && FONT_SIZE_VALUE[node.markDef.fontSize]
+    ? `font-size:${FONT_SIZE_VALUE[node.markDef.fontSize]}`
+    : '',
+]
+  .filter(Boolean)
+  .join(';');
+---
+
+<span style={style}><slot /></span>

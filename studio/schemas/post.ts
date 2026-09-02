@@ -12,6 +12,13 @@ export default defineType({
       validation: (Rule) => Rule.required().max(120),
     }),
     defineField({
+      name: 'epigrafe',
+      title: 'Epígrafe',
+      description: 'Línea corta sobre el título (ej. "Reforma tributaria"). Opcional.',
+      type: 'string',
+      validation: (Rule) => Rule.max(80),
+    }),
+    defineField({
       name: 'slug',
       title: 'Slug (URL)',
       type: 'slug',
