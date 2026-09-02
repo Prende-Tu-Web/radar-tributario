@@ -24,7 +24,7 @@ if (!post) {
 }
 
 const formattedDate = post.publishedAt
-  ? new Intl.DateTimeFormat('es-CL', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(post.publishedAt))
+  ? new Intl.DateTimeFormat('es-CL', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Santiago' }).format(new Date(post.publishedAt))
   : null;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();

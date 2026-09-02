@@ -26,7 +26,7 @@ const coverUrl = post.coverImage
   : null;
 
 const formattedDate = post.publishedAt
-  ? new Intl.DateTimeFormat('es-CL', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(post.publishedAt))
+  ? new Intl.DateTimeFormat('es-CL', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Santiago' }).format(new Date(post.publishedAt))
   : null;
 
 const initials = post.author?.name
