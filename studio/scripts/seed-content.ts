@@ -6,6 +6,10 @@
  *
  * Uso:
  *   SANITY_API_TOKEN=xxx npx tsx scripts/seed-content.ts
+ *   SANITY_API_TOKEN=xxx SANITY_DATASET=production npx tsx scripts/seed-content.ts
+ *
+ * Por defecto apunta a "development" — solo escribe en otro dataset (ej.
+ * "production") si se pasa SANITY_DATASET explícitamente, a propósito.
  */
 import { createClient } from '@sanity/client';
 import { servicesCopy } from './content/services-copy';
@@ -17,9 +21,11 @@ if (!token) {
   process.exit(1);
 }
 
+const dataset = process.env.SANITY_DATASET || 'development';
+
 const client = createClient({
   projectId: 'z8wuevgx',
-  dataset: 'development', // NUNCA production
+  dataset,
   apiVersion: '2024-01-01',
   token,
   useCdn: false,

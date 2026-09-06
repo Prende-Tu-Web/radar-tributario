@@ -1,15 +1,16 @@
 /**
  * Carga el catálogo inicial (24 servicios + 3 combos) como documentos
- * "skeleton" en el dataset development — título, slug, pilar/orden, variants.
- * El copy extenso (hero, beneficios, FAQ) se agrega en el Step 7 con
- * /frontend-design + /humanizer, no acá.
+ * "skeleton" — título, slug, pilar/orden, variants. El copy extenso (hero,
+ * beneficios, FAQ) se agrega en el Step 7 con /frontend-design +
+ * /humanizer, no acá.
  *
  * Uso:
  *   SANITY_API_TOKEN=xxx npx tsx scripts/seed-catalog.ts
+ *   SANITY_API_TOKEN=xxx SANITY_DATASET=production npx tsx scripts/seed-catalog.ts
  *
- * Requiere un token con permiso de escritura sobre el proyecto z8wuevgx,
- * dataset development. Nunca apunta a production (hardcodeado abajo, sin
- * leer de sanity.cli.ts / sanity.config.ts a propósito).
+ * Requiere un token con permiso de escritura sobre el proyecto z8wuevgx.
+ * Por defecto apunta a "development" — solo escribe en otro dataset (ej.
+ * "production") si se pasa SANITY_DATASET explícitamente, a propósito.
  */
 import { createClient } from '@sanity/client';
 
@@ -19,9 +20,11 @@ if (!token) {
   process.exit(1);
 }
 
+const dataset = process.env.SANITY_DATASET || 'development';
+
 const client = createClient({
   projectId: 'z8wuevgx',
-  dataset: 'development', // NUNCA production
+  dataset,
   apiVersion: '2024-01-01',
   token,
   useCdn: false,
@@ -123,7 +126,7 @@ const combos: ComboSeed[] = [
 ];
 
 async function run() {
-  console.log(`Cargando ${services.length} servicios + ${combos.length} combos en dataset "development"...`);
+  console.log(`Cargando ${services.length} servicios + ${combos.length} combos en dataset "${dataset}"...`);
 
   const serviceIdBySlug = new Map<string, string>();
 
