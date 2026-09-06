@@ -15,6 +15,11 @@ export const sanityClient = createClient({
   dataset,
   apiVersion: '2024-01-01',
   token: token || undefined,
-  // useCdn solo en producción: en dev queremos ver contenido fresco de inmediato.
-  useCdn: import.meta.env.PROD,
+  // Sitio estático (output: 'static'): Sanity solo se consulta una vez, en
+  // build time, nunca por request. La CDN de Sanity no aporta nada acá y sí
+  // puede servir una cache de borde desactualizada o vacía para una query
+  // puntual (visto en producción: getAllServices/getCombos volvían vacíos
+  // con useCdn:true, mientras la API directa siempre traía todo) — por eso
+  // siempre false, no solo en dev.
+  useCdn: false,
 });
