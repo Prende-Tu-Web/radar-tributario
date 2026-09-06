@@ -114,7 +114,15 @@ const epigrafeStyle = fieldStyle(post.epigrafeFontFamily, post.epigrafeFontSize)
 
     <div
       class:list={[
-        'mx-auto max-w-7xl px-2 pb-12 sm:px-3 lg:px-4 lg:pb-16',
+        // max-w fijo en 7xl (1280px) hacía que pantallas "de por medio" (ej.
+        // 1366px, un ancho de laptop muy común) quedaran con casi todo el
+        // margen ocupado por el propio contenedor -- se veía apretado ahí
+        // aunque en un monitor grande (1920px+) sobraba espacio de sobra a
+        // los costados. Se achica el tope en el rango intermedio y solo se
+        // abre a 7xl completo desde min-[1920px] en adelante (el tamaño que
+        // ya se veía bien), para que la sensación de aire a los costados
+        // sea pareja en vez de depender de qué tan ancho sea el monitor.
+        'mx-auto max-w-5xl px-2 pb-12 sm:px-3 lg:px-6 lg:pb-16 xl:max-w-6xl 2xl:max-w-7xl 2xl:px-8',
         !bannerUrl && 'pt-12 lg:pt-16',
       ]}
     >
