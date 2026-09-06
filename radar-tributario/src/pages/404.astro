@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Página no encontrada | Radar Tributario"
+  description="La página que buscas no existe o se movió de lugar."
+>
+  <section class="hero-dark relative overflow-hidden">
+    <div class="relative mx-auto flex min-h-[70vh] max-w-4xl flex-col items-center justify-center px-4 py-20 text-center sm:px-6 lg:px-8">
+      <p class="font-body text-[11px] font-semibold uppercase tracking-[0.14em] text-accent">Error 404</p>
+      <h1 class="mt-4 font-heading text-[2.5rem] font-medium leading-[1.1] text-background sm:text-[3.25rem]">
+        Esto no está en nuestro <em class="italic text-accent">radar</em>.
+      </h1>
+      <p class="mt-5 max-w-lg font-body text-[16px] leading-relaxed text-background/70">
+        La página que buscas no existe, se movió, o el link tiene un error. Pasa a veces — no es un callejón sin
+        salida.
+      </p>
+
+      <div class="mt-9 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+        <a
+          href="/"
+          class="inline-flex items-center rounded-md bg-accent px-6 py-3 font-body text-[14px] font-medium text-on-accent shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-background hover:shadow-[0_12px_28px_-8px_rgba(245,244,240,0.45)]"
+        >
+          Volver al inicio
+        </a>
+        <a
+          href="/servicios/"
+          class="group inline-flex items-center gap-1.5 font-body text-[14px] font-medium text-background/85 transition-colors hover:text-background"
+        >
+          <span class="relative">
+            Ver servicios
+            <span class="pointer-events-none absolute inset-x-0 -bottom-0.5 h-px bg-background/30" aria-hidden="true"></span>
+            <span
+              class="pointer-events-none absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-accent transition-transform duration-300 ease-out group-hover:scale-x-100"
+              aria-hidden="true"
+            ></span>
+          </span>
+        </a>
+        <a
+          href="/noticias/"
+          class="group inline-flex items-center gap-1.5 font-body text-[14px] font-medium text-background/85 transition-colors hover:text-background"
+        >
+          <span class="relative">
+            Explora el blog
+            <span class="pointer-events-none absolute inset-x-0 -bottom-0.5 h-px bg-background/30" aria-hidden="true"></span>
+            <span
+              class="pointer-events-none absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-accent transition-transform duration-300 ease-out group-hover:scale-x-100"
+              aria-hidden="true"
+            ></span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero-dark {
+    background: radial-gradient(circle at 72% 45%, var(--rt-secondary) 0%, var(--rt-primary) 45%, var(--rt-primary-deep) 100%);
+  }
+</style>
