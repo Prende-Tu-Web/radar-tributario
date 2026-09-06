@@ -42,6 +42,18 @@ export default defineConfig({
             S.documentTypeListItem('category').title('Categorías'),
             S.documentTypeListItem('tag').title('Tags'),
             S.documentTypeListItem('author').title('Autores'),
+            S.divider(),
+            S.documentTypeListItem('service').title('Servicios'),
+            S.documentTypeListItem('combo').title('Combos'),
+            S.divider(),
+            S.listItem()
+              .title('Configuración del sitio')
+              .id('siteSettings')
+              .child(
+                S.document()
+                  .schemaType('siteSettings')
+                  .documentId('MhSgHj8zuIn77CgynoD2aD')
+              ),
           ]),
     }),
     visionTool(),
