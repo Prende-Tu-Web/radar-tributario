@@ -11,12 +11,14 @@ export interface PostSeed {
   body: unknown[];
 }
 
-// Nota (2026-07-18): el sitio dejó de vender servicios/combos y quedó
-// enfocado 100% en el blog + asesoría por contacto. Los CTA de cierre de
-// cada post ya no linkean a /servicios/... (ruta eliminada) — invitan a
-// agendar una asesoría en /contacto/. Slugs se mantienen idénticos a los
-// que ya están publicados en el dataset "development" para no romper URLs
-// indexadas (createOrReplace en seed-posts.ts resuelve por slug → mismo _id).
+// Nota (2026-09-05): el sitio vuelve a vender servicios directamente
+// (posicionamiento mixto: vender + informar). Los CTA de cierre de los
+// posts donde el tema calza de verdad vuelven a linkear al servicio
+// relacionado en /servicios/{pilar}/{slug}/, sin abandonar el cierre a
+// /contacto/ como alternativa directa. Slugs de post se mantienen
+// idénticos a los ya publicados en el dataset "development" para no
+// romper URLs indexadas (createOrReplace en seed-posts.ts resuelve por
+// slug → mismo _id).
 
 export const posts: PostSeed[] = [
   // ============ NAYADETH MIRANDA (7) — tributario/contable/auditoría, ángulo gerencial ============
@@ -56,8 +58,10 @@ export const posts: PostSeed[] = [
         'https://www.gob.cl/noticias/principales-medidas-plan-reconstruccion-nacional-detalles/'
       ),
       p(
-        { text: 'Si tu empresa tiene utilidades retenidas relevantes, conviene revisar el impacto de esto en tu caso concreto antes de decidir. ' },
-        { text: 'Agenda una asesoría', href: '/contacto/' },
+        { text: 'Si tu empresa tiene utilidades retenidas relevantes, conviene revisar el impacto de esto en tu caso concreto antes de decidir — es justo lo que cubre nuestro ' },
+        { text: 'diagnóstico tributario', href: '/servicios/tributario/diagnostico-tributario/' },
+        { text: '. Si prefieres partir directo con una conversación, ' },
+        { text: 'agenda una asesoría', href: '/contacto/' },
         { text: ' y modelamos los escenarios con tus números reales.' }
       ),
     ],
@@ -92,7 +96,9 @@ export const posts: PostSeed[] = [
       ),
       legalSource('SII', 'SII — Guía Práctica de Declaración de Renta 2026', 'https://www.sii.cl/servicios_online/renta/guia_practica_renta_2026.pdf'),
       p(
-        { text: 'Si quieres llegar a abril con la contabilidad realmente cuadrada, no con ajustes de último minuto, ' },
+        { text: 'Si quieres llegar a abril con la contabilidad realmente cuadrada, no con ajustes de último minuto, revisa nuestro ' },
+        { text: 'cierre anual', href: '/servicios/tributario/cierre-anual/' },
+        { text: ' o directamente ' },
         { text: 'conversemos de tu caso', href: '/contacto/' },
         { text: ' con tiempo suficiente para corregir antes de declarar, no después.' }
       ),
@@ -128,7 +134,9 @@ export const posts: PostSeed[] = [
         'https://www.sii.cl/preguntas_frecuentes/declaracion_renta/001_140_7530.htm'
       ),
       p(
-        { text: 'Si no estás seguro de tu régimen actual o de si te conviene cambiarte, ' },
+        { text: 'Si no estás seguro de tu régimen actual o de si te conviene cambiarte, nuestro ' },
+        { text: 'diagnóstico tributario', href: '/servicios/tributario/diagnostico-tributario/' },
+        { text: ' parte justo por ahí. Si prefieres saltar directo a la conversación, ' },
         { text: 'agenda una asesoría', href: '/contacto/' },
         { text: ' y lo revisamos con tus números reales, no con supuestos.' }
       ),
@@ -164,7 +172,9 @@ export const posts: PostSeed[] = [
         'https://www.sii.cl/asuntos_internacionales/estandarintercambio.html'
       ),
       p(
-        { text: 'Si tienes ingresos o cuentas en el extranjero y quieres confirmar que tu situación está correctamente declarada, ' },
+        { text: 'Si tienes ingresos o cuentas en el extranjero y no estás seguro de que tu situación esté correctamente declarada, revisa nuestro servicio de ' },
+        { text: 'Regularización SII', href: '/servicios/tributario/regularizacion-sii/' },
+        { text: ' o directamente ' },
         { text: 'conversemos', href: '/contacto/' },
         { text: ' antes de que llegue una observación, no después.' }
       ),
@@ -197,7 +207,9 @@ export const posts: PostSeed[] = [
         'https://www.contach.cl/normas-boletines-tecnicos-niif.php'
       ),
       p(
-        { text: 'Si vas a levantar capital, pedir una línea de crédito o simplemente quieres saber si tus estados financieros resistirían una revisión externa, ' },
+        { text: 'Si vas a levantar capital, pedir una línea de crédito o simplemente quieres saber si tus ' },
+        { text: 'estados financieros', href: '/servicios/contable/estados-financieros/' },
+        { text: ' resistirían una revisión externa, ' },
         { text: 'agenda una asesoría', href: '/contacto/' },
         { text: ' antes de que sea la contraparte quien te lo señale.' }
       ),
@@ -226,8 +238,10 @@ export const posts: PostSeed[] = [
       ),
       legalSource('Otro', 'Dirección del Trabajo — La Gratificación Legal', 'https://www.dt.gob.cl/portal/1626/w3-article-99034.html'),
       p(
-        { text: 'Si nunca revisaste si tu empresa está aplicando correctamente el tope, vale la pena hacerlo antes de que se acumule en varios años de planilla. ' },
-        { text: 'Agenda una asesoría', href: '/contacto/' },
+        { text: 'Si nunca revisaste si tu empresa está aplicando correctamente el tope, vale la pena hacerlo antes de que se acumule en varios años de planilla — es parte de lo que revisamos en nuestro ' },
+        { text: 'outsourcing de remuneraciones', href: '/servicios/rrhh/outsourcing-remuneraciones/' },
+        { text: '. Si prefieres partir con una conversación, ' },
+        { text: 'agenda una asesoría', href: '/contacto/' },
         { text: ' y lo revisamos.' }
       ),
     ],
@@ -257,7 +271,9 @@ export const posts: PostSeed[] = [
       ),
       legalSource('SII', 'SII — Índice de Resoluciones 2026', 'https://www.sii.cl/normativa_legislacion/resoluciones/2026/res_ind2026.htm'),
       p(
-        { text: 'Si no tienes claro si tu empresa ya está declarando estos campos correctamente, ' },
+        { text: 'Si no tienes claro si tu empresa ya está declarando estos campos correctamente, nuestro servicio de ' },
+        { text: 'IVA mensual', href: '/servicios/tributario/iva-mensual/' },
+        { text: ' incluye esa revisión. Si prefieres partir con una conversación, ' },
         { text: 'conversemos', href: '/contacto/' },
         { text: ' antes de que se acumulen meses de declaraciones con el mismo error.' }
       ),
@@ -331,7 +347,9 @@ export const posts: PostSeed[] = [
         'https://www.sii.cl/noticias/2025/091225noti01pcr.htm'
       ),
       p(
-        { text: 'Si quieres entender qué tan expuestos están tus propios sistemas a este tipo de cruce, ' },
+        { text: 'Si quieres entender qué tan expuestos están tus propios sistemas a este tipo de cruce, un ' },
+        { text: 'diagnóstico tributario', href: '/servicios/tributario/diagnostico-tributario/' },
+        { text: ' es un buen punto de partida — o directamente ' },
         { text: 'conversemos', href: '/contacto/' },
         { text: '.' }
       ),

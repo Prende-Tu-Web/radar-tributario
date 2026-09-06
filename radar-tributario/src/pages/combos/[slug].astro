@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import ComboHero from '../../components/combos/ComboHero.astro';
+import ComboIncludes from '../../components/combos/ComboIncludes.astro';
+import LeadForm from '../../components/islands/LeadForm';
+import HeadcountCalculator from '../../components/islands/HeadcountCalculator';
+import { getCombos } from '../../lib/sanity/queries';
+import type { Combo } from '../../lib/sanity/types';
+
+export async function getStaticPaths() {
+  const combos = await getCombos();
+  return combos.map((combo: Combo) => ({
+    params: { slug: combo.slug.current },
+    props: { combo },
+  }));
+}
+
+interface Props {
+  combo: Combo;
+}
+
+const { combo } = Astro.props;
+const isExpired = Boolean(combo.validUntil && new Date(combo.validUntil) < new Date());
+---
+
+<BaseLayout
+  title={combo.seo?.metaTitle || `${combo.title} | Radar Tributario`}
+  description={combo.seo?.metaDescription || combo.description || combo.title}
+>
+  <ComboHero combo={combo} isExpired={isExpired} />
+
+  {combo.relatedServices && combo.relatedServices.length > 0 && <ComboIncludes relatedServices={combo.relatedServices} />}
+
+  {
+    !isExpired && (
+      <section class="relative overflow-hidden border-t border-primary/10 bg-primary">
+        <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+          <div
+            class="absolute inset-0 bg-cover bg-center bg-fixed opacity-45"
+            style="background-image: url('https://images.unsplash.com/photo-1767988048897-2dca103ff620?fm=jpg&q=60&w=1600&auto=format&fit=crop')"
+          >
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-br from-primary/95 via-primary/80 to-primary/60"></div>
+        </div>
+        <div class="relative mx-auto max-w-2xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+          <div class="rounded-xl border border-white/40 bg-white/70 p-6 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.5)] backdrop-blur-xl sm:p-8">
+            {combo.ctaType === 'calculator' ? (
+              <HeadcountCalculator client:load />
+            ) : (
+              <LeadForm
+                client:load
+                service={combo.slug.current}
+                combo={combo.slug.current}
+              />
+            )}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>
