@@ -62,6 +62,10 @@ const VERTICAL_PADDING: Record<string, string> = {
   centro: 'py-8',
   abajo: 'pb-8 pt-6 sm:pb-10 lg:pb-14',
 };
+// object-cover + aspect-ratio fijo = banner sin barras con cualquier foto; reusa la alineación del título para no recortar la zona que el editor marcó como importante.
+const OBJECT_POSITION_X: Record<string, string> = { izquierda: 'left', centro: 'center', derecha: 'right' };
+const OBJECT_POSITION_Y: Record<string, string> = { arriba: 'top', centro: 'center', abajo: 'bottom' };
+const objectPosition = `${OBJECT_POSITION_X[titleHorizontal]} ${OBJECT_POSITION_Y[titleVertical]}`;
 
 const titleStyle = titleFieldStyle(post.titleFontFamily, post.titleFontSize);
 const epigrafeStyle = fieldStyle(post.epigrafeFontFamily, post.epigrafeFontSize);
@@ -77,11 +81,11 @@ const epigrafeStyle = fieldStyle(post.epigrafeFontFamily, post.epigrafeFontSize)
   <article class="bg-surface">
     {bannerUrl ? (
       <div class="relative w-full overflow-hidden bg-primary">
-        {/* max-h en vh (no px fijo) — un tope fijo cortaba antes de tiempo en pantallas anchas y dejaba barras navy con object-contain. */}
         <img
           src={bannerUrl}
           alt={post.coverImage?.alt ?? ''}
-          class="block max-h-[80vh] w-full object-contain"
+          class="block aspect-[4/3] w-full object-cover sm:aspect-[2/1] lg:aspect-[12/5]"
+          style={{ objectPosition }}
         />
         <div class:list={['absolute inset-0', VERTICAL_GRADIENT[titleVertical]]} />
         <div class:list={['absolute inset-0 flex', VERTICAL_ALIGN[titleVertical]]}>
