@@ -1,0 +1,329 @@
+---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import CTASection from '../components/sections/CTASection.astro';
+import FAQAccordion from '../components/islands/FAQAccordion';
+
+const faq = [
+  {
+    question: '¿Necesito tener una empresa constituida para contactarlos?',
+    answer: 'No. Podemos conversar contigo desde la etapa inicial y orientarte sobre los pasos que deberás considerar para formalizar tu negocio.',
+  },
+  {
+    question: 'Ya creé mi empresa por mi cuenta. ¿Pueden ayudarme con lo que falta?',
+    answer: 'Sí. Revisamos tu situación actual y determinamos qué pasos faltan para dejarla preparada para operar.',
+  },
+  {
+    question: '¿Puedo contratar solamente el inicio de actividades?',
+    answer: 'Sí. Puedes solicitar apoyo para una necesidad puntual o evaluar un acompañamiento más completo.',
+  },
+  {
+    question: '¿El servicio tiene un precio fijo?',
+    answer: 'Las necesidades varían según el tipo de negocio y su situación actual. Primero revisamos tu caso y luego presentamos una propuesta con los servicios que correspondan.',
+  },
+  {
+    question: '¿Pueden encargarse de la contabilidad después?',
+    answer: 'Sí. Una vez que tu empresa esté operando podemos evaluar un servicio recurrente de acuerdo con el volumen y las necesidades de tu negocio.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Puesta en Marcha',
+    description: 'Acompañamiento para formalizar un negocio y dejarlo operando con una base tributaria y contable correcta: constitución, inicio de actividades y configuración tributaria.',
+    url: `${import.meta.env.PUBLIC_SITE_URL || 'https://radartributario.cl'}/puesta-en-marcha/`,
+    areaServed: 'CL',
+    provider: { '@type': 'LegalService', name: 'Radar Tributario' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })),
+  },
+];
+---
+
+<BaseLayout
+  title="Puesta en Marcha | Radar Tributario"
+  description="Acompañamiento para formalizar tu negocio y ponerlo en marcha: constitución, inicio de actividades y configuración tributaria correcta desde el primer día."
+>
+  <script is:inline type="application/ld+json" slot="jsonld" set:html={JSON.stringify(jsonLd)} />
+
+  <!-- Hero -->
+  <section class="relative overflow-hidden bg-primary">
+    <span
+      aria-hidden="true"
+      class="pointer-events-none absolute -right-16 -top-20 select-none font-heading text-[15rem] italic leading-none text-white/[0.045] sm:text-[19rem]"
+    >
+      §
+    </span>
+    <div class="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:px-8 lg:py-24">
+      <div>
+        <p class="font-body text-[11px] font-semibold uppercase tracking-[0.14em] text-accent">Formalización y puesta en marcha</p>
+        <h1 class="mt-3 font-heading text-[2.5rem] font-medium leading-[1.1] text-background sm:text-[3rem]">
+          Tu negocio empieza con una base tributaria correcta
+        </h1>
+        <p class="mt-5 max-w-md font-body text-[16px] leading-relaxed text-background/70">
+          Te acompañamos desde la formalización hasta tus primeras obligaciones tributarias, para que puedas
+          concentrarte en hacer crecer tu negocio.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="#contacto" class="inline-flex items-center rounded-md bg-accent px-6 py-3 font-body text-[14px] font-medium text-on-accent shadow-sm transition-opacity hover:opacity-90">
+            Quiero poner en marcha mi negocio
+          </a>
+          <a href="#etapas" class="inline-flex items-center rounded-md border border-white/25 px-6 py-3 font-body text-[14px] font-medium text-background transition-colors hover:border-accent hover:text-accent">
+            Ya comencé, necesito ayuda
+          </a>
+        </div>
+      </div>
+
+      <div class="relative mx-auto flex items-center justify-center">
+        <svg viewBox="0 0 320 320" width="260" height="260" aria-hidden="true">
+          <circle cx="160" cy="160" r="140" fill="none" stroke="rgba(255,255,255,0.10)" stroke-width="1" />
+          <path d="M 40 160 A 120 120 0 0 1 280 160" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="1" />
+          <path d="M 40 160 A 120 120 0 0 1 205 55" fill="none" stroke="#22e0c4" stroke-width="3" stroke-linecap="round" />
+          <line x1="160" y1="160" x2="215" y2="70" stroke="#22e0c4" stroke-width="3" stroke-linecap="round" />
+          <circle cx="160" cy="160" r="8" fill="#f5f4f0" />
+          <circle cx="160" cy="160" r="140" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="34" />
+        </svg>
+        <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap font-body text-[13px] text-background/50">
+          De la idea a la primera factura
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Preguntas que resolvemos -->
+  <section class="bg-background">
+    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <div class="max-w-2xl">
+        <h2 class="font-heading text-[1.75rem] font-medium leading-[1.2] text-primary sm:text-3xl">
+          Emprender ya tiene suficientes desafíos
+        </h2>
+        <p class="mt-4 font-body text-[16px] leading-relaxed text-text/75">
+          Crear una empresa no debería significar convertirte en experto en impuestos. Resolvemos estas preguntas
+          contigo y realizamos los pasos necesarios para que puedas concentrarte en lo importante: hacer funcionar
+          tu negocio.
+        </p>
+      </div>
+      <div class="mt-10 grid grid-cols-1 border-l border-t border-primary/10 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          ['¿Qué tipo de empresa necesitas?', '¿Qué actividades debes registrar?', '¿Qué régimen tributario corresponde?', '¿Cómo comienzas a facturar?'].map((q) => (
+            <div class="border-b border-r border-primary/10 p-6 font-heading text-[17px] leading-snug text-primary">{q}</div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Etapas -->
+  <section id="etapas" class="scroll-mt-16 border-t border-primary/10 bg-surface lg:scroll-mt-20">
+    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <div class="max-w-2xl">
+        <h2 class="font-heading text-[1.75rem] font-medium leading-[1.2] text-primary sm:text-3xl">¿En qué etapa estás?</h2>
+        <p class="mt-4 font-body text-[16px] leading-relaxed text-text/75">
+          No necesitas saber qué trámite contratar. Cuéntanos en qué etapa te encuentras y te ayudamos a identificar
+          el siguiente paso.
+        </p>
+      </div>
+      <div class="mt-10 flex flex-col divide-y divide-primary/10 border-t border-primary/10">
+        {
+          [
+            {
+              title: 'Tengo una idea y quiero formalizarla',
+              body: 'Quieres transformar tu actividad o proyecto en un negocio formal, pero no sabes exactamente por dónde comenzar. Te orientamos durante el proceso y definimos los pasos necesarios para construir una base adecuada desde el inicio.',
+              cta: 'Quiero comenzar',
+            },
+            {
+              title: 'Ya constituí mi empresa',
+              body: 'Tu empresa ya existe, pero todavía necesitas completar los pasos tributarios y administrativos necesarios para comenzar a operar. Revisamos lo que ya tienes y avanzamos desde ahí.',
+              cta: 'Quiero ponerla en marcha',
+            },
+            {
+              title: 'Ya estoy operando',
+              body: 'Comenzaste por tu cuenta y quieres asegurarte de que tu negocio se encuentre correctamente configurado y al día. Revisamos tu situación actual, detectamos pendientes y definimos los próximos pasos.',
+              cta: 'Quiero revisar mi situación',
+            },
+            {
+              title: 'Necesito apoyo permanente',
+              body: 'Tu negocio ya está operando y prefieres concentrarte en hacerlo crecer. Evaluamos tus necesidades contables y tributarias y te acompañamos de manera recurrente.',
+              cta: 'Conocer opciones',
+            },
+          ].map((stage, i) => (
+            <div class="grid grid-cols-[40px_1fr] items-start gap-6 py-8 sm:grid-cols-[56px_1fr_auto]">
+              <span class="font-heading text-2xl leading-none text-secondary">{i + 1}</span>
+              <div>
+                <h3 class="font-heading text-xl font-medium text-primary">{stage.title}</h3>
+                <p class="mt-2.5 max-w-2xl font-body text-[15px] leading-relaxed text-text/75">{stage.body}</p>
+              </div>
+              <div class="col-span-2 sm:col-span-1 sm:self-center">
+                <a
+                  href="#contacto"
+                  class="inline-flex items-center rounded-md border border-primary px-5 py-2.5 font-body text-[13.5px] font-medium text-primary transition-colors hover:bg-primary hover:text-background"
+                >
+                  {stage.cta}
+                </a>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured: Puesta en Marcha -->
+  <section id="puesta-en-marcha" class="scroll-mt-16 border-t border-primary/10 bg-primary lg:scroll-mt-20">
+    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <div class="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
+        <div>
+          <h2 class="font-heading text-[1.75rem] font-medium leading-[1.15] text-background sm:text-3xl">Puesta en Marcha</h2>
+          <p class="mt-4 font-body text-[15.5px] leading-relaxed text-background/70">
+            Nuestro acompañamiento para quienes están comenzando un negocio y quieren hacerlo sobre una base
+            tributaria y contable adecuada. No todos los emprendimientos son iguales: antes de comenzar revisamos tu
+            situación y definimos el alcance que realmente necesitas.
+          </p>
+        </div>
+        <p class="border-l-2 border-accent py-1 pl-5 font-body text-[14px] leading-relaxed text-background/55 lg:self-end">
+          Antes de comenzar revisaremos tu negocio y prepararemos una propuesta acorde a su alcance y complejidad.
+        </p>
+      </div>
+
+      <ul class="mt-12 grid grid-cols-1 gap-x-10 gap-y-8 border-t border-white/10 pt-10 sm:grid-cols-2">
+        {
+          [
+            { title: 'Orientación inicial', body: 'Entendemos tu negocio, cómo funcionará y cuáles son las principales decisiones que deberás tomar antes de comenzar.' },
+            { title: 'Constitución y formalización', body: 'Te acompañamos en el proceso de formalización y en la definición de los pasos necesarios para comenzar tu actividad.' },
+            { title: 'Inicio de actividades', body: 'Gestionamos el inicio de actividades y revisamos que las definiciones tributarias sean consistentes con tu negocio.' },
+            { title: 'Configuración tributaria', body: 'Revisamos actividades económicas, régimen tributario y obligaciones aplicables según las características de tu operación.' },
+            { title: 'Facturación y documentos tributarios', body: 'Te ayudamos a completar las habilitaciones necesarias para emitir los documentos tributarios que correspondan.' },
+            { title: 'Primeros pasos contables', body: 'Te explicamos las obligaciones que comenzarás a tener una vez que tu negocio entre en operación.' },
+          ].map((item) => (
+            <li class="flex gap-4">
+              <svg class="mt-0.5 h-[18px] w-[18px] shrink-0 text-accent" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.4" />
+                <path d="M5.5 9.2l2.2 2.2 4.8-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <div>
+                <h4 class="font-body text-[15px] font-semibold text-background">{item.title}</h4>
+                <p class="mt-1.5 font-body text-[14px] leading-relaxed text-background/60">{item.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="mt-12 flex flex-wrap items-center gap-6">
+        <a href="#contacto" class="inline-flex items-center rounded-md bg-accent px-6 py-3 font-body text-[14px] font-medium text-on-accent shadow-sm transition-opacity hover:opacity-90">
+          Quiero evaluar mi Puesta en Marcha
+        </a>
+        <span class="max-w-xs font-body text-[13.5px] text-background/55">Terminas sabiendo qué tienes, qué debes hacer y qué viene después.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Necesidades puntuales -->
+  <section id="puntual" class="scroll-mt-16 bg-background lg:scroll-mt-20">
+    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <div class="max-w-2xl">
+        <h2 class="font-heading text-[1.75rem] font-medium leading-[1.2] text-primary sm:text-3xl">¿Sólo necesitas resolver algo puntual?</h2>
+        <p class="mt-4 font-body text-[16px] leading-relaxed text-text/75">
+          No necesitas contratar una puesta en marcha completa. También podemos ayudarte con requerimientos
+          específicos relacionados con el comienzo de tu negocio.
+        </p>
+      </div>
+      <div class="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          [
+            { title: 'Inicio de actividades', body: 'Realización y revisión del proceso de inicio de actividades ante el SII.' },
+            { title: 'Revisión tributaria inicial', body: 'Revisamos cómo está configurado tu negocio y detectamos posibles pendientes o aspectos que deban corregirse.' },
+            { title: 'Orientación tributaria', body: 'Resolvemos dudas y evaluamos las implicancias tributarias de las decisiones que estás considerando.' },
+            { title: 'Regularización', body: 'Si comenzaste por tu cuenta, evaluamos tu situación y definimos cómo regularizar lo que esté pendiente.' },
+          ].map((c) => (
+            <div class="rounded-xl border border-primary/10 bg-surface p-6 shadow-sm">
+              <h4 class="font-heading text-lg font-medium text-primary">{c.title}</h4>
+              <p class="mt-2 font-body text-[14px] leading-relaxed text-text/70">{c.body}</p>
+            </div>
+          ))
+        }
+      </div>
+      <div class="mt-10">
+        <a href="#contacto" class="inline-flex items-center rounded-md border border-primary px-6 py-3 font-body text-[14px] font-medium text-primary transition-colors hover:bg-primary hover:text-background">
+          Cuéntanos qué necesitas
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filosofía -->
+  <section class="border-t border-primary/10 bg-surface">
+    <div class="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8 lg:py-20">
+      <h2 class="font-heading text-[1.65rem] font-medium leading-[1.3] text-primary sm:text-[1.9rem]">
+        No se trata sólo de crear una empresa. Se trata de empezar correctamente.
+      </h2>
+      <p class="max-w-xl font-body text-[16px] leading-relaxed text-text/75">
+        Una decisión tomada al comienzo puede afectar cómo tu empresa tributará, llevará su contabilidad o cumplirá
+        sus obligaciones durante los próximos años. Por eso nuestro trabajo no consiste solamente en completar
+        trámites: buscamos que entiendas las decisiones que estás tomando, para que tu negocio comience con una
+        estructura adecuada a su realidad.
+      </p>
+    </div>
+  </section>
+
+  <!-- Qué pasa después -->
+  <section class="border-t border-primary/10 bg-background">
+    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <div class="max-w-2xl">
+        <h2 class="font-heading text-[1.75rem] font-medium leading-[1.2] text-primary sm:text-3xl">¿Qué pasa después de comenzar?</h2>
+        <p class="mt-4 font-body text-[16px] leading-relaxed text-text/75">
+          Tu relación con Radar Tributario no tiene por qué terminar cuando tu empresa comienza a facturar. A medida
+          que tu negocio crezca, podemos seguir acompañándote.
+        </p>
+      </div>
+      <div class="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          [
+            { title: 'Contabilidad y cumplimiento', body: 'Mantén tus registros y obligaciones tributarias bajo control durante la operación habitual de tu empresa.' },
+            { title: 'Remuneraciones y gestión laboral', body: 'Apoyo en los procesos asociados a trabajadores, remuneraciones y obligaciones laborales.' },
+            { title: 'Asesoría tributaria', body: 'Análisis y acompañamiento frente a decisiones o situaciones tributarias que requieran mayor profundidad.' },
+            { title: 'Outsourcing administrativo', body: 'Externaliza procesos contables y administrativos para concentrar los recursos de tu empresa en su operación.' },
+          ].map((item) => (
+            <div>
+              <h4 class="font-body text-[14.5px] font-semibold text-primary">{item.title}</h4>
+              <p class="mt-2 font-body text-[13.5px] leading-relaxed text-text/70">{item.body}</p>
+            </div>
+          ))
+        }
+      </div>
+      <div class="mt-10">
+        <a href="/servicios/" class="group inline-flex items-center gap-1.5 font-body text-[14px] font-medium text-primary transition-colors hover:text-secondary">
+          <span class="relative">
+            Ver todos los servicios de continuidad
+            <span class="pointer-events-none absolute inset-x-0 -bottom-0.5 h-px bg-primary/30" aria-hidden="true" />
+            <span class="pointer-events-none absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-accent transition-transform duration-300 ease-out group-hover:scale-x-100" aria-hidden="true" />
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="preguntas" class="scroll-mt-16 border-t border-primary/10 bg-surface lg:scroll-mt-20">
+    <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <h2 class="font-heading text-[1.75rem] font-medium text-primary sm:text-3xl">Preguntas frecuentes</h2>
+      <div class="mt-8">
+        <FAQAccordion client:visible items={faq} />
+      </div>
+    </div>
+  </section>
+
+  <CTASection
+    title="Empecemos por entender tu negocio"
+    description="No necesitas saber qué trámite contratar ni conocer todos los términos tributarios. Cuéntanos qué quieres hacer y en qué etapa te encuentras."
+    service="puesta-en-marcha"
+  />
+</BaseLayout>
