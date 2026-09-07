@@ -26,6 +26,19 @@ const faq = [
   },
 ];
 
+// Mismo texto que usa cada botón de la página como `data-lead-interest` —
+// al hacer click, precargan este select en el form de #contacto (ver script
+// al final del archivo). El valor es lo que llega al lead y al correo.
+const INTERESTS = [
+  'Quiero poner en marcha mi negocio',
+  'Tengo una idea y quiero formalizarla',
+  'Ya constituí mi empresa',
+  'Ya estoy operando',
+  'Necesito apoyo permanente',
+  'Evaluar mi Puesta en Marcha completa',
+  'Necesito resolver algo puntual',
+];
+
 const jsonLd = [
   {
     '@context': 'https://schema.org',
@@ -73,7 +86,7 @@ const jsonLd = [
           concentrarte en hacer crecer tu negocio.
         </p>
         <div class="mt-8 flex flex-wrap gap-3">
-          <a href="#contacto" class="inline-flex items-center rounded-md bg-accent px-6 py-3 font-body text-[14px] font-medium text-on-accent shadow-sm transition-opacity hover:opacity-90">
+          <a href="#contacto" data-lead-interest="Quiero poner en marcha mi negocio" class="inline-flex items-center rounded-md bg-accent px-6 py-3 font-body text-[14px] font-medium text-on-accent shadow-sm transition-opacity hover:opacity-90">
             Quiero poner en marcha mi negocio
           </a>
           <a href="#etapas" class="inline-flex items-center rounded-md border border-white/25 px-6 py-3 font-body text-[14px] font-medium text-background transition-colors hover:border-accent hover:text-accent">
@@ -164,6 +177,7 @@ const jsonLd = [
               <div class="col-span-2 sm:col-span-1 sm:self-center">
                 <a
                   href="#contacto"
+                  data-lead-interest={stage.title}
                   class="inline-flex items-center rounded-md border border-primary px-5 py-2.5 font-body text-[13.5px] font-medium text-primary transition-colors hover:bg-primary hover:text-background"
                 >
                   {stage.cta}
@@ -218,7 +232,7 @@ const jsonLd = [
       </ul>
 
       <div class="mt-12 flex flex-wrap items-center gap-6">
-        <a href="#contacto" class="inline-flex items-center rounded-md bg-accent px-6 py-3 font-body text-[14px] font-medium text-on-accent shadow-sm transition-opacity hover:opacity-90">
+        <a href="#contacto" data-lead-interest="Evaluar mi Puesta en Marcha completa" class="inline-flex items-center rounded-md bg-accent px-6 py-3 font-body text-[14px] font-medium text-on-accent shadow-sm transition-opacity hover:opacity-90">
           Quiero evaluar mi Puesta en Marcha
         </a>
         <span class="max-w-xs font-body text-[13.5px] text-background/55">Terminas sabiendo qué tienes, qué debes hacer y qué viene después.</span>
@@ -252,7 +266,7 @@ const jsonLd = [
         }
       </div>
       <div class="mt-10">
-        <a href="#contacto" class="inline-flex items-center rounded-md border border-primary px-6 py-3 font-body text-[14px] font-medium text-primary transition-colors hover:bg-primary hover:text-background">
+        <a href="#contacto" data-lead-interest="Necesito resolver algo puntual" class="inline-flex items-center rounded-md border border-primary px-6 py-3 font-body text-[14px] font-medium text-primary transition-colors hover:bg-primary hover:text-background">
           Cuéntanos qué necesitas
         </a>
       </div>
@@ -325,5 +339,17 @@ const jsonLd = [
     title="Empecemos por entender tu negocio"
     description="No necesitas saber qué trámite contratar ni conocer todos los términos tributarios. Cuéntanos qué quieres hacer y en qué etapa te encuentras."
     service="puesta-en-marcha"
+    interests={INTERESTS}
   />
 </BaseLayout>
+
+<script>
+  // Cada botón `[data-lead-interest]` de esta página deja su navegación
+  // normal a #contacto intacta; esto solo avisa al LeadForm (island React
+  // aparte) qué opción precargar en su select.
+  document.querySelectorAll<HTMLElement>('[data-lead-interest]').forEach((el) => {
+    el.addEventListener('click', () => {
+      window.dispatchEvent(new CustomEvent('rt-lead-interest', { detail: el.dataset.leadInterest }));
+    });
+  });
+</script>

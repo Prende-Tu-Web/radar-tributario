@@ -9,6 +9,7 @@ export const leadSchema = z
     contributorType: z.enum(['natural', 'empresa']),
     companyName: z.string().trim().optional(),
     service: z.string().trim().min(1),
+    interest: z.string().trim().optional(),
     pillar: z.string().trim().optional(),
     combo: z.string().trim().optional(),
     headcount: z.number().positive().optional(),

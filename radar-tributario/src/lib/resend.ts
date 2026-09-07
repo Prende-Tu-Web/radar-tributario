@@ -14,6 +14,7 @@ function buildEmailHtml(lead: LeadPayload): string {
     ['Tipo', lead.contributorType === 'empresa' ? 'Empresa' : 'Persona natural'],
     ['Empresa', lead.companyName || '—'],
     ['Servicio', lead.service],
+    ['Interés', lead.interest || '—'],
     ['Pilar', lead.pillar || '—'],
     ['Combo', lead.combo || '—'],
     ['N° trabajadores', lead.headcount ? String(lead.headcount) : '—'],

@@ -1,4 +1,4 @@
-import { useState, type SubmitEvent } from 'react';
+import { useEffect, useState, type SubmitEvent } from 'react';
 import { getPillarLabel } from '../../lib/pillars';
 import type { Pillar } from '../../lib/sanity/types';
 
@@ -17,6 +17,10 @@ interface Props {
   showHeadcount?: boolean;
   /** Si viene, muestra un select de servicio (precargado en `service`) en vez de enviarlo en silencio. */
   services?: ServiceOption[];
+  /** Si viene, muestra un select de "qué te interesa" precargado con este valor. */
+  interest?: string;
+  /** Opciones del select de interés — botones de la página lo pueden cambiar en caliente disparando el evento `rt-lead-interest` en window (detail = valor). */
+  interests?: string[];
 }
 
 type ContributorType = 'natural' | 'empresa';
@@ -34,12 +38,25 @@ function validateEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
-export default function LeadForm({ service = 'general', pillar, combo, headcount, showHeadcount = false, services }: Props) {
+export default function LeadForm({ service = 'general', pillar, combo, headcount, showHeadcount = false, services, interest = '', interests }: Props) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [rut, setRut] = useState('');
   const [selectedService, setSelectedService] = useState(service);
+  const [selectedInterest, setSelectedInterest] = useState(interest);
+
+  // Los botones de la página (fuera de este island) disparan este evento al
+  // hacer click, para precargar el select sin tener que levantar el form a
+  // React ni duplicar el LeadForm por botón.
+  useEffect(() => {
+    function handleInterest(e: Event) {
+      const detail = (e as CustomEvent<string>).detail;
+      if (typeof detail === 'string') setSelectedInterest(detail);
+    }
+    window.addEventListener('rt-lead-interest', handleInterest);
+    return () => window.removeEventListener('rt-lead-interest', handleInterest);
+  }, []);
   const [contributorType, setContributorType] = useState<ContributorType>('natural');
   const [companyName, setCompanyName] = useState('');
   const [message, setMessage] = useState('');
@@ -97,6 +114,7 @@ export default function LeadForm({ service = 'general', pillar, combo, headcount
           contributorType,
           companyName: contributorType === 'empresa' ? companyName : undefined,
           service: selectedService,
+          interest: selectedInterest || undefined,
           pillar: services ? services.find((s) => s.slug === selectedService)?.pillar ?? pillar : pillar,
           combo,
           headcount: showHeadcount ? Number(headcountInput) || undefined : headcount,
@@ -156,6 +174,27 @@ export default function LeadForm({ service = 'general', pillar, combo, headcount
           <p className="mt-1.5 font-body text-[12px] text-muted">
             Solo para armar tu cotización — no mostramos precio aquí, te lo confirmamos directo.
           </p>
+        </div>
+      )}
+
+      {interests && interests.length > 0 && (
+        <div>
+          <label htmlFor="lead-interest" className="block font-body text-[13px] font-medium text-primary">
+            ¿Qué te gustaría hacer?
+          </label>
+          <select
+            id="lead-interest"
+            value={selectedInterest}
+            onChange={(e) => setSelectedInterest(e.target.value)}
+            className="mt-1.5 w-full cursor-pointer rounded-md border border-primary/20 bg-background px-3.5 py-2.5 font-body text-[14px] text-text outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+          >
+            <option value="">Selecciona una opción</option>
+            {interests.map((label) => (
+              <option key={label} value={label}>
+                {label}
+              </option>
+            ))}
+          </select>
         </div>
       )}
 

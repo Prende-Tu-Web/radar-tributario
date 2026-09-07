@@ -7,7 +7,7 @@ import { getPosts, getPostBySlug } from '../../lib/sanity/queries';
 import { portableTextComponents } from '../../lib/sanity/portableTextComponents';
 import { urlFor } from '../../lib/sanity/image';
 import { articleJsonLd } from '../../lib/seo';
-import { fieldStyle } from '../../lib/fontStyle';
+import { fieldStyle, titleFieldStyle } from '../../lib/fontStyle';
 import type { Post } from '../../lib/sanity/types';
 
 export async function getStaticPaths() {
@@ -63,7 +63,7 @@ const VERTICAL_PADDING: Record<string, string> = {
   abajo: 'pb-8 pt-6 sm:pb-10 lg:pb-14',
 };
 
-const titleStyle = fieldStyle(post.titleFontFamily, post.titleFontSize);
+const titleStyle = titleFieldStyle(post.titleFontFamily, post.titleFontSize);
 const epigrafeStyle = fieldStyle(post.epigrafeFontFamily, post.epigrafeFontSize);
 ---
 

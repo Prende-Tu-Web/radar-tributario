@@ -6,6 +6,7 @@ interface Props {
   title?: string;
   description?: string;
   service?: string;
+  interests?: string[];
 }
 
 const {
@@ -13,6 +14,7 @@ const {
   title = 'Cuéntanos qué necesitas.',
   description = 'Escríbenos tu consulta tributaria, contable o laboral. Te responde un especialista, no un ticket de soporte.',
   service = 'general',
+  interests,
 } = Astro.props;
 ---
 
@@ -46,7 +48,7 @@ const {
       </div>
 
       <div class="rounded-xl border border-white/40 bg-white/70 p-6 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.5)] backdrop-blur-xl sm:p-8">
-        <LeadForm client:load service={service} />
+        <LeadForm client:load service={service} interests={interests} />
       </div>
     </div>
   </div>
