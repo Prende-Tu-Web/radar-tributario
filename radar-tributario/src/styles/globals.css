@@ -16,20 +16,20 @@
   src: url("/fonts/newsreader-variable-italic.woff2") format("woff2-variations");
 }
 
-/* Inter Variable — self-hosted (OFL), subset latin, wght 100-900 */
+/* Public Sans Variable — self-hosted (OFL), subset latin, wght 100-900 */
 @font-face {
-  font-family: "Inter Variable";
+  font-family: "Public Sans Variable";
   font-style: normal;
   font-display: swap;
   font-weight: 100 900;
-  src: url("/fonts/inter-variable-normal.woff2") format("woff2-variations");
+  src: url("/fonts/public-sans-variable-normal.woff2") format("woff2-variations");
 }
 @font-face {
-  font-family: "Inter Variable";
+  font-family: "Public Sans Variable";
   font-style: italic;
   font-display: swap;
   font-weight: 100 900;
-  src: url("/fonts/inter-variable-italic.woff2") format("woff2-variations");
+  src: url("/fonts/public-sans-variable-italic.woff2") format("woff2-variations");
 }
 
 /*
@@ -73,7 +73,7 @@
   --color-success: var(--rt-success);
 
   --font-heading: "Newsreader Variable", Georgia, serif;
-  --font-body: "Inter Variable", system-ui, sans-serif;
+  --font-body: "Public Sans Variable", system-ui, sans-serif;
 }
 
 /*
