@@ -208,35 +208,23 @@ export default defineType({
       ],
     }),
     defineField({
-      name: 'coverImageTitlePosition',
-      title: 'Posición horizontal del título sobre la imagen',
-      type: 'string',
-      description: 'En el sitio, el single del post usa la imagen principal como banner con el título superpuesto en esta posición horizontal.',
-      options: {
-        list: [
-          { title: 'Izquierda', value: 'izquierda' },
-          { title: 'Centro', value: 'centro' },
-          { title: 'Derecha', value: 'derecha' },
-        ],
-        layout: 'radio',
-      },
-      initialValue: 'izquierda',
+      name: 'coverImageFocalX',
+      title: 'Punto focal del título — horizontal (%)',
+      type: 'number',
+      description:
+        'Posición horizontal (0-100) del punto donde se ancla el título sobre el banner. Se edita arrastrando el punto en el panel admin; acá se muestra como número plano.',
+      validation: (Rule) => Rule.min(0).max(100),
+      initialValue: 15,
       hidden: ({ document }) => !document?.coverImage,
     }),
     defineField({
-      name: 'coverImageTitlePositionVertical',
-      title: 'Posición vertical del título sobre la imagen',
-      type: 'string',
-      description: 'Posición vertical del bloque de título dentro del banner.',
-      options: {
-        list: [
-          { title: 'Arriba', value: 'arriba' },
-          { title: 'Centro', value: 'centro' },
-          { title: 'Abajo', value: 'abajo' },
-        ],
-        layout: 'radio',
-      },
-      initialValue: 'abajo',
+      name: 'coverImageFocalY',
+      title: 'Punto focal del título — vertical (%)',
+      type: 'number',
+      description:
+        'Posición vertical (0-100) del punto donde se ancla el título sobre el banner. Se edita arrastrando el punto en el panel admin; acá se muestra como número plano.',
+      validation: (Rule) => Rule.min(0).max(100),
+      initialValue: 80,
       hidden: ({ document }) => !document?.coverImage,
     }),
     defineField({

@@ -34,38 +34,50 @@ const bannerUrl = post.coverImage
   ? urlFor(post.coverImage).width(1920).url()
   : null;
 
-const titleHorizontal = post.coverImageTitlePosition ?? 'izquierda';
-const titleVertical = post.coverImageTitlePositionVertical ?? 'abajo';
+/**
+ * Punto focal continuo (x%, y%) del título sobre la imagen de portada — reemplaza
+ * los antiguos presets discretos izquierda/centro/derecha × arriba/centro/abajo.
+ * Espejo de esta misma lógica (zonas, transform, gradiente) en
+ * admin-radar-tributario/src/components/PostEditor.tsx (CoverBanner) — mantener sincronizados.
+ */
+const LEGACY_FOCAL_X: Record<string, number> = { izquierda: 15, centro: 50, derecha: 85 };
+const LEGACY_FOCAL_Y: Record<string, number> = { arriba: 20, centro: 50, abajo: 80 };
 
-const HORIZONTAL_JUSTIFY: Record<string, string> = {
-  izquierda: 'justify-start',
-  centro: 'justify-center',
-  derecha: 'justify-end',
-};
-const HORIZONTAL_TEXT_ALIGN: Record<string, string> = {
+function legacyToPercent(value: string | undefined, map: Record<string, number>, fallback: number): number {
+  if (!value) return fallback;
+  return map[value] ?? fallback;
+}
+
+const focalX = post.coverImageFocalX ?? legacyToPercent(post.coverImageTitlePosition, LEGACY_FOCAL_X, 15);
+const focalY = post.coverImageFocalY ?? legacyToPercent(post.coverImageTitlePositionVertical, LEGACY_FOCAL_Y, 80);
+
+type FocalZoneX = 'izquierda' | 'centro' | 'derecha';
+type FocalZoneY = 'arriba' | 'centro' | 'abajo';
+
+function zoneX(x: number): FocalZoneX {
+  if (x < 33) return 'izquierda';
+  if (x > 67) return 'derecha';
+  return 'centro';
+}
+function zoneY(y: number): FocalZoneY {
+  if (y < 33) return 'arriba';
+  if (y > 67) return 'abajo';
+  return 'centro';
+}
+
+const FOCAL_TEXT_ALIGN: Record<FocalZoneX, string> = {
   izquierda: 'text-left items-start',
   centro: 'text-center items-center',
   derecha: 'text-right items-end',
 };
-const VERTICAL_ALIGN: Record<string, string> = {
-  arriba: 'items-start',
-  centro: 'items-center',
-  abajo: 'items-end',
-};
-const VERTICAL_GRADIENT: Record<string, string> = {
-  arriba: 'bg-gradient-to-b from-primary/90 via-primary/35 to-transparent',
-  centro: 'bg-primary/55',
-  abajo: 'bg-gradient-to-t from-primary/90 via-primary/35 to-transparent',
-};
-const VERTICAL_PADDING: Record<string, string> = {
-  arriba: 'pt-8 pb-6 sm:pt-10 lg:pt-14',
-  centro: 'py-8',
-  abajo: 'pb-8 pt-6 sm:pb-10 lg:pb-14',
-};
-// object-cover + aspect-ratio fijo = banner sin barras con cualquier foto; reusa la alineación del título para no recortar la zona que el editor marcó como importante.
-const OBJECT_POSITION_X: Record<string, string> = { izquierda: 'left', centro: 'center', derecha: 'right' };
-const OBJECT_POSITION_Y: Record<string, string> = { arriba: 'top', centro: 'center', abajo: 'bottom' };
-const objectPosition = `${OBJECT_POSITION_X[titleHorizontal]} ${OBJECT_POSITION_Y[titleVertical]}`;
+const FOCAL_TRANSLATE_X: Record<FocalZoneX, string> = { izquierda: '0%', centro: '-50%', derecha: '-100%' };
+const FOCAL_TRANSLATE_Y: Record<FocalZoneY, string> = { arriba: '0%', centro: '-50%', abajo: '-100%' };
+
+const titleAlignClass = FOCAL_TEXT_ALIGN[zoneX(focalX)];
+const titleTransform = `translate(${FOCAL_TRANSLATE_X[zoneX(focalX)]}, ${FOCAL_TRANSLATE_Y[zoneY(focalY)]})`;
+// object-cover + aspect-ratio fijo = banner sin barras con cualquier foto; el crop sigue el mismo punto focal del título.
+const objectPosition = `${focalX}% ${focalY}%`;
+const focalGradient = `radial-gradient(ellipse 130% 110% at ${focalX}% ${focalY}%, rgba(15,37,71,0.88) 0%, rgba(15,37,71,0.5) 45%, rgba(15,37,71,0.12) 75%)`;
 
 const titleStyle = titleFieldStyle(post.titleFontFamily, post.titleFontSize);
 const epigrafeStyle = fieldStyle(post.epigrafeFontFamily, post.epigrafeFontSize);
@@ -87,31 +99,24 @@ const epigrafeStyle = fieldStyle(post.epigrafeFontFamily, post.epigrafeFontSize)
           class="block aspect-[4/3] w-full object-cover sm:aspect-[2/1] lg:aspect-[12/5]"
           style={{ objectPosition }}
         />
-        <div class:list={['absolute inset-0', VERTICAL_GRADIENT[titleVertical]]} />
-        <div class:list={['absolute inset-0 flex', VERTICAL_ALIGN[titleVertical]]}>
-          <div
-            class:list={[
-              'flex w-full px-4 sm:px-6 md:px-[8%] lg:px-[10%]',
-              VERTICAL_PADDING[titleVertical],
-              HORIZONTAL_JUSTIFY[titleHorizontal],
-            ]}
-          >
-            <div class:list={['flex max-w-2xl flex-col', HORIZONTAL_TEXT_ALIGN[titleHorizontal]]}>
-              {post.category && (
-                <a href={`/noticias/categoria/${post.category.slug.current}/`} class="font-body text-[11px] font-semibold uppercase tracking-[0.1em] text-accent hover:text-white">
-                  {post.category.title}
-                </a>
-              )}
-              {post.epigrafe && (
-                <p class="mt-2 font-body text-sm font-semibold text-white/90" style={epigrafeStyle}>{post.epigrafe}</p>
-              )}
-              <h1 class="mt-3 font-heading text-[2rem] font-medium leading-[1.15] text-white drop-shadow-sm sm:text-[2.5rem]" style={titleStyle}>{post.title}</h1>
-              <div class="mt-4 flex flex-wrap items-center gap-2 font-body text-[13px] text-white/80">
-                {post.author && <span>{post.author.name}</span>}
-                {post.author && formattedDate && <span aria-hidden="true">·</span>}
-                {formattedDate && <span>{formattedDate}</span>}
-              </div>
-            </div>
+        <div class="absolute inset-0" style={{ background: focalGradient }} />
+        <div
+          class:list={['absolute flex max-w-[85%] flex-col px-1 lg:max-w-2xl', titleAlignClass]}
+          style={{ left: `${focalX}%`, top: `${focalY}%`, transform: titleTransform }}
+        >
+          {post.category && (
+            <a href={`/noticias/categoria/${post.category.slug.current}/`} class="font-body text-[11px] font-semibold uppercase tracking-[0.1em] text-accent hover:text-white">
+              {post.category.title}
+            </a>
+          )}
+          {post.epigrafe && (
+            <p class="mt-2 font-body text-sm font-semibold text-white/90" style={epigrafeStyle}>{post.epigrafe}</p>
+          )}
+          <h1 class="mt-3 font-heading text-[2rem] font-medium leading-[1.15] text-white drop-shadow-sm sm:text-[2.5rem]" style={titleStyle}>{post.title}</h1>
+          <div class="mt-4 flex flex-wrap items-center gap-2 font-body text-[13px] text-white/80">
+            {post.author && <span>{post.author.name}</span>}
+            {post.author && formattedDate && <span aria-hidden="true">·</span>}
+            {formattedDate && <span>{formattedDate}</span>}
           </div>
         </div>
       </div>
