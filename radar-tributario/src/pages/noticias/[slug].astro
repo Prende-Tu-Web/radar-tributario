@@ -66,10 +66,16 @@ function zoneY(y: number): FocalZoneY {
   return 'centro';
 }
 
+// Solo desde `sm:` (mismo quiebre donde el banner deja de ser 4/3 para pasar a
+// 2/1) el título sigue el punto focal elegido en el editor. Antes de eso (el
+// celular, que es donde más se ve el post) el punto focal casi nunca calzaba
+// bien con el recorte 4/3 — algunas veces quedaba pegado a un borde, otras
+// tapando la imagen — así que en mobile se fija siempre abajo a la izquierda
+// con 2% de margen, y el punto focal deja de aplicar.
 const FOCAL_TEXT_ALIGN: Record<FocalZoneX, string> = {
-  izquierda: 'text-left items-start',
-  centro: 'text-center items-center',
-  derecha: 'text-right items-end',
+  izquierda: 'sm:text-left sm:items-start',
+  centro: 'sm:text-center sm:items-center',
+  derecha: 'sm:text-right sm:items-end',
 };
 
 const titleAlignClass = FOCAL_TEXT_ALIGN[zoneX(focalX)];
@@ -84,9 +90,22 @@ const titleAlignClass = FOCAL_TEXT_ALIGN[zoneX(focalX)];
 const FOCAL_TRANSLATE_X: Record<FocalZoneX, string> = { izquierda: '0%', centro: '-50%', derecha: '-100%' };
 const FOCAL_TRANSLATE_Y: Record<FocalZoneY, string> = { arriba: '0%', centro: '-50%', abajo: '-100%' };
 const titleTransform = `translate(${FOCAL_TRANSLATE_X[zoneX(focalX)]}, ${FOCAL_TRANSLATE_Y[zoneY(focalY)]})`;
+// Custom properties para poder usar el punto focal solo desde `sm:` vía clases
+// Tailwind (un `style` inline no admite media queries, así que el valor viaja
+// en variables CSS y son las clases `sm:left-[var(--focal-x)]` etc. las que
+// deciden CUÁNDO se usan).
+const titleStyleVars = `--focal-x:${focalX}%;--focal-y:${focalY}%;--title-transform:${titleTransform};`;
 // object-cover + aspect-ratio fijo = banner sin barras con cualquier foto; el crop sigue el mismo punto focal del título.
 const objectPosition = `${focalX}% ${focalY}%`;
-const focalGradient = `radial-gradient(ellipse 130% 110% at ${focalX}% ${focalY}%, rgba(15,37,71,0.88) 0%, rgba(15,37,71,0.5) 45%, rgba(15,37,71,0.12) 75%)`;
+// Dos capas: el radial refuerza el contraste justo donde cae el punto focal
+// (para desktop/tablet), y el lineal de abajo hacia arriba asegura contraste
+// mínimo en la esquina inferior izquierda, que es donde el título queda fijo
+// en mobile. Los stops finales del radial (0.18-0.22) evitan que el resto de
+// la foto quede sin ningún velo — antes se veía "cruda" fuera del punto focal.
+const focalGradient = [
+  `radial-gradient(ellipse 130% 110% at ${focalX}% ${focalY}%, rgba(15,37,71,0.85) 0%, rgba(15,37,71,0.5) 40%, rgba(15,37,71,0.22) 70%, rgba(15,37,71,0.18) 100%)`,
+  'linear-gradient(to top, rgba(15,37,71,0.6) 0%, rgba(15,37,71,0.2) 35%, transparent 65%)',
+].join(', ');
 
 const titleStyle = titleFieldStyle(post.titleFontFamily, post.titleFontSize);
 const epigrafeStyle = fieldStyle(post.epigrafeFontFamily, post.epigrafeFontSize);
@@ -110,8 +129,13 @@ const epigrafeStyle = fieldStyle(post.epigrafeFontFamily, post.epigrafeFontSize)
         />
         <div class="absolute inset-0" style={{ background: focalGradient }} />
         <div
-          class:list={['absolute flex max-w-[85%] flex-col px-1 lg:max-w-2xl', titleAlignClass]}
-          style={{ left: `${focalX}%`, top: `${focalY}%`, transform: titleTransform }}
+          class:list={[
+            'absolute flex max-w-[85%] flex-col px-1 lg:max-w-2xl',
+            'left-[2%] bottom-[2%] text-left items-start',
+            'sm:bottom-auto sm:left-[var(--focal-x)] sm:top-[var(--focal-y)] sm:[transform:var(--title-transform)]',
+            titleAlignClass,
+          ]}
+          style={titleStyleVars}
         >
           {post.category && (
             <a href={`/noticias/categoria/${post.category.slug.current}/`} class="font-body text-[11px] font-semibold uppercase tracking-[0.1em] text-accent hover:text-white">
