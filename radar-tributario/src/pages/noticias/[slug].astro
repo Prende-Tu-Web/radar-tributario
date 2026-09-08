@@ -97,15 +97,18 @@ const titleTransform = `translate(${FOCAL_TRANSLATE_X[zoneX(focalX)]}, ${FOCAL_T
 const titleStyleVars = `--focal-x:${focalX}%;--focal-y:${focalY}%;--title-transform:${titleTransform};`;
 // object-cover + aspect-ratio fijo = banner sin barras con cualquier foto; el crop sigue el mismo punto focal del título.
 const objectPosition = `${focalX}% ${focalY}%`;
-// Dos capas: el radial refuerza el contraste justo donde cae el punto focal
-// (para desktop/tablet), y el lineal de abajo hacia arriba asegura contraste
-// mínimo en la esquina inferior izquierda, que es donde el título queda fijo
-// en mobile. Los stops finales del radial (0.18-0.22) evitan que el resto de
-// la foto quede sin ningún velo — antes se veía "cruda" fuera del punto focal.
-const focalGradient = [
+// El radial refuerza el contraste justo donde cae el punto focal — sirve desde
+// `sm:` en adelante, que es donde el título efectivamente se mueve a esa
+// posición. En mobile el título queda siempre fijo abajo-izquierda (ver nota
+// de FOCAL_TEXT_ALIGN más arriba), así que ahí el punto focal puede caer en
+// cualquier parte de la foto y dejar esa esquina sin velo suficiente — por
+// eso mobile usa su propio degradé lineal, siempre anclado abajo y bastante
+// más oscuro, en vez de depender del punto focal.
+const focalGradientDesktop = [
   `radial-gradient(ellipse 130% 110% at ${focalX}% ${focalY}%, rgba(15,37,71,0.85) 0%, rgba(15,37,71,0.5) 40%, rgba(15,37,71,0.22) 70%, rgba(15,37,71,0.18) 100%)`,
   'linear-gradient(to top, rgba(15,37,71,0.6) 0%, rgba(15,37,71,0.2) 35%, transparent 65%)',
 ].join(', ');
+const mobileOverlayGradient = 'linear-gradient(to top, rgba(15,37,71,0.92) 0%, rgba(15,37,71,0.65) 40%, rgba(15,37,71,0.25) 70%, rgba(15,37,71,0.1) 100%)';
 
 const titleStyle = titleFieldStyle(post.titleFontFamily, post.titleFontSize);
 const epigrafeStyle = fieldStyle(post.epigrafeFontFamily, post.epigrafeFontSize);
@@ -127,7 +130,8 @@ const epigrafeStyle = fieldStyle(post.epigrafeFontFamily, post.epigrafeFontSize)
           class="block aspect-[4/3] w-full object-cover sm:aspect-[2/1] lg:aspect-[12/5]"
           style={{ objectPosition }}
         />
-        <div class="absolute inset-0" style={{ background: focalGradient }} />
+        <div class="absolute inset-0 sm:hidden" style={{ background: mobileOverlayGradient }} />
+        <div class="absolute inset-0 hidden sm:block" style={{ background: focalGradientDesktop }} />
         <div
           class:list={[
             'absolute flex max-w-[85%] flex-col px-1 lg:max-w-2xl',
