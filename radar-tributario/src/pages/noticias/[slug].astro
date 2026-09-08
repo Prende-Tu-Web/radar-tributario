@@ -52,10 +52,17 @@ const focalX = post.coverImageFocalX ?? legacyToPercent(post.coverImageTitlePosi
 const focalY = post.coverImageFocalY ?? legacyToPercent(post.coverImageTitlePositionVertical, LEGACY_FOCAL_Y, 80);
 
 type FocalZoneX = 'izquierda' | 'centro' | 'derecha';
+type FocalZoneY = 'arriba' | 'centro' | 'abajo';
 
 function zoneX(x: number): FocalZoneX {
   if (x < 33) return 'izquierda';
   if (x > 67) return 'derecha';
+  return 'centro';
+}
+
+function zoneY(y: number): FocalZoneY {
+  if (y < 33) return 'arriba';
+  if (y > 67) return 'abajo';
   return 'centro';
 }
 
@@ -66,10 +73,17 @@ const FOCAL_TEXT_ALIGN: Record<FocalZoneX, string> = {
 };
 
 const titleAlignClass = FOCAL_TEXT_ALIGN[zoneX(focalX)];
-// translate(-x%, -y%) directo (NO zoneado) — el % de un transform es relativo al
-// tamaño del propio bloque, así que si se snapea a una zona discreta el bloque
-// "salta" de golpe al cruzar el umbral. Espejo de PostEditor.tsx (CoverBanner).
-const titleTransform = `translate(-${focalX}%, -${focalY}%)`;
+// Zoneado (0% / -50% / -100%) a propósito, a diferencia del preview del
+// admin (PostEditor.tsx), que usa translate(-x%, -y%) continuo para que el
+// punto no salte mientras se arrastra. Ese continuo es relativo al tamaño
+// del propio bloque de texto, así que con un título largo el desplazamiento
+// deja de coincidir con "anclado al borde" y el título queda con un padding
+// que varía según cuánto texto tenga — bug real reportado en mobile. Acá,
+// en el sitio publicado, lo que importa es que el borde quede exactamente
+// en el punto elegido, no la suavidad del arrastre.
+const FOCAL_TRANSLATE_X: Record<FocalZoneX, string> = { izquierda: '0%', centro: '-50%', derecha: '-100%' };
+const FOCAL_TRANSLATE_Y: Record<FocalZoneY, string> = { arriba: '0%', centro: '-50%', abajo: '-100%' };
+const titleTransform = `translate(${FOCAL_TRANSLATE_X[zoneX(focalX)]}, ${FOCAL_TRANSLATE_Y[zoneY(focalY)]})`;
 // object-cover + aspect-ratio fijo = banner sin barras con cualquier foto; el crop sigue el mismo punto focal del título.
 const objectPosition = `${focalX}% ${focalY}%`;
 const focalGradient = `radial-gradient(ellipse 130% 110% at ${focalX}% ${focalY}%, rgba(15,37,71,0.88) 0%, rgba(15,37,71,0.5) 45%, rgba(15,37,71,0.12) 75%)`;

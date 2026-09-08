@@ -30,7 +30,7 @@ const columns = PILLARS.map((p) => ({
     <div class="mt-10 grid grid-cols-1 gap-10 sm:grid-cols-3 sm:gap-8">
       {
         columns.map((col) => (
-          <div>
+          <div class="flex flex-col items-center text-center sm:items-start sm:text-left">
             <div class="flex items-center gap-2.5">
               <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/[0.06] text-primary">
                 <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={PILLAR_ICON_PATHS[col.key]} />
@@ -38,12 +38,12 @@ const columns = PILLARS.map((p) => ({
               <p class="font-body text-[11px] font-semibold uppercase tracking-[0.12em] text-secondary">{col.label}</p>
             </div>
             <p class="mt-2 font-body text-[13px] text-muted">{col.blurb}</p>
-            <ul class="mt-5 space-y-4 border-t border-primary/10 pt-5">
+            <ul class="mt-5 w-full space-y-4 border-t border-primary/10 pt-5">
               {col.services.map((s: Service) => (
                 <li>
                   <a
                     href={`/servicios/${s.pillar}/${s.slug.current}/`}
-                    class="group flex items-start justify-between gap-3 font-body text-[15px] leading-snug text-text transition-colors hover:text-secondary"
+                    class="group flex items-center justify-center gap-2 font-body text-[15px] leading-snug text-text transition-colors hover:text-secondary sm:justify-between"
                   >
                     <span class="relative">
                       {s.title}
@@ -54,7 +54,7 @@ const columns = PILLARS.map((p) => ({
                       />
                     </span>
                     <svg
-                      class="mt-1 h-3 w-3 shrink-0 text-primary/30 transition-all duration-300 group-hover:rotate-45 group-hover:text-secondary"
+                      class="h-3 w-3 shrink-0 text-primary/30 transition-all duration-300 group-hover:rotate-45 group-hover:text-secondary sm:mt-1"
                       viewBox="0 0 12 12"
                       fill="none"
                       aria-hidden="true"
