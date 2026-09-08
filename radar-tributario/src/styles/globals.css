@@ -16,20 +16,15 @@
   src: url("/fonts/newsreader-variable-italic.woff2") format("woff2-variations");
 }
 
-/* Public Sans Variable — self-hosted (OFL), subset latin, wght 100-900 */
+/* Manrope Variable — self-hosted (OFL), subset latin, wght 200-800.
+   Sin cursiva propia (Manrope no trae un archivo italic variable) — el
+   navegador sintetiza una itálica oblicua a partir de esta misma fuente. */
 @font-face {
-  font-family: "Public Sans Variable";
+  font-family: "Manrope Variable";
   font-style: normal;
   font-display: swap;
-  font-weight: 100 900;
-  src: url("/fonts/public-sans-variable-normal.woff2") format("woff2-variations");
-}
-@font-face {
-  font-family: "Public Sans Variable";
-  font-style: italic;
-  font-display: swap;
-  font-weight: 100 900;
-  src: url("/fonts/public-sans-variable-italic.woff2") format("woff2-variations");
+  font-weight: 200 800;
+  src: url("/fonts/manrope-variable-normal.woff2") format("woff2-variations");
 }
 
 /*
@@ -73,7 +68,7 @@
   --color-success: var(--rt-success);
 
   --font-heading: "Newsreader Variable", Georgia, serif;
-  --font-body: "Public Sans Variable", system-ui, sans-serif;
+  --font-body: "Manrope Variable", system-ui, sans-serif;
 }
 
 /*
