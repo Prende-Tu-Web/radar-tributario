@@ -102,14 +102,19 @@ const objectPosition = `${focalX}% ${focalY}%`;
 // posición. En mobile el título queda siempre fijo abajo-izquierda (ver nota
 // de FOCAL_TEXT_ALIGN más arriba), así que ahí el punto focal puede caer en
 // cualquier parte de la foto y dejar esa esquina sin velo suficiente — por
-// eso mobile usa su propio radial anclado literalmente en esa esquina
-// (0% 100%), que nace ahí y se expande hacia arriba/derecha, en vez de
-// depender del punto focal o de una franja horizontal pareja.
+// eso mobile usa dos capas propias: un radial anclado literalmente en esa
+// esquina (0% 100%) que nace ahí y se expande hacia arriba/derecha, más un
+// lineal vertical que sostiene la opacidad más arriba — el radial solo se
+// atenúa demasiado rápido en el eje vertical (se ovala, no cubre toda la
+// altura donde puede caer un título de dos o tres líneas).
 const focalGradientDesktop = [
   `radial-gradient(ellipse 130% 110% at ${focalX}% ${focalY}%, rgba(15,37,71,0.85) 0%, rgba(15,37,71,0.5) 40%, rgba(15,37,71,0.22) 70%, rgba(15,37,71,0.18) 100%)`,
   'linear-gradient(to top, rgba(15,37,71,0.6) 0%, rgba(15,37,71,0.2) 35%, transparent 65%)',
 ].join(', ');
-const mobileOverlayGradient = 'radial-gradient(ellipse 140% 120% at 0% 100%, rgba(15,37,71,0.95) 0%, rgba(15,37,71,0.8) 30%, rgba(15,37,71,0.5) 55%, rgba(15,37,71,0.2) 78%, transparent 95%)';
+const mobileOverlayGradient = [
+  'radial-gradient(ellipse 150% 130% at 0% 100%, rgba(15,37,71,0.95) 0%, rgba(15,37,71,0.75) 40%, rgba(15,37,71,0.4) 65%, transparent 90%)',
+  'linear-gradient(to top, rgba(15,37,71,0.9) 0%, rgba(15,37,71,0.65) 45%, rgba(15,37,71,0.3) 75%, transparent 100%)',
+].join(', ');
 
 const titleStyle = titleFieldStyle(post.titleFontFamily, post.titleFontSize);
 const epigrafeStyle = fieldStyle(post.epigrafeFontFamily, post.epigrafeFontSize);
