@@ -180,7 +180,7 @@ export default function LeadForm({ service = 'general', pillar, combo, headcount
       {interests && interests.length > 0 && (
         <div>
           <label htmlFor="lead-interest" className="block font-body text-[13px] font-medium text-primary">
-            ¿Qué te gustaría hacer?
+            ¿En qué situación te encuentras?
           </label>
           <select
             id="lead-interest"
