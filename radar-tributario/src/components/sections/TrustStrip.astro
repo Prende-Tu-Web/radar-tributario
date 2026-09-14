@@ -21,7 +21,7 @@ const stats = [
     <div class="grid grid-cols-1 gap-x-12 gap-y-14 sm:grid-cols-3">
       {
         stats.map((item, i) => (
-          <div data-reveal style={`transition-delay: ${i * 70}ms`}>
+          <div data-reveal class="text-center sm:text-left" style={`transition-delay: ${i * 70}ms`}>
             <p class="font-heading text-6xl leading-none sm:text-7xl">
               {item.plus && <span class="text-accent">+</span>}
               <span class={item.plus ? 'text-primary' : 'text-accent'} data-count-to={item.value}>

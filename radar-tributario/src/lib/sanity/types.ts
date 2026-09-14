@@ -134,6 +134,9 @@ export interface Post {
   summaryFontFamily?: FontFamilyChoice;
   summaryFontSize?: FontSizeChoice;
   coverImage?: SanityImage & { alt?: string };
+  coverImageFocalX?: number;
+  coverImageFocalY?: number;
+  /** @deprecated reemplazados por coverImageFocalX/Y — se leen solo como fallback en posts viejos. */
   coverImageTitlePosition?: 'izquierda' | 'centro' | 'derecha';
   coverImageTitlePositionVertical?: 'arriba' | 'centro' | 'abajo';
   body?: PortableTextBody;
