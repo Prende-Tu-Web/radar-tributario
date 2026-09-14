@@ -23,8 +23,26 @@ const indentStyle = node.level ? `padding-left:${node.level * INDENT_STEP_REM}re
 // un bloque sin texto visible es la línea en blanco que deja el editor entre
 // párrafos al presionar Enter — sin contenido, `<slot />` no genera ningún nodo
 // y el bloque colapsa a altura 0 en el sitio (aunque sí se ve en el admin).
-type TextChild = { text?: string };
-const isEmpty = !(node.children as TextChild[] | undefined)?.some((c) => c.text && c.text.length > 0);
+//
+// OJO: para cuando este componente corre, astro-portabletext YA mutó
+// `node.children` (PortableText.astro: `node.children = buildMarksTree(node)`,
+// antes de invocar el componente de bloque) — dejó de ser el array plano de
+// spans de Sanity y pasó a ser un árbol de nodos `@span` (uno por mark activa,
+// con sus propios `.children` anidados) cuyas hojas son nodos `@text` con el
+// `.text` real. Un chequeo de un solo nivel (`children.some(c => c.text)`)
+// da falso positivo de "vacío" en cualquier bloque donde TODO el texto esté
+// envuelto en al menos una marca (ej. una cita completa en cursiva) — el nodo
+// de nivel superior es puro `@span` sin `.text` propio, así que el bloque
+// entero se reemplazaba por `&nbsp;` pese a tener contenido real. Por eso acá
+// hay que bajar recursivamente hasta las hojas.
+interface MarksTreeNode {
+  text?: string;
+  children?: MarksTreeNode[];
+}
+function hasVisibleText(nodes: MarksTreeNode[] | undefined): boolean {
+  return Boolean(nodes?.some((n) => (n.text && n.text.length > 0) || hasVisibleText(n.children)));
+}
+const isEmpty = !hasVisibleText(node.children as MarksTreeNode[] | undefined);
 ---
 
 {
