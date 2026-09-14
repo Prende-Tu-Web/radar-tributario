@@ -18,16 +18,23 @@ const styleIs = (style: string) => style === node.style;
 // y bodyPreview.ts (INDENT_STEP_REM) — mantener sincronizados.
 const INDENT_STEP_REM = 1.5;
 const indentStyle = node.level ? `padding-left:${node.level * INDENT_STEP_REM}rem` : undefined;
+
+// Mismo fix que admin-radar-tributario/src/lib/sanity/bodyPreview.ts (línea ~151-160):
+// un bloque sin texto visible es la línea en blanco que deja el editor entre
+// párrafos al presionar Enter — sin contenido, `<slot />` no genera ningún nodo
+// y el bloque colapsa a altura 0 en el sitio (aunque sí se ve en el admin).
+type TextChild = { text?: string };
+const isEmpty = !(node.children as TextChild[] | undefined)?.some((c) => c.text && c.text.length > 0);
 ---
 
 {
   styleIs('h2') ? (
-    <h2 {...attrs} style={indentStyle}><slot /></h2>
+    <h2 {...attrs} style={indentStyle}>{isEmpty ? ' ' : <slot />}</h2>
   ) : styleIs('h3') ? (
-    <h3 {...attrs} style={indentStyle}><slot /></h3>
+    <h3 {...attrs} style={indentStyle}>{isEmpty ? ' ' : <slot />}</h3>
   ) : styleIs('blockquote') ? (
-    <blockquote {...attrs} style={indentStyle}><slot /></blockquote>
+    <blockquote {...attrs} style={indentStyle}>{isEmpty ? ' ' : <slot />}</blockquote>
   ) : (
-    <p {...attrs} style={indentStyle}><slot /></p>
+    <p {...attrs} style={indentStyle}>{isEmpty ? ' ' : <slot />}</p>
   )
 }

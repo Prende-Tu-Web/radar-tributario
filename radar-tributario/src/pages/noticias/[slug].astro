@@ -76,6 +76,8 @@ const epigrafeStyle = fieldStyle(post.epigrafeFontFamily, post.epigrafeFontSize)
   description={post.seo?.metaDescription || post.summary || post.title}
   ogImage={bannerUrl ?? undefined}
   ogType="article"
+  canonical={post.seo?.canonical || undefined}
+  noIndex={post.seo?.noIndex || false}
 >
   <script is:inline type="application/ld+json" slot="jsonld" set:html={JSON.stringify(articleJsonLd(post))} />
   <article class="bg-surface">
@@ -194,6 +196,13 @@ const epigrafeStyle = fieldStyle(post.epigrafeFontFamily, post.epigrafeFontSize)
     font-size: 15.5px;
     line-height: 1.75;
     color: var(--color-text);
+  }
+  .prose-rt :global(blockquote) {
+    margin: 1.25rem 0;
+    border-left: 2px solid var(--color-primary);
+    padding-left: 0.75rem;
+    font-style: italic;
+    color: var(--color-muted);
   }
   .prose-rt :global(ul),
   .prose-rt :global(ol) {
