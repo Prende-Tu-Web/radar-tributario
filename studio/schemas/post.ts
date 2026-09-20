@@ -27,6 +27,7 @@ export default defineType({
           { title: 'Borrador', value: 'borrador' },
           { title: 'En revisión', value: 'en_revision' },
           { title: 'Aprobado', value: 'aprobado' },
+          { title: 'Programado', value: 'programado' },
           { title: 'Publicado', value: 'publicado' },
           { title: 'Archivado', value: 'archivado' },
         ],
