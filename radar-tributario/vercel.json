@@ -1,3 +1,10 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json"
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/whatsapp",
+      "destination": "https://wa.me/56964428746?text=Hola%2C%20los%20vi%20en%20Instagram%20y%20quiero%20consultar%20por%20",
+      "permanent": false
+    }
+  ]
 }
